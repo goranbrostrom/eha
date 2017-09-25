@@ -6,6 +6,8 @@
 
 ## MAJOR CHANGES
 
+-	 cal.window, age.window: Works now with 'tibbles'.
+
 -  phreg: Start values by 'coxreg' (bad idea) removed.
 
 -  init.c: Added after R-3.4.0.
@@ -15,8 +17,6 @@
 
 -  plot.phreg: parameters 'changeLog' and '...'
 	enhanced. Documentation updated.
-
--  plot.coxreg: Bug concerning 'printLegend' fixed.
 
 -  weibreg: Note added in documentation: "Use phreg
 	instead". weibreg will soon be deprecated.
@@ -70,8 +70,6 @@
 
 ## BUG FIXES
 
--	 cal.window, age.window: Works now with 'tibbles'.
-
 -  rpch: Bug fixed (spotted by Brigitte Mueller).
 
 -  aftreg: in 'addMeans' and 'aftreg1', an error
@@ -91,3 +89,4 @@
 
 -  plot.pch: Bug preventing plotting(!) fixed.
 
+-  plot.coxreg: Bug concerning 'printLegend' fixed.
