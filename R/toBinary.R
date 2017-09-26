@@ -10,10 +10,10 @@
 #' @param dat A data frame with three variables representing the survival
 #' response. The default is that they are named \code{enter}, \code{exit}, and
 #' \code{event}
-#' @param surv A character string with the names of the three variables
+#' @param surv A character vector with the names of the three variables
 #' representing survival.
 #' @param strats An eventual stratification variable.
-#' @param max.survs Maximal numger of survivors per risk set. If set to a
+#' @param max.survs Maximal number of survivors per risk set. If set to a
 #' (small) number, survivors are sampled from the risk sets.
 #' @return Returns a data frame expanded risk set by risk set. The three
 #' "survival variables" are replaced by a variable named \code{event} (which
@@ -27,7 +27,6 @@
 #' \emph{event}, create a third containing all zeros.
 #' @author Göran Broström
 #' @seealso \code{\link[eha]{coxreg}}, \code{\link[stats]{glm}}.
-#' @references ~put references to the literature/web site here ~
 #' @keywords survival cluster
 #' @examples
 #' 
@@ -59,9 +58,9 @@ toBinary <- function(dat,
         x <- which(is.na(surv.indices))
         stop(paste(surv[x], " is not a name in the data frame."))
     }
-    enter <- dat[, surv.indices[1]]
-    exit <- dat[, surv.indices[2]]
-    event <- dat[, surv.indices[3]]
+    enter <- dat[[surv.indices[1]]]
+    exit <- dat[[surv.indices[2]]]
+    event <- dat[[surv.indices[3]]]
 
     covars <- dat[, -surv.indices, drop = FALSE]
 

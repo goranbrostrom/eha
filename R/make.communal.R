@@ -47,9 +47,9 @@
 #' 
 #' @export make.communal
 make.communal <-
-function (dat, com.dat, communal = TRUE, start, period = 1, lag = 0, 
-    surv = c("enter", "exit", "event", "birthdate"), tol = 1e-04, 
-    fortran = TRUE) 
+    function(dat, com.dat, communal = TRUE, start, period = 1, lag = 0, 
+             surv = c("enter", "exit", "event", "birthdate"), tol = 1e-04, 
+             fortran = TRUE) 
 {
     if (!is.data.frame(dat)) 
         stop("dat must be a data frame")
@@ -77,41 +77,42 @@ function (dat, com.dat, communal = TRUE, start, period = 1, lag = 0,
     ##cat("beg.per = ", beg.per, "end.per = ", end.per, "\n")
     iv.length <- period
     if (communal){ ## Added 26 March 2004 ##
-        spell.tot <- sum(dat[, surv.indices[2]] - dat[, surv.indices[1]])
+        spell.tot <- sum(dat[[surv.indices[2]]] - dat[[surv.indices[1]]])
         dat <- cal.window(dat, c(beg.per, end.per), surv)
-        if (sum(dat[, surv.indices[2]] - dat[, surv.indices[1]]) < 
+        if (sum(dat[[surv.indices[2]]] - dat[[surv.indices[1]]]) < 
             spell.tot) 
             warning("Spells are cut")
     }#######################################
     nn <- nrow(dat)
     if (!communal) {
-        get.per <- function(dates) pmin(pmax(1, ceiling((dates - 
-            beg.per)/iv.length)), n.years)
-
-        dates <- dat[, surv.indices[4]]
+        get.per <- function(dates){
+            pmin(pmax(1, ceiling((dates - beg.per)/iv.length)), n.years)
+        }
+        dates <- dat[[surv.indices[4]]]
         
         ppp <- get.per(dates)
-
+        
         yy <- matrix(0, ncol = n.com, nrow = nn)
         for (i in 1:n.com) {
-            yy[, i] <- com.dat[ppp, i]
+        ##yy[, i] <- com.dat[ppp, i]
+	    yy[, i] <- com.dat[[i]][ppp] # Changed 25 Sep 2017
         }
         ## Added 26 March 2004: ##
-        yy <- ifelse((dat[, surv.indices[4]] <= beg.per) |
-                     (dat[, surv.indices[4]] > end.per),
+        yy <- ifelse((dat[[surv.indices[4]]] <= beg.per) |
+                     (dat[[surv.indices[4]]] > end.per),
                      NA, yy)
-        ##########################       
+##########################       
         yy <- as.data.frame(yy)
         names(yy) <- com.names
         yy <- cbind(dat, yy)
-    }
-    else {
-        get.iv <- function(dates) cbind(pmin(pmax(1, floor((dates[, 
-            1, drop = FALSE] - beg.per)/iv.length) + 1), n.years), 
-            pmin(pmax(1, ceiling((dates[, 2, drop = FALSE] - 
-                beg.per)/iv.length)), n.years))
-
-        event.boolean <- is.logical(dat[, surv.indices[3]])
+    }else{
+        get.iv <- function(dates){
+            cbind(pmin(pmax(1, floor((dates[, 1, drop = FALSE] - beg.per) /
+                                     iv.length) + 1), n.years), 
+                  pmin(pmax(1, ceiling((dates[, 2, drop = FALSE] - 
+                                        beg.per)/iv.length)), n.years))
+        }
+        event.boolean <- is.logical(dat[[surv.indices[3]]])
         xx <- cbind(dat[, surv.indices, drop = FALSE], 1:nn)
         xx[, 3] <- as.numeric(xx[, 3])
         xx <- as.matrix(xx)
