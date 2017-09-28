@@ -28,6 +28,7 @@
 #' @author Göran Broström
 #' @seealso \code{\link{phreg}}
 #' @keywords survival regression
+#' 
 #' @export phreg.fit
 phreg.fit <- function(X,
                       Y,
