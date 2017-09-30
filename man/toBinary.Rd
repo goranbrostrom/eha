@@ -13,12 +13,12 @@ toBinary(dat, surv = c("enter", "exit", "event"), strats,
 response. The default is that they are named \code{enter}, \code{exit}, and
 \code{event}}
 
-\item{surv}{A character string with the names of the three variables
+\item{surv}{A character vector with the names of the three variables
 representing survival.}
 
 \item{strats}{An eventual stratification variable.}
 
-\item{max.survs}{Maximal numger of survivors per risk set. If set to a
+\item{max.survs}{Maximal number of survivors per risk set. If set to a
 (small) number, survivors are sampled from the risk sets.}
 }
 \value{
@@ -57,9 +57,6 @@ coxreg(Surv(enter, exit, event) ~ z, method = "ml", data = dat)
 ## Same as:
 summary(glm(event ~ z + riskset, data = binDat, family = binomial(link = cloglog)))
 
-}
-\references{
-~put references to the literature/web site here ~
 }
 \seealso{
 \code{\link[eha]{coxreg}}, \code{\link[stats]{glm}}.
