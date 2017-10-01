@@ -13,7 +13,7 @@
 #' @author Göran Broström
 #' @seealso \code{\link{glmmML}}
 #' @keywords print
-#' @export print.glmmML
+#' @export
 print.glmmML <- function(x,
                          digits = max(3, getOption("digits") - 3),
                          na.print = "",

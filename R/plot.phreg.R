@@ -33,7 +33,7 @@
 #' fit <- phreg(Surv(y, rep(1, 40)) ~ x, dist = "loglogistic")
 #' plot(fit)
 #' 
-#' @export plot.phreg
+#' @export
 plot.phreg <- function(x,
                        fn = c("haz", "cum", "den", "sur"),
                        main = NULL,

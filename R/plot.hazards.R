@@ -1,3 +1,4 @@
+#' @export
 plot.hazards <- function(x,
                          fn = c("cum", "surv", "log", "loglog"),
                          fig = TRUE,

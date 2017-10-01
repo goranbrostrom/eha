@@ -27,7 +27,7 @@
 #' fit <- weibreg(Surv(y, c(1,1,1,1)) ~ x)
 #' plot(fit)
 #' 
-#' @export plot.weibreg
+#' @export
 plot.weibreg <- function(x,
                          fn = c("haz", "cum", "den", "sur"),
                          main = NULL,

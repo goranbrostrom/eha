@@ -38,7 +38,7 @@
 #' event <- rep(1, 50)
 #' plot.Surv(Surv(time0, time1, event), strata = group)
 #' 
-#' @export plot.Surv
+#' @export
 plot.Surv <- function (x, strata = NULL,
                        fn = c("cum", "surv", "log", "loglog"), 
                        limits = TRUE, conf = 0.95, main = NULL, xlab = NULL,

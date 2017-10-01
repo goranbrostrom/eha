@@ -14,37 +14,6 @@
 \item{fn}{What should be plotted? Default is "cumhaz", and the other choices
 are "surv", "log", and "loglog".}
 
-\item{fig}{logical. If \code{TRUE} the plot is actually drawn, otherwise the
-coordinates of the curve(s).}
-
-\item{xlim}{Start and end of the x axis.}
-
-\item{ylim}{Start and end of the y axis.}
-
-\item{main}{A headline for the plot}
-
-\item{xlab}{Label on the x axis.}
-
-\item{ylab}{Label on the y axis.}
-
-\item{col}{Color of the curves. Defaults to 'black'.}
-
-\item{lty}{Line type(s).}
-
-\item{printLegend}{Either a logical or a text string; if \code{TRUE}, a 
-legend is printed at a default place, if \code{FALSE}, no legend is 
-printed. Otherwise, if a text string, it should be one of "bottomleft",
-"bottomright", "topleft", etc., see \code{\link{legend}} for all possibe choices.}
-
-\item{newdata}{Not used}
-
-\item{...}{Other parameters to pass to \code{plot.survfit}}
-
-\item{x}{A \code{coxreg} object}
-
-\item{fn}{What should be plotted? Default is "cumhaz", and the other choices
-are "surv", "log", and "loglog".}
-
 \item{fig}{logical. If \code{TRUE} the plot is actually drawn, otherwise
 only the coordinates of the curve(s) are returned.}
 
@@ -73,19 +42,10 @@ choices.}
 \item{...}{Other parameters to pass to the plot.}
 }
 \value{
-An object of class \code{hazdata} containing the coordinates of one
-or more 
-Plot method for \code{coxreg} objects
-
-A plot of a baseline function of a \code{coxreg} fit is produced, one curve
-for each stratum.
-
 An object of class \code{hazdata} containing the coordinates of the
 curve(s).
 }
 \description{
-A plot of a baseline function of a \code{coxreg} fit is
-produced, one curve for each stratum. This function is a wrapper for 
-\code{\link[survival]{survfit}} in combination with 
-\code{\link[survival]{plot.survfit}}.
+A plot of a baseline function of a \code{coxreg} fit is produced, one curve
+for each stratum.
 }

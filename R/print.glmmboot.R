@@ -13,7 +13,7 @@
 #' @author Göran Broström
 #' @seealso \code{\link{glmmboot}}
 #' @keywords print
-#' @export print.glmmboot
+#' @export
 print.glmmboot <- function(x,
                          digits = max(3, getOption("digits") - 3),
                          na.print = "",

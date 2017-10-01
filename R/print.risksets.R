@@ -16,6 +16,7 @@
 #' rs <- with(mort, risksets(Surv(enter, exit, event)))
 #' print(rs)
 #' 
+#' @export
 print.risksets <- function(x, ...){
     if (class(x) != "risksets") stop("Only for class 'risksets'")
     cat("No of strata: ", x$ns, "\n")

@@ -36,7 +36,7 @@
 #' fit <- coxreg(Surv(time0, time1, event) ~ strata(group), hazards = TRUE)
 #' plot(fit$hazards)
 #' 
-#' @export plot.hazdata
+#' @export
 plot.hazdata <- function(x, strata = NULL,
                          fn = c("cum", "surv", "log", "loglog"),
                          fig = TRUE,

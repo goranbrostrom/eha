@@ -116,8 +116,6 @@
 #' @keywords regression survival
 #' @examples
 #' 
-#' 
-#' 
 #'  dat <- data.frame(time=  c(4, 3,1,1,2,2,3),
 #'                 status=c(1,1,1,0,1,1,0),
 #'                 x=     c(0, 2,1,1,1,0,0),
@@ -127,7 +125,7 @@
 #'  rs <- risksets(Surv(dat$time, dat$status), strata = dat$sex)
 #'  coxreg( Surv(time, status) ~ x, data = dat, rs = rs) #stratified model
 #'  
-#' 
+#' @export
 coxreg <- function (formula = formula(data),
                     data = parent.frame(),
                     weights,

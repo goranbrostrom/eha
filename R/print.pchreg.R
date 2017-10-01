@@ -1,3 +1,4 @@
+#' @export
 print.pchreg <- function(x, digits=max(options()$digits - 4, 3), ...){
 
     if (!is.null(cl<- x$call)) {

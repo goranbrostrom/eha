@@ -13,7 +13,7 @@
 #' @author Göran Broström
 #' @seealso \code{\link{phreg}}, \code{\link[survival]{print.coxph}}
 #' @keywords survival regression
-#' @export print.aftreg
+#' @export
 print.aftreg <- function(x, digits=max(options()$digits - 4, 3), ...){
 
     if (!is.null(cl<- x$call)) {

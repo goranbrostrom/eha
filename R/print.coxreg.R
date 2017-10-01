@@ -14,7 +14,7 @@
 #' @author Göran Broström
 #' @seealso \code{\link{coxreg}}, \code{\link[survival]{print.coxph}}
 #' @keywords survival
-#' @export print.coxreg
+#' @export
 print.coxreg <-
  function(x, digits=max(options()$digits - 4, 3), ...)
     {

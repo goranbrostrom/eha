@@ -30,7 +30,7 @@
 #' fit <- aftreg(Surv(y, rep(1, 40)) ~ x, dist = "loglogistic")
 #' plot(fit)
 #' 
-#' @export plot.aftreg
+#' @export
 plot.aftreg <- function(x,
                         fn = c("haz", "cum", "den", "sur"),
                         main = NULL,
