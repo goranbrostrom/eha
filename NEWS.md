@@ -6,7 +6,9 @@
 
 ## MAJOR CHANGES
 
--	 cal.window, age.window: Works now with 'tibbles'.
+-  Documentation 'roxygenized'.
+
+-  cal.window, age.window: Works now with 'tibbles'.
 
 -  phreg: Start values by 'coxreg' (bad idea) removed.
 
