@@ -1,3 +1,4 @@
+#' @importFrom stats nobs extractAIC
 #' @export 
 extractAIC.coxreg <- function(fit, scale, k = 2, ...) 
 {

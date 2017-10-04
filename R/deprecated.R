@@ -6,7 +6,6 @@
 #' \pkg{glmmML} with the same name
 #' @rdname eha-deprecated
 #' @name eha-deprecated
-#' @importFrom glmmML ghq glmmboot glmmbootFit glmmML glmmML.fit
 #' @export
 ghq <- function(...){
     .Deprecated("glmmML::ghq", package = "eha")
