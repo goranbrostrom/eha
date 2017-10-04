@@ -22,7 +22,7 @@
 #' c(1,1))
 #' check.surv(xx$enter, xx$exit, xx$event, xx$id)
 #' 
-#' @export check.surv
+#' @export
 check.surv <- function(enter, exit, event, id = NULL, eps = 1.e-8){
     ## The '.Fortran' version.
     ##########################

@@ -78,7 +78,7 @@
 #' data(mort)
 #' aftreg(Surv(enter, exit, event) ~ ses, param = "lifeExp", data = mort)
 #' 
-#' @export aftreg
+#' @export
 aftreg <- function (formula = formula(data),
                     data = parent.frame(),
                     na.action = getOption("na.action"),

@@ -8,8 +8,7 @@ Description: Sampling of risk sets in Cox regression, selections in
         hazards fitting with left truncation and right censoring for 
         common families of distributions, piecewise constant hazards, 
         and discrete models. AFT regression for left truncated and 
-        right censored data. Binary and Poisson regression for 
-        clustered data, fixed and random effects with bootstrapping.
+        right censored data.
 License: GPL (>= 2)
 LazyData: yes
 ByteCompile: yes
@@ -20,3 +19,4 @@ NeedsCompilation: yes
 Author: Göran Broström [aut, cre]
 Maintainer: Göran Broström <goran.brostrom@umu.se>
 RoxygenNote: 6.0.1
+Suggests: glmmML

@@ -1,7 +1,7 @@
 addMeans <- function(means, par, var, ns, pfixed, coef.names){
     ## Back-transform the subtracted means;
     ## Will only affect 'scale' and the corresponding row(s)/column(s)
-    ## the covariance matrix.
+    ## in the covariance matrix.
 
     if (pfixed){
         ncov <- length(par) - ns

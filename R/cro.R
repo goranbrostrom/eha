@@ -22,7 +22,7 @@
 #' dat <- data.frame(y = c(1.1, 2.3, 0.7), x1 = c(1, 0, 1), x2 = c(0, 1, 0))
 #' cro(dat)
 #' 
-#' @export cro
+#' @export
 cro <- function(dat, response = 1){
   covar <- unique(dat[, -response, drop = FALSE])
   dat.keys <-

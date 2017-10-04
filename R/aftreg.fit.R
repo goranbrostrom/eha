@@ -32,7 +32,7 @@
 #' @author Göran Broström
 #' @seealso \code{\link{aftreg}}
 #' @keywords survival regression
-#' @export aftreg.fit
+#' @export
 aftreg.fit <- function(X, Y, dist, param,
                        strata, offset,
                        init, shape, id,

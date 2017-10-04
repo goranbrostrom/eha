@@ -5,7 +5,7 @@
 #' 
 #' @param X The design matrix
 #' @param Y Survival object
-#' @param rs risk set produced by \code{risksets}
+#' @param rs risk set produced by \code{\link{risksets}}
 #' @param strats Stratum indicator
 #' @param offset Offset
 #' @param init Initial values
@@ -18,7 +18,9 @@
 #' @seealso \code{\link{coxreg}}
 #' @references See \code{\link{coxreg}}.
 #' @keywords survival
-#' @export geome.fit
+#' 
+#' @note \code{coxreg} is a defunct function
+#' @export
 geome.fit <- function(X, Y, rs, strats, offset, init, max.survs,
                       method = "ml", ##boot = FALSE,
                       control){

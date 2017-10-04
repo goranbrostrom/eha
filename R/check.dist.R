@@ -36,7 +36,7 @@
 #' check.dist(fit.cr, fit.ev)
 #' par(oldpar)
 #' 
-#' @export check.dist
+#' @export
 check.dist <- function(sp, pp, main = NULL, col = NULL, printLegend = TRUE){
     if (!inherits(sp, "coxreg")){
         if (inherits(pp, "coxreg")){ # swap:

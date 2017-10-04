@@ -22,7 +22,7 @@
 #' window <- c(1963, 1965)
 #' dat.trim <- cal.window(dat, window)  
 #' 
-#' @export cal.window
+#' @export
 cal.window <- function(dat, window,
                        surv = c("enter", "exit", "event", "birthdate")){
 

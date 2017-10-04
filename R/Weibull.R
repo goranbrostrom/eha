@@ -21,7 +21,7 @@
 #' Hweibull(3, 2, 1)
 #' -pweibull(3, 2, 1, log.p = TRUE, lower.tail = FALSE)
 #' 
-#' @export hweibull
+#' @export
 hweibull <- function(x, shape, scale = 1, log = FALSE){
     if (any(shape <= 0) || any(scale <= 0))
       stop("scale and shape must be positive")
@@ -30,6 +30,7 @@ hweibull <- function(x, shape, scale = 1, log = FALSE){
     res
 }
 
+#' @export
 Hweibull <- function(x, shape, scale = 1, log.p = FALSE){
     if (any(shape <= 0) || any(scale <= 0))
       stop("scale and shape must be positive")

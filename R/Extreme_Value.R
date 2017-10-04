@@ -9,11 +9,14 @@
 #' (b/\sigma)(x/\sigma)^(b-1)\exp((x / \sigma)^b)}{% h(x) =
 #' (b/a)(x/a)^(b-1)exp((x / a)^b)} for \eqn{x \ge 0}{x >= 0}.
 #' 
+#' @name EV
 #' @aliases EV dEV pEV qEV hEV HEV rEV
-#' @usage dEV(x, shape = 1, scale = 1, log = FALSE) pEV(q, shape = 1, scale =
-#' 1, lower.tail = TRUE, log.p = FALSE) qEV(p, shape = 1, scale = 1, lower.tail
-#' = TRUE, log.p = FALSE) hEV(x, shape = 1, scale = 1, log = FALSE) HEV(x,
-#' shape = 1, scale = 1, log.p = FALSE) rEV(n, shape = 1, scale = 1)
+#' @usage dEV(x, shape = 1, scale = 1, log = FALSE) 
+#' pEV(q, shape = 1, scale = 1, lower.tail = TRUE, log.p = FALSE) 
+#' qEV(p, shape = 1, scale = 1, lower.tail = TRUE, log.p = FALSE) 
+#' hEV(x, shape = 1, scale = 1, log = FALSE) 
+#' HEV(x, shape = 1, scale = 1, log.p = FALSE) 
+#' rEV(n, shape = 1, scale = 1)
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations. If \code{length(n) > 1}, the length is
@@ -55,6 +58,7 @@ pEV <- function(q, shape = 1, scale =  1,
     return ( ret )
 }
 
+#' @export
 dEV <- function(x, shape = 1, scale = 1, log = FALSE){
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")
@@ -71,6 +75,7 @@ dEV <- function(x, shape = 1, scale = 1, log = FALSE){
     return ( ret )
 }
 
+#' @export
 hEV <- function(x, shape = 1, scale = 1, log = FALSE){
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")
@@ -87,6 +92,7 @@ hEV <- function(x, shape = 1, scale = 1, log = FALSE){
     return ( ret )
 }
 
+#' @export
 qEV <- function(p, shape = 1, scale = 1,
                       lower.tail = TRUE, log.p = FALSE){
     if ( any(c(shape, scale) <= 0) ){
@@ -106,6 +112,7 @@ qEV <- function(p, shape = 1, scale = 1,
     return ( ret )
 }
 
+#' @export
 HEV <- function(x, shape = 1, scale = 1, log.p = FALSE){
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")

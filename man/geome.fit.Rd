@@ -11,7 +11,7 @@ geome.fit(X, Y, rs, strats, offset, init, max.survs, method = "ml", control)
 
 \item{Y}{Survival object}
 
-\item{rs}{risk set produced by \code{risksets}}
+\item{rs}{risk set produced by \code{\link{risksets}}}
 
 \item{strats}{Stratum indicator}
 
@@ -33,6 +33,8 @@ This function is called from \code{coxreg}. A user may call it directly.
 }
 \note{
 Nothing special
+
+\code{coxreg} is a defunct function
 }
 \references{
 See \code{\link{coxreg}}.

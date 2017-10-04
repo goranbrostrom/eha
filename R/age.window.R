@@ -21,7 +21,7 @@
 #' window <- c(2, 5.3)
 #' dat.trim <- age.window(dat, window)  
 #' 
-#' @export age.window
+#' @export
 age.window <- function(dat, window,
                        surv = c("enter", "exit", "event")){
     

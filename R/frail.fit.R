@@ -1,3 +1,17 @@
+#' Frailty experiment
+#' 
+#' Utilizing GLMM models: Experimental, not exported (yet).
+#' 
+#' @param X design matrix
+#' @param Y survival object
+#' @param rs output from \code{\link{risksets}}
+#' @param strats strata
+#' @param offset offset
+#' @param init start values
+#' @param max.survs for sampling of riskset survivors
+#' @param frailty grouping variable
+#' @param control control of optimization
+
 frail.fit <- function(X,
                       Y, rs, strats, offset, init, max.survs,
                       frailty, control

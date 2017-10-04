@@ -50,7 +50,7 @@
 #'  coxreg.fit(X, Surv(time, status), strats = stratum, max.survs = 6,
 #'      control = list(eps=1.e-4, maxiter = 10, trace = FALSE))
 #' 
-#' @export coxreg.fit
+#' @export
 coxreg.fit <- function(X, Y, rs, weights, t.offset = NULL,
                        strats, offset, init, max.survs,
                        method = "breslow", center = TRUE,
