@@ -36,7 +36,7 @@
 #' group <- c(rep(0, 25), rep(1, 25))
 #' time1 <- rexp( 50, exp(group) )
 #' event <- rep(1, 50)
-#' plot.Surv(Surv(time0, time1, event), strata = group)
+#' plot(Surv(time0, time1, event), strata = group)
 #' 
 #' @export
 plot.Surv <- function (x, strata = NULL,

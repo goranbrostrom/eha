@@ -11,5 +11,7 @@
 #' Broström, G. (2012). \emph{Event History Analysis with R}, Chapman and Hall/CRC 
 #' Press, Boca Raton, FL.
 #' @import survival
+#' @import stats
+#' @import graphics
 #' @useDynLib eha
 "_PACKAGE"

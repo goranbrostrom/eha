@@ -1,68 +1,37 @@
-#' Deprecated functions
+#' Defunct functions
 #' 
 #' These functions were duplicates of functions in the package \pkg{glmmML}.
 #' @details 
 #' Instead of using these functions, use the corresponding functions in 
 #' \pkg{glmmML} with the same name
-#' @rdname eha-deprecated
-#' @name eha-deprecated
+#' @rdname eha-defunct
+#' @name eha-defunct
+#' @param ... input parameters
 #' @export
 ghq <- function(...){
-    .Deprecated("glmmML::ghq", package = "eha")
-    if (require(glmmML, quietly = TRUE)){
-      res <- glmmML::ghq(...)
-    }else{
-      stop("Please install glmmML")
-    }
-    res
+    .Defunct("glmmML::ghq", package = "eha")
 }
 
-#' @rdname eha-deprecated
+#' @rdname eha-defunct
 #' @export
 glmmboot <- function(...){
-  .Deprecated("glmmML::glmmboot", package = "eha")
-  if (require(glmmML, quietly = TRUE)){
-    res <- glmmML::glmmboot(...)
-  }else{
-    stop("Please install glmmML")
-  }
-  res
+  .Defunct("glmmML::glmmboot", package = "eha")
 }
 
-#' @rdname eha-deprecated
+#' @rdname eha-defunct
 #' @export
 glmmbootFit <- function(...){
-  .Deprecated("glmmML::glmmbootFit", package = "eha")
-  if (require(glmmML, quietly = TRUE)){
-    res <- glmmML::glmmbootFit(...)
-  }else{
-    stop("Please install glmmML")
-  }
-  res
+  .Defunct("glmmML::glmmbootFit", package = "eha")
 }
 
-#' @rdname eha-deprecated
+#' @rdname eha-defunct
 #' @export
 glmmML <- function(...){
-  .Deprecated("glmmML::glmmML", package = "eha")
-  if (require(glmmML, quietly = TRUE)){
-    res <- glmmML::glmmML(...)
-  }else{
-    stop("Please install glmmML")
-  }
-  res
+  .Defunct("glmmML::glmmML", package = "eha")
 }
 
-#' @rdname eha-deprecated
+#' @rdname eha-defunct
 #' @export
 glmmML.fit <- function(...){
-  .Deprecated("glmmML::glmmML.fit", package = "eha")
-  if (require(glmmML, quietly = TRUE)){
-    res <- glmmML::glmmML.fit(...)
-  }else{
-    stop("Please install glmmML")
-  }
-  res
+  .Defunct("glmmML::glmmML.fit", package = "eha")
 }
-
-

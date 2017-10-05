@@ -1,6 +1,6 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.4.6.9000
+Version: 2.4.6.9001
 Date: 2017-10-04
 Title: Event History Analysis
 Description: Sampling of risk sets in Cox regression, selections in 
