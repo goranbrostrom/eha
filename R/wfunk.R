@@ -5,9 +5,8 @@
 #' \code{\link{weibreg}}.
 #' 
 #' Note that the function returns log likelihood, score vector and minus
-#' hessian, i.e. the observed information. The model is \deqn{h(t; p, \lambda,
-#' \beta, z) = p / \lambda (t / \lambda)^{(p-1)}\exp{(-( t / \lambda)^p})
-#' \exp(z\beta)} This is in correspondence with \code{\link{dweibull}}.
+#' hessian, i.e. the observed information. The model is 
+#' \deqn{h(t; p, \lambda,\beta, z) = p / \lambda (t / \lambda)^{(p-1)}\exp{(-( t / \lambda)^p})\exp(z\beta)} This is in correspondence with \code{\link{dweibull}}.
 #' 
 #' @param beta Regression parameters
 #' @param lambda The scale paramater

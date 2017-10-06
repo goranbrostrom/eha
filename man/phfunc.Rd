@@ -42,8 +42,7 @@ derivatives for data from a Weibull regression model.
 \details{
 Note that the function returns log likelihood, score vector and minus
 hessian, i.e. the observed information. The model is 
-\deqn{S(t; p, \lambda, \beta, z) = S_0((t / \lambda)^p)^\exp(z\beta)}
-{S(t; p, lambda, beta, z) = S_0((t / lambda)^p)^exp(z beta)}
+\deqn{S(t; p, \lambda, \beta, z) = S_0((t / \lambda)^p)^{e^(z \beta)}}{S(t; p, lambda, beta, z) = S_0((t / lambda)^p)^exp(z beta)}
 }
 \seealso{
 \code{\link{phreg}}
