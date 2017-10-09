@@ -9,8 +9,8 @@
 #' (b/\sigma)(x/\sigma)^(b-1)\exp((x / \sigma)^b)}{% h(x) =
 #' (b/a)(x/a)^(b-1)exp((x / a)^b)} for \eqn{x \ge 0}{x >= 0}.
 #' 
-#' @name lnorm
-#' @aliases lnorm dlnorm plnorm qlnorm hlnorm Hlnorm rlnorm
+#' @name Lognormal
+#' @aliases Lnorm dlnorm plnorm qlnorm hlnorm Hlnorm rlnorm
 #' @usage 
 #' hlnorm(x, meanlog = 0, sdlog = 1, shape = 1 / sdlog, scale = exp(meanlog),
 #' prop = 1, log = FALSE) 

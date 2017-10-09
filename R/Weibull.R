@@ -4,7 +4,7 @@
 #' and \code{Hweibull} calculates the corresponding cumulative hazard function.
 #' 
 #' See \link{dweibull}.
-#' 
+#' @name Weibull
 #' @aliases hweibull Hweibull
 #' @param x Vector of quantiles.
 #' @param shape The shape parameter.

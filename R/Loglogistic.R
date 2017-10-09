@@ -9,8 +9,8 @@
 #' (b/\sigma)(x/\sigma)^(b-1)\exp((x / \sigma)^b)}{% h(x) =
 #' (b/a)(x/a)^(b-1)exp((x / a)^b)} for \eqn{x \ge 0}{x >= 0}.
 #' 
-#' @name llogis
-#' @aliases llogis dllogis pllogis qllogis hllogis Hllogis rllogis
+#' @name Loglogistic
+#' @aliases Llogis dllogis pllogis qllogis hllogis Hllogis rllogis
 #' @usage dllogis(x, shape = 1, scale = 1, log = FALSE) 
 #' pllogis(q, shape = 1, scale = 1, lower.tail = TRUE, log.p = FALSE) 
 #' qllogis(p, shape = 1, scale = 1, lower.tail = TRUE, log.p = FALSE) 
