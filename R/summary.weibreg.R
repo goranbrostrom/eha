@@ -14,5 +14,5 @@
 #' function (object, ...) 
 #' print(object)
 #' 
-#' @export summary.weibreg
+#' @export
 summary.weibreg <- function(object, ...) print(object)

@@ -14,5 +14,5 @@
 #' function (object, ...) 
 #' print(object)
 #' 
-#' @export summary.phreg
+#' @export
 summary.phreg <- function(object, ...) print(object)

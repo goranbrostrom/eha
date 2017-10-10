@@ -14,5 +14,5 @@
 #' function (object, ...) 
 #' print(object)
 #' 
-#' @export summary.coxreg
+#' @export
 summary.coxreg <- function(object, ...) print(object)

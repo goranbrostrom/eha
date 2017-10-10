@@ -14,5 +14,5 @@
 #' function (object, ...) 
 #' print(object)
 #' 
-#' @export summary.aftreg
+#' @export
 summary.aftreg <- function(object, ...) print(object)
