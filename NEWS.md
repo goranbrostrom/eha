@@ -1,18 +1,32 @@
+# eha 2.5.0
+
+* New versioning system (*Hadley Wickham*'s suggestion).
+
+* Documentation 'roxygenized'.
+
+* Development moved to [gitHub](https://github.com/goranbrostrom/eha).
+
+* The package **glmmML** was merged into **eha** in version 2.0. This has turned out to be a 
+*very bad idea* ("double entry"), and all relevant functions are now *Defunct* and removed. Use **glmmML** instead.
+
+* `glmmML()`, `glmmboot()`, `ghq()`, `glmmbootFit()`, `glmmML.fit()` are all *Defunct* and *removed*. No *reverse dependency* used any of them. Those functions are all found in the package **glmmML**, on CRAN.
+
 # eha 2.4-6
 	
-* phreg: Start values by 'coxreg' (bad idea) removed.
+* `phreg()`: Start values by 'coxreg' (bad idea) removed.
 
-* aftreg: in 'addMeans' and 'aftreg1', an error
+* `aftreg()`: in 'addMeans' and 'aftreg1', an error
 	(spotted by Jingchunzi Shi) with fixed scale corrected.
 
+ 
 # eha 2.4-5
 
 * init.c: Added after R-3.4.0.
 
-* coxreg: "Geometric bootstrap" removed (it never worked and was
+* `coxreg()`: "Geometric bootstrap" removed (it never worked and was
 	never used).
 
-* cal.window, age.window: Works now with 'tibbles'.
+* `cal.window()`, `age.window(: Works now with 'tibbles'.
 
 # eha 2.4-4
 
