@@ -21,6 +21,7 @@
 \author{G{\"o}ran Brostr{\"o}m}
 %\date{February 16, 2009}
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \maketitle
 
