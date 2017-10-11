@@ -9,16 +9,18 @@ Description: Sampling of risk sets in Cox regression, selections in
         common families of distributions, piecewise constant hazards, 
         and discrete models. AFT regression for left truncated and 
         right censored data.
+BugReports: https://github.com/goranbrostrom/eha/issues
 License: GPL (>= 2)
 LazyData: yes
 ByteCompile: yes
 Authors@R: c(person("Göran", "Broström", role = c("aut", "cre"),
                     email = "goran.brostrom@umu.se"))
 Depends: R (>= 3.0.0), survival (>= 2.37-6)
+Imports: stats, graphics
 NeedsCompilation: yes
 Author: Göran Broström [aut, cre]
 Maintainer: Göran Broström <goran.brostrom@umu.se>
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
-VignetteBuilder: knitr, Sweave
+VignetteBuilder: knitr

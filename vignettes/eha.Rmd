@@ -1,0 +1,56 @@
+---
+title: "Event History and Survival Analysis"
+author: "Göran Broström"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Event History and Survival Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+This vignette is not written yet! That is, it is under construction. With each 
+new version of **eha**, this vignette will (hopefully) be more complete. 
+
+## What is **eha** in relation to  **survival**?
+
+The **eha** package can be seen as a complement to the recommended package **survival**: 
+In fact, **eha** *depends* on **survival**, and for *standard Cox regression*, 
+`eha::coxreg()` simply calls `survival::agreg.fit()` or `survival::coxph.fit()`,
+functions *exported* by **survival**. The simple reason for this is that the
+underlying code in these **survival** functions is very fast and efficient.
+However, `eha::coxreg()` has some unique features: *Sampling of risk sets*, 
+*The "weird" bootstrap*, and *discrete time modeling* via maximum likelihood.  
+
+I have also put effort in producing nice and relevant printouts of regression results,
+both on screen and to $\LaTeX$ documents (HTML output is on the TODO list). By
+*relevant* output I basically mean *avoiding misleading p-values*, show all 
+*factor levels*, and use the *likelihood ratio test* in front of the *Wald test* 
+where possible. 
+
+## Parametric survival models in **eha**
+
+There is a special vignette describing the theory and implementation of the 
+parametric failure time models. It is *not* very useful as a *user's manual*.
+
+### Accelerated Failure Time models
+
+The parametric accelerated failure time (AFT) models are present via `eha::aftreg()`,
+which is corresponding to `survival::survreg()`. An important difference is that 
+`eha::aftreg()` allows for *left truncated data*.
+
+### Parametric proportional hazards models
+
+Parametric proportional hazards (PH) modeling is available through the functions
+`eha::phreg()` and `eha::weibreg()`, the latter still in the package for 
+historical reasons. It will eventually be removed, since the Weibull distribution 
+is also available in `eha::phreg()`.
+
+## Utilities
+
+The primary applications in mind for **eha** were *demography* and *epidemiology*.
+There are some functions in **eha** that makes certain common tasks in that context 
+easy to perform, for instance *rectangular cuts* in the *Lexis diagram*, creating 
+*period* and *cohort* statistics, etc.

@@ -25,6 +25,13 @@ of analyses.
 Broström, G. (2012). \emph{Event History Analysis with R}, Chapman and Hall/CRC 
 Press, Boca Raton, FL.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/goranbrostrom/eha/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Göran Broström \email{goran.brostrom@umu.se}
 
