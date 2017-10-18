@@ -1,3 +1,7 @@
+# eha 2.5.0.9000
+
+* ppch, dpch, hpch, Hpch, qpch were not exported. Fixed.
+
 # eha 2.5.0
 
 * New versioning system (*Hadley Wickham*'s suggestion).

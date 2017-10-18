@@ -1,6 +1,5 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
-%\usepackage[swedish]{babel}
 \usepackage{amsmath}
 % \VignetteIndexEntry{Parametric duration models}
 \newcommand{\btheta}{{\ensuremath{\boldsymbol{\theta}}}}
@@ -19,9 +18,8 @@
 
 \title{Parametric proportional hazards and accelerated failure time models}
 \author{G{\"o}ran Brostr{\"o}m}
-%\date{February 16, 2009}
+\date{February 16, 2009}
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
 \maketitle
 

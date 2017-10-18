@@ -1,5 +1,2 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-revdep
-^README\.Rmd$
-^README-.*\.png$
