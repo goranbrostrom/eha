@@ -1,3 +1,19 @@
+2.5.1:  (Dec 04, 2017)
+        * ppch, dpch, hpch, Hpch, qpch were not exported. Fixed.
+
+2.5.0:  (Oct 11, 2017)
+        * New versioning system (*Hadley Wickham*'s suggestion).
+        * Documentation 'roxygenized'.
+        * Development moved to [gitHub](https://github.com/goranbrostrom/eha).
+        * The package glmmML was merged into eha in version 2.0. This has
+	turned out to be a very bad idea ("double entry"), and all
+	relevant
+	functions are now Defunct and removed. Use glmmML instead.
+
+        * glmmML, glmmboot, ghq, glmmbootFit, glmmML.fit are all Defunct
+	and removed. No reverse dependency used any of them. Those
+	functions are all found in the package glmmML, on CRAN.
+
 2.4-6:  (Sep 22, 2017)
 	* phreg: Start values by 'coxreg' (bad idea) removed.
 	* aftreg: in 'addMeans' and 'aftreg1', an error
