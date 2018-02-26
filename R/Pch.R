@@ -1,22 +1,23 @@
 #' The Piecewise Constant Hazards distribution.
 #'
 #' Density, distribution function, quantile function, hazard function,
-#' cumulative hazard function, and random generation for the Piecewice
+#' cumulative hazard function, mean, and random generation for the Piecewice
 #' Constant Hazards (pch) distribution.
 #' 
 #' @details 
 #' The pch distribution has a hazard function that is piecewise constant
 #' on intervals defined by cutpoints 
-#' \deqn{0 < c_1 < \cdots < c_n < \infty, n \ge 0}{0 < c_1 < ... < c_n < \infty, n \ge 0}.
+#' \deqn{0 < c_1 < \cdots < c_n < \infty, n \ge 0}{0 < c_1 < ... < c_n < \infty, n \ge 0}
 #' If \code{n = 0}, this reduces to an exponential distribution.
 #' @name Pch
-#' @aliases pch ppch dpch hpch Hpch qpch rpch
+#' @aliases pch ppch dpch hpch Hpch qpch mpch rpch
 #' @usage 
 #' ppch(q, cuts, levels, lower.tail = TRUE, log.p = FALSE)
 #' dpch(x, cuts, levels, log = FALSE)
 #' hpch(x, cuts, levels, log = FALSE)
 #' Hpch(x, cuts, levels, log.p = FALSE)
 #' qpch(p, cuts, levels, lower.tail = TRUE, log.p = FALSE)
+#' mpch(cuts, levels)
 #' rpch(n, cuts, levels)
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
@@ -32,10 +33,11 @@
 #' \code{ppch} gives the distribution function, 
 #' \code{qpch} gives the quantile function, 
 #' \code{hpch} gives the hazard function, 
-#' \code{Hpch} gives the cumulative hazard function, and
+#' \code{Hpch} gives the cumulative hazard function, 
+#' \code{mpch} gives the mean, and
 #' \code{rpch} generates random deviates.
-#' @note the parameter \code{levels} must have length at least 2, and the 
-#' number of cut points must be one less than the number of levels. q
+#' @note the parameter \code{levels} must have length at least 1, and the 
+#' number of cut points must be one less than the number of levels.
 #' @keywords distribution
 #' @export
 ppch <- function(q, cuts, levels, lower.tail = TRUE, log.p = FALSE){
@@ -125,6 +127,11 @@ qpch <- function(p, cuts, levels, lower.tail = TRUE, log.p = FALSE){
         y[i] <- uniroot(f, interval = c(0, 2000), x = p[i])$root
     }
     y
+}
+
+#' @export
+mpch <- function(cuts, levels){
+    stats::integrate(ppch, 0, Inf, cuts = cuts, levels = levels, lower.tail = FALSE)$value
 }
 
 #' @export

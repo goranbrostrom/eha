@@ -1,3 +1,7 @@
+2.5.2:  (Feb 26, 2018)
+        * mpch is a new function: Gives the mean of a piecewise constant 
+        hazards distribution.
+
 2.5.1:  (Dec 04, 2017)
         * ppch, dpch, hpch, Hpch, qpch were not exported. Fixed.
 

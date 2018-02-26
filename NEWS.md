@@ -1,3 +1,7 @@
+# eha 2.5.2
+
+* New function: mpch gives the mean of a piecewise constant hazards distribution.
+
 # eha 2.5.1
 
 * ppch, dpch, hpch, Hpch, qpch were not exported. Fixed.
