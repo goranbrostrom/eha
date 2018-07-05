@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.5.2
-Date: 2018-02-26
+Version: 2.5.2.9100
+Date: 2018-07-05
 Title: Event History Analysis
 Description: Sampling of risk sets in Cox regression, selections in 
         the Lexis diagram, bootstrapping. Parametric proportional 
@@ -15,7 +15,7 @@ LazyData: yes
 ByteCompile: yes
 Authors@R: c(person("Göran", "Broström", role = c("aut", "cre"),
                     email = "goran.brostrom@umu.se"))
-Depends: R (>= 3.0.0), survival (>= 2.37-6)
+Depends: R (>= 3.0.0), survival (>= 2.42-1)
 Imports: stats, graphics
 NeedsCompilation: yes
 Author: Göran Broström [aut, cre]

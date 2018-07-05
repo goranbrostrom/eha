@@ -1,3 +1,10 @@
+2.5.2.9100: (Jun 5, 2018)
+        * plot.Surv removed: is now a method from the survival package,
+        version >= 2.42-5
+
+2.5.2.9000: (Jun 5, 2018)
+        * plot.Surv: bug fix, illegal value to 'fn' gave nonsense-plot.
+
 2.5.2:  (Feb 26, 2018)
         * mpch is a new function: Gives the mean of a piecewise constant 
         hazards distribution.
