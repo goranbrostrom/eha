@@ -1,3 +1,7 @@
+2.6.0: (Jul 13, 2018)
+        * Depends on survival (>= 2.42-5)
+        * Released to CRAN.
+
 2.5.2.9100: (Jun 5, 2018)
         * plot.Surv removed: is now a method from the survival package,
         version >= 2.42-5

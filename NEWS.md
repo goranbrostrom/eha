@@ -1,8 +1,6 @@
-# eha 2.5.2.9000
+# eha 2.6.0
 
-Will be released as as 2.6.0
-
-* New function: mpch gives the mean of a piecewise constant hazards distribution.
+* New function: *mpch* gives the mean of a piecewise constant hazards distribution.
 
 * The function *plot.Surv* is removed, since it now is a plot method from the
   survival package, which eha depends on. Note though that this implies a new set of arguments.
