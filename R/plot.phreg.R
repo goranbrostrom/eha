@@ -165,11 +165,11 @@ plot.phreg <- function(x,
                                       param = "canonical") ##* score
             }
         }else if (x$param == "rate"){
-            scale <- log(scale)
+            scale <- log(scale) # Added 15 Jul 2018.
             for (i in 1:ns){
-                haz[i, ] <- exp(shape + xx * scale) * score
-                Haz[i, ] <- exp(shape) * score * expm1(xx * scale) / scale
-                sur[i, ] <- exp(-Haz[, i])
+                haz[i, ] <- exp(shape[i] + xx * scale[i]) * score
+                Haz[i, ] <- exp(shape[i]) * score * expm1(xx * scale[i]) / scale[i]
+                sur[i, ] <- exp(-Haz[i, ]) # Fixed 15 Jul 2018 (order [i, ])
             }
         }
 
