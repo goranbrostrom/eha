@@ -165,6 +165,7 @@ plot.phreg <- function(x,
                                       param = "canonical") ##* score
             }
         }else if (x$param == "rate"){
+            scale <- log(scale)
             for (i in 1:ns){
                 haz[i, ] <- exp(shape + xx * scale) * score
                 Haz[i, ] <- exp(shape) * score * expm1(xx * scale) / scale

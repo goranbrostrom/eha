@@ -1,3 +1,7 @@
+# eha 2.6.0.9000
+
+* Error in plot.phreg, Gompertz with 'param = "rate"' fixed.
+
 # eha 2.6.0
 
 * New function: *mpch* gives the mean of a piecewise constant hazards distribution.
