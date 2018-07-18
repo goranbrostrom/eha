@@ -1,3 +1,6 @@
+2.6.0.9100: (Jul 19, 2018)
+        * Bug in phreg, Gompertz distribution, 'param ="rate"', with strata, fixed.
+
 2.6.0.9000: (Jul 15, 2018)
         * plot.phreg, error in Gompertz with 'param = "rate"' fixed.
 

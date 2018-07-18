@@ -93,6 +93,10 @@ gompregRate <- function(X, Y, strata, offset, init, control){
         
         total <- 0
         
+        enter <- Y[, 1]
+        exit <- Y[, 2]
+        event <- Y[, 3]
+        
         for (i in 1:ns){
             T0 <- enter[strata == i]
             T <- exit[strata == i]
@@ -110,7 +114,9 @@ gompregRate <- function(X, Y, strata, offset, init, control){
                 exp(shape) * sum(ebz * (exp(rate * T) - exp(rate * T0))) / rate
             total <- total + ell
         }
-
+        if (printlevel){
+            cat("[Fmin]: total = ", total, "\n")
+        }
         return(total)
     }
 
@@ -129,6 +135,9 @@ gompregRate <- function(X, Y, strata, offset, init, control){
         score <- offset[strata == i]## + X[strata == i, , drop = FALSE] %*% init
         beta0[(2 * i - 1):(2 * i)] <-
             gompstartRate(enter, exit, event, score) 
+        if (printlevel){
+            cat("[gompregRate null]: i = ", i, "start values = ", beta0[(2 * i - 1):(2 * i)], "\n")
+        }
         ##beta0[ncov + 2 * i - 1] <- log(max(Y[strata == i, 2]))
         ##beta0[ncov + 2 * i] <- log(sum(Y[strata == i, 3]) /
           ##                          sum(Y[strata == i, 2])) - 1
@@ -157,6 +166,9 @@ gompregRate <- function(X, Y, strata, offset, init, control){
         score <- offset[strata == i] + X[strata == i, , drop = FALSE] %*% init
         beta[(ncov + 2 * i - 1):(ncov + 2 * i)] <-
             gompstartRate(enter, exit, event, score) 
+        if (printlevel){
+            cat("[gompregRate]: i = ", i, "start values = ", beta0[(2 * i - 1):(2 * i)], "\n")
+        }
         ##beta0[ncov + 2 * i - 1] <- log(max(Y[strata == i, 2]))
         ##beta0[ncov + 2 * i] <- log(sum(Y[strata == i, 3]) /
           ##                          sum(Y[strata == i, 2])) - 1

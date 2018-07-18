@@ -1,3 +1,7 @@
+# eha 2.6.0.9100
+
+* Bug in phreg, Gompertz distribution, 'param ="rate"', with strata, fixed.
+
 # eha 2.6.0.9000
 
 * Error in plot.phreg, Gompertz with 'param = "rate"' fixed.
