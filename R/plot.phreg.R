@@ -167,16 +167,16 @@ plot.phreg <- function(x,
         }else if (x$param == "rate"){
             ##scale <- log(scale) # Added 15 Jul 2018. Removed 19 Jul 2018!
             ##scale <- 1 / scale
-            scale <- 1 / log(scale)
+            scale <- log(scale)
             ##if (printlevel){
               ##  cat("scale = ", scale, "\n")
                 ##cat("shape = ", shape, "\n")
             ##}
             for (i in 1:ns){
-                haz[i, ] <- hgompertz(xx, shape = score * shape[i], scale = scale[i])
-                ##haz[i, ] <- exp(shape[i] + xx * scale[i]) * score
-                Haz[i, ] <- Hgompertz(xx, shape = score * shape[i], scale = scale[i])
-                ##Haz[i, ] <- exp(shape[i]) * score * expm1(xx * scale[i]) / scale[i]
+                ##haz[i, ] <- hgompertz(xx, shape = score * shape[i], scale = scale[i])
+                haz[i, ] <- shape[i] * exp(xx * scale[i]) * score
+                ##Haz[i, ] <- Hgompertz(xx, shape = score * shape[i], scale = scale[i])
+                Haz[i, ] <- shape[i] * score * expm1(xx * scale[i]) / scale[i]
                 sur[i, ] <- exp(-Haz[i, ]) # Fixed 15 Jul 2018 (order [i, ])
             }
         }
