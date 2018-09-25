@@ -5,8 +5,9 @@
 \title{Cox regression}
 \usage{
 coxreg.fit(X, Y, rs, weights, t.offset = NULL, strats, offset, init,
-  max.survs, method = "breslow", center = TRUE, boot = FALSE, efrac = 0,
-  calc.hazards = TRUE, calc.martres = TRUE, control, verbose = TRUE)
+  max.survs, method = "breslow", center = TRUE, boot = FALSE,
+  efrac = 0, calc.hazards = TRUE, calc.martres = TRUE, control,
+  verbose = TRUE)
 }
 \arguments{
 \item{X}{The design matrix.}

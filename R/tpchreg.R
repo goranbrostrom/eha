@@ -1,3 +1,10 @@
+#' Proportional hazards regression with piecewise constant hazards and tabular data.
+#' 
+#' @param formula a formula
+#' @param cuts intervals for constant hazard.
+#' @param data a data frame with event, exposure, age plus covariates
+
+#' @export tpchreg
 tpchreg <- function(formula, cuts, data){
     ## 'tpch' stands for "Tabular Piecewise Constant Hazard Regression" 
     ## form: event ~ offset(log(exposure)) + age + ....

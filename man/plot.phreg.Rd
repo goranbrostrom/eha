@@ -4,9 +4,9 @@
 \alias{plot.phreg}
 \title{Plots output from a phreg regression}
 \usage{
-\method{plot}{phreg}(x, fn = c("haz", "cum", "den", "sur"), main = NULL,
-  xlim = NULL, ylim = NULL, xlab = "Duration", ylab = "", col, lty,
-  printLegend = TRUE, new.data = NULL, ...)
+\method{plot}{phreg}(x, fn = c("haz", "cum", "den", "sur"),
+  main = NULL, xlim = NULL, ylim = NULL, xlab = "Duration",
+  ylab = "", col, lty, printLegend = TRUE, new.data = NULL, ...)
 }
 \arguments{
 \item{x}{A \code{phreg} object}

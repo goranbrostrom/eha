@@ -4,7 +4,8 @@
 \alias{phreg.fit}
 \title{Parametric proportional hazards regression}
 \usage{
-phreg.fit(X, Y, dist, strata, offset, init, shape, control, center = NULL)
+phreg.fit(X, Y, dist, strata, offset, init, shape, control,
+  center = NULL)
 }
 \arguments{
 \item{X}{The design (covariate) matrix.}

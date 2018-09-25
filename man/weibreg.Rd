@@ -5,9 +5,10 @@
 \title{Weibull Regression}
 \usage{
 weibreg(formula = formula(data), data = parent.frame(),
-  na.action = getOption("na.action"), init, shape = 0, control = list(eps
-  = 1e-04, maxiter = 10, trace = FALSE), singular.ok = TRUE, model = FALSE,
-  x = FALSE, y = TRUE, center = TRUE)
+  na.action = getOption("na.action"), init, shape = 0,
+  control = list(eps = 1e-04, maxiter = 10, trace = FALSE),
+  singular.ok = TRUE, model = FALSE, x = FALSE, y = TRUE,
+  center = TRUE)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~

@@ -6,10 +6,10 @@
 \usage{
 mlreg(formula = formula(data), data = parent.frame(),
   na.action = getOption("na.action"), init = NULL, method = c("ML",
-  "MPPL"), control = list(eps = 1e-08, maxiter = 10, n.points = 12, trace =
-  FALSE), singular.ok = TRUE, model = FALSE, center = TRUE, x = FALSE,
-  y = TRUE, boot = FALSE, geometric = FALSE, rs = NULL,
-  frailty = NULL, max.survs = NULL)
+  "MPPL"), control = list(eps = 1e-08, maxiter = 10, n.points = 12, trace
+  = FALSE), singular.ok = TRUE, model = FALSE, center = TRUE,
+  x = FALSE, y = TRUE, boot = FALSE, geometric = FALSE,
+  rs = NULL, frailty = NULL, max.survs = NULL)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~

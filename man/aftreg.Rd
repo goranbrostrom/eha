@@ -5,10 +5,10 @@
 \title{Accelerated Failure Time Regression}
 \usage{
 aftreg(formula = formula(data), data = parent.frame(),
-  na.action = getOption("na.action"), dist = "weibull", init, shape = 0,
-  id, param = c("lifeAcc", "lifeExp"), control = list(eps = 1e-08, maxiter =
-  20, trace = FALSE), singular.ok = TRUE, model = FALSE, x = FALSE,
-  y = TRUE)
+  na.action = getOption("na.action"), dist = "weibull", init,
+  shape = 0, id, param = c("lifeAcc", "lifeExp"), control = list(eps
+  = 1e-08, maxiter = 20, trace = FALSE), singular.ok = TRUE,
+  model = FALSE, x = FALSE, y = TRUE)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~

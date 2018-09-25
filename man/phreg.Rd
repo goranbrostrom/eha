@@ -5,10 +5,10 @@
 \title{Parametric Proportional Hazards Regression}
 \usage{
 phreg(formula = formula(data), data = parent.frame(),
-  na.action = getOption("na.action"), dist = "weibull", cuts = NULL, init,
-  shape = 0, param = c("canonical", "rate"), control = list(eps = 1e-08,
-  maxiter = 20, trace = FALSE), singular.ok = TRUE, model = FALSE,
-  x = FALSE, y = TRUE, center = TRUE)
+  na.action = getOption("na.action"), dist = "weibull", cuts = NULL,
+  init, shape = 0, param = c("canonical", "rate"), control = list(eps
+  = 1e-08, maxiter = 20, trace = FALSE), singular.ok = TRUE,
+  model = FALSE, x = FALSE, y = TRUE, center = TRUE)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~

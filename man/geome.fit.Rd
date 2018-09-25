@@ -4,7 +4,8 @@
 \alias{geome.fit}
 \title{Constant intensity discrete time proportional hazards}
 \usage{
-geome.fit(X, Y, rs, strats, offset, init, max.survs, method = "ml", control)
+geome.fit(X, Y, rs, strats, offset, init, max.survs, method = "ml",
+  control)
 }
 \arguments{
 \item{X}{The design matrix}
