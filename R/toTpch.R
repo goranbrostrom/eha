@@ -18,7 +18,7 @@ toTpch <- function(dat, cuts){
     
     out$exposure <- out$exit - out$enter
     out$enter <- out$exit <- NULL
-    covars <- dat[, -(which(names(dat) %in% c("event", "exposure")))]
+    covars <- out[, -(which(names(out) %in% c("event", "exposure")))]
     outTab <- aggregate(out[, c("event", "exposure")], by = covars, FUN = sum)
     ageNames <- character(n)
     for (i in 1:n){
