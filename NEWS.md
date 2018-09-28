@@ -1,3 +1,11 @@
+# eha 2.6.0.9310
+
+* Fix *tpchreg* with *extractAIC* and *nobs*.
+
+# eha 2.6.0.9300
+
+* New functions *tpchreg* and *toTpch*.
+
 # eha 2.6.0.9200
 
 * Bug in phreg, Gompertz distribution, 'param ="rate"', fixed. Again!

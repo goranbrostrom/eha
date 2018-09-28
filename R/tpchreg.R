@@ -51,10 +51,12 @@ tpchreg <- function(formula, cuts, data){
     out
 }
 
+#' @export
 extractAIC.tpchreg <- function(x, scale, k = 2, ...){
     x$aic
 }
 
+#' @export
 nobs.tpchreg <- function(x, ...){
     length(x$residuals)
 }
