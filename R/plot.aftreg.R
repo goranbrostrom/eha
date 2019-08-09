@@ -58,14 +58,15 @@ plot.aftreg <- function(x,
     }
     ncov <- length(x$means)
     ns <- x$n.strata
+    param.scale <- if (x$param=="lifeAcc") -1 else 1
     if (x$pfixed){
         p <- rep(x$shape, ns)
-        lambda <- exp(x$coefficients[ncov + (1:ns)] -
-                      sum((new.data - x$means) * x$coefficients[1:ncov]))
+        lambda <- exp(x$coefficients[ncov + (1:ns)] +
+                      param.scale*sum((new.data - x$means) * x$coefficients[1:ncov]))
     }else{
         p <- exp(x$coefficients[ncov + (1:ns) * 2])
-        lambda <- exp(x$coefficients[ncov + (1:ns) * 2 - 1] -
-                      sum((new.data - x$means) * x$coefficients[1:ncov]))
+        lambda <- exp(x$coefficients[ncov + (1:ns) * 2 - 1] +
+                      param.scale*sum((new.data - x$means) * x$coefficients[1:ncov]))
     }
 
     if (ncov){
@@ -85,7 +86,6 @@ plot.aftreg <- function(x,
     xx <- seq(xlim[1], xlim[2], length = npts)
     ##if (xx[1] <= 0) xx[1] <- 0.001
 
-    skal <- NULL
     ## hazard
     if (x$dist == "weibull"){
         dist <- "Weibull"
@@ -117,14 +117,14 @@ plot.aftreg <- function(x,
         Haza <- Hgompertz
         Surviv <- pgompertz
         Dens <- dgompertz
-        skal <- exp(x$coef[1])
-        for (i in 1:ns) p[i] <- skal
+        ## canonical parameterisation
+        p <- p/lambda
     }
 
     if ("haz" %in% fn){
         haz <- matrix(ncol = npts, nrow = ns)
         for (i in 1:ns){
-            haz[i, ] <- haza(xx, scale = lambda[i], shape = p[i]) * score
+            haz[i, ] <- haza(xx, scale = lambda[i], shape = p[i])
         }
 
         if (is.null(ylim)) ylim <- c(0, max(haz))
@@ -150,7 +150,7 @@ plot.aftreg <- function(x,
 
     ##if (is.null(ylim))
         for (i in 1:ns){
-            Haz[i, ] <- Haza(xx, scale = lambda[i], shape = p[i]) * score
+            Haz[i, ] <- Haza(xx, scale = lambda[i], shape = p[i])
         }
         ylim <- c(0, max(Haz))
         ##if (is.null(xlab))
@@ -177,12 +177,9 @@ plot.aftreg <- function(x,
             if (dist == "Lognormal"){
                 sdlog <- 1 / p[i]
                 meanlog <- log(lambda[i])
-                den[i, ] <- dlnorm(xx, meanlog, sdlog) * score *
-                    plnorm(xx, meanlog, sdlog)^(score - 1)
+                den[i, ] <- dlnorm(xx, meanlog, sdlog)
             }else{
-                den[i, ] <- Dens(xx, scale = lambda[i], shape = p[i]) *
-                    score * Surviv(xx, scale = lambda[i], shape = p[i],
-                                   lower.tail = FALSE)
+                den[i, ] <- Dens(xx, scale = lambda[i], shape = p[i])
             }
         }
 
@@ -217,11 +214,11 @@ plot.aftreg <- function(x,
                 sdlog <- 1 / p[i]
                 meanlog <- log(lambda[i])
                 sur[i, ] <- plnorm(xx, meanlog, sdlog,
-                                   lower.tail = FALSE)^score
+                                   lower.tail = FALSE)
             }else{
                 sur[i, ] <- Surviv(xx, scale = lambda[i],
                                    shape = p[i],
-                                   lower.tail = FALSE)^score
+                                   lower.tail = FALSE)
             }
         }
 
