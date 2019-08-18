@@ -275,7 +275,7 @@ static void eha_update(int level,
 	tmp = 0.0;
 	for (i = 0; i < ext->n_points; i++){
 	    tmp += pip[i] * xG[i + m * ext->n_points];
-	    if (!finite(tmp)){
+	    if (!isfinite(tmp)){
 		Rprintf("pip[%d] = %f; xG[%d] = %f:: ", i, pip[i], 
 			i + m * ext->n_points, xG[i + m * ext->n_points]); 
 		Rprintf("tmp = %f\n", tmp);
@@ -292,7 +292,7 @@ static void eha_update(int level,
     /* Add into first derivatives: */
     for (m = 0; m <= n_rs + p; m++){
 	score[m] += hb[m] / h;
-	if (!finite(score[m])){
+	if (!isfinite(score[m])){
 	    Rprintf("Numerical problem:\n"); 
 	    Rprintf("n.points (in 'control') is  %d\n",
 		    ext->n_points);

@@ -52,11 +52,11 @@ tpchreg <- function(formula, cuts, data){
 }
 
 #' @export
-extractAIC.tpchreg <- function(x, scale, k = 2, ...){
-    x$aic
+extractAIC.tpchreg <- function(fit, scale, k = 2, ...){
+    fit$aic
 }
 
 #' @export
-nobs.tpchreg <- function(x, ...){
-    length(x$residuals)
+nobs.tpchreg <- function(object, ...){
+    length(object$residuals)
 }

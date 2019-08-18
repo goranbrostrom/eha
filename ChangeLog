@@ -1,6 +1,9 @@
+2.6.0.9320: (Aug 18, 2019)
+	* In eha_fun.c, changed 'finite' to 'isfinite' (C99).
+
 2.6.0.9300: (Sep 25, 2018)
         * New functions: tpchreg, toTpch.
-        
+
 2.6.0.9200: (Jul 22, 2018)
         * Bug in phreg, Gompertz distribution, 'param ="rate"', fixed. Again!
 
