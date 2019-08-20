@@ -1,3 +1,6 @@
+2.6.0.9330: (Aug 20, 2019)
+	* Errors in plot.aftreg fixed (thanks to Mark Clements). 
+
 2.6.0.9320: (Aug 18, 2019)
 	* In eha_fun.c, changed 'finite' to 'isfinite' (C99).
 
