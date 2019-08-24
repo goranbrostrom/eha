@@ -58,7 +58,7 @@
 * `coxreg()`: "Geometric bootstrap" removed (it never worked and was
 	never used).
 
-* `cal.window()`, `age.window(: Works now with 'tibbles'.
+* `cal.window()`, `age.window()`: Works now with 'tibbles'.
 
 # eha 2.4-4
 

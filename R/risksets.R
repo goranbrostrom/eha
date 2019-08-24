@@ -34,6 +34,8 @@
 #'  risksets(Surv(enter, exit, event))
 #' 
 #' @export risksets
+#' 
+
 risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
     ## x is a Surv (survival) object.
 
@@ -124,9 +126,10 @@ risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
       Size <- res$size ## Previously out-commented; why??
       N <- counts$size - counts$n.events
       sample_fraction <- numeric(length(Size))
-      sample_fraction[N > 0] <- (Size - counts$n.events) /
-          (counts$size - counts$n.events)
-      sample_fraction[N <= 0] <- 1 # No survivors!
+      pos <- N > 0
+      sample_fraction[pos] <- (Size[pos] - counts$n.events[pos]) /
+          (counts$size[pos] - counts$n.events[pos])
+      sample_fraction[!pos] <- 1 # No survivors!
       Eventset <- ord[res$eventset]
       Riskset <- ord[res$riskset[1:res$new.totrs]]
   }

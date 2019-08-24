@@ -1,5 +1,8 @@
+2.6.0.9340: (Aug 24, 2019)
+	* ristksets: Warning about sample_fraction fixed.
+
 2.6.0.9330: (Aug 20, 2019)
-	* Errors in plot.aftreg fixed (thanks to Mark Clements). 
+	* Errors in plot.aftreg fixed (thanks to Mark Clements).
 
 2.6.0.9320: (Aug 18, 2019)
 	* In eha_fun.c, changed 'finite' to 'isfinite' (C99).
