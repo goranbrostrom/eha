@@ -27,7 +27,7 @@ static double aft_funGomp(int n, double *beta, void *vex){
     int i, j, rec;
     Exts *ex;
     double alpha, gamma;
-    double lambda, p;
+    double p;
     int nn, indiv, stratum, mb;
     double res1, res2;
     double bzmalpha;
@@ -75,7 +75,7 @@ static double aft_funGomp(int n, double *beta, void *vex){
     for (i = 0; i < indiv; i++){
 	stratum = ex->strata[rec];
 	alpha = beta[mb + 2 * stratum];          /*     Log scale!! */
-	lambda = exp(alpha);
+	/*	lambda = exp(alpha); */
 	gamma = beta[mb + 2 * stratum + 1]; /*     Log scale!! */
 	p = exp(gamma);
 	bzmalpha = bz[rec] - alpha;
@@ -102,7 +102,7 @@ static double aft_funGomp(int n, double *beta, void *vex){
 		rec++; /* This part revised for 2.1-1 */
 		stratum = ex->strata[rec];
 		alpha = beta[mb + 2 * stratum];           /* See    */
-		lambda = exp(alpha);
+		/*		lambda = exp(alpha); */
 		gamma = beta[mb + 2 * stratum + 1];  /* above! */
 		p = exp(gamma);
 		bzmalpha = bz[rec] - alpha;
