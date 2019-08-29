@@ -200,7 +200,7 @@ C
       parameter (zero = 0.d0, one = 1.d0) 
       integer ione
       parameter (ione = 1)
-      character*1 trans
+      character trans
       parameter (trans = 'N')
 
       integer i, j, s, m, rs

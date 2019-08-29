@@ -31,7 +31,7 @@ static void get_prob(int nn,
     int i, who;
 
     totsize = 0.0;
-    for (i = 0; i < size; +i++){
+    for (i = 0; i < size; i++){
         who = riskset[i];
         prob[i] = score[who];
         totsize += prob[i];

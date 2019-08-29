@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.6.0.9340
-Date: 2019-10-24
+Version: 2.7.0
+Date: 2019-08-29
 Title: Event History Analysis
 Description: Sampling of risk sets in Cox regression, selections in 
         the Lexis diagram, bootstrapping. Parametric proportional 

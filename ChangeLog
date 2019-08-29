@@ -1,5 +1,5 @@
 2.6.0.9340: (Aug 24, 2019)
-	* ristksets: Warning about sample_fraction fixed.
+	* risksets: Warning about sample_fraction fixed.
 
 2.6.0.9330: (Aug 20, 2019)
 	* Errors in plot.aftreg fixed (thanks to Mark Clements).

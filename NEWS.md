@@ -1,22 +1,20 @@
-# eha 2.6.0.9310
+# eha 2.7.0
+
+* *risksets*: Warning about sample_fraction fixed.
+
+* Errors in *plot.aftreg* fixed (thanks to Mark Clements).
+
+* In *eha_fun.c*, changed 'finite' to 'isfinite' (C99).
 
 * Fix *tpchreg* with *extractAIC* and *nobs*.
 
-# eha 2.6.0.9300
-
 * New functions *tpchreg* and *toTpch*.
 
-# eha 2.6.0.9200
+* Bug in *phreg*, Gompertz distribution, 'param ="rate"', fixed.
 
-* Bug in phreg, Gompertz distribution, 'param ="rate"', fixed. Again!
+* Bug in *phreg*, Gompertz distribution, 'param ="rate"', with strata, fixed.
 
-# eha 2.6.0.9100
-
-* Bug in phreg, Gompertz distribution, 'param ="rate"', with strata, fixed.
-
-# eha 2.6.0.9000
-
-* Error in plot.phreg, Gompertz with 'param = "rate"' fixed.
+* Error in *plot.phreg*, Gompertz with 'param = "rate"' fixed.
 
 # eha 2.6.0
 

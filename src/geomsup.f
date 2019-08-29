@@ -124,7 +124,7 @@ C
       double precision f(ns, antcov)
 
       integer i, j, job
-      character*1 transa, transb
+      character transa, transb
       double precision one, zero
       parameter (one = 1.d0)
       parameter (zero = 0.d0)
@@ -300,14 +300,14 @@ C     variables needed for ML:
 
       logical iterate 
 
-      character*1 transa, transb
+      character transa, transb
       double precision one
       parameter (one = 1.d0)
       double precision zero
       parameter (zero = 0.d0)
       integer ione
       parameter (ione = 1)
-      character*1 trans
+      character trans
       parameter (trans = 'N')
 
       double precision ddot, dnrm2, L2

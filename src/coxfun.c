@@ -129,7 +129,8 @@ void ml_rs(int what, RiskSet *risk,
 
     char up = 'U';
 
-    if (risk->out) return;    if (risk->antevents == risk->size) return;
+    if (risk->out) return;
+    if (risk->antevents == risk->size) return;
 
     /* get "gamma[rs]"; in risks[rs]: */
     get1_gam(risk);

@@ -37,8 +37,8 @@ extern void frail_ml(int *family, int *method, int *p, int *nn, int *n_rs,
 		     double *x, int *y, int * haz, double *offset, int *fam_size,
 		     int *n_fam, int *n_points, double *epsilon, int *maxit,
 		     int *trace, double *beta, double *sigma, double *loglik,
-		     double *variance, double *frail, double *mu,
-		     int *convergence);
+		     double *variance, double *frail, /* double *mu, */
+		     int *convergence, int *fail);
 
 extern void loglik_ph(int *, int *, double *, double *, double *,
 		      int *, double *, double *, double *, 
