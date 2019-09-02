@@ -24,8 +24,9 @@ C
 C     Updated to more Fortran 77 than 66! (2006-08-04)
 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER n, modified
       DIMENSION X(N), W(N)
-      LOGICAL modified
+C     LOGICAL modified
 
 C     To silence the compiler:
       z = 0.0
@@ -98,7 +99,7 @@ C      enddo
 
 C *** New change! (2006-08-04) ***
 C *** A correction: Make it depend on 'modified'.
-      if (modified) then
+      if (modified .eq. 1) then
          do i = 1, n
             w(i) = w(i) * exp(x(i)**2)
          enddo

@@ -320,8 +320,8 @@ C +++ Get initial values for gamma:
       if (dnrm2(antcov, startbeta, ione) .gt. eps) then
          iterate = .TRUE.
          call dcopy(nn, offset, ione, score, ione)
-         call dgemv(trans, nn, antcov, one, covar, nn, startbeta, ione, 
-     &     one, score, ione)
+         call dgemv(trans, nn, antcov, one, covar, nn,
+     &     startbeta, ione, one, score, ione)
       
          do i = 1, nn
             score(i) = exp(score(i))

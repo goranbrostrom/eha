@@ -32,13 +32,33 @@ extern void expsup(int *iter, double *eps, int *printlevel,
 		   double *init, double *beta, double *lambda, double *lambda_sd,
 		   double *loglik, double *dloglik, double *variance, double *sctest,
 		   int *conver, int *fail);
-extern void frail_ml(int *family, int *method, int *p, int *nn, int *n_rs,
-		     int *riskset, double *start_beta, double *start_sigma,
-		     double *x, int *y, int * haz, double *offset, int *fam_size,
-		     int *n_fam, int *n_points, double *epsilon, int *maxit,
-		     int *trace, double *beta, double *sigma, double *loglik,
-		     double *variance, double *frail, /* double *mu, */
-		     int *convergence, int *fail);
+extern void frail_ml(int *family,
+		     int *method,
+		     int *p,
+		     int *nn,
+		     int *n_rs,
+		     int *riskset,
+		     double *start_beta,
+		     double *start_sigma,
+		     double *x,
+		     int *y,
+		     int *haz,
+		     double *offset,
+		     int *fam_size,
+		     int *n_fam,
+		     int *n_points,
+		     double *epsilon,
+		     int *maxit,
+		     int *trace,
+		     double *beta,
+		     double *hazards,
+		     double *sigma,
+		     double *sigma_sd,
+		     double *loglik,
+		     double *variance,
+		     double *frail, /* double *mu, */
+		     int *convergence,
+		     int *fail);
 
 extern void loglik_ph(int *, int *, double *, double *, double *,
 		      int *, double *, double *, double *, 
@@ -122,12 +142,14 @@ extern void F77_NAME(chek)(int *, int *, int *, double *, double *, int *,
 extern void F77_NAME(cleanup)(double *, double *, double *, int *, int *,
 			      int *, int *, int *, double *, int *,
 			      double *, double *, double *, int *, int *);
+/*
 extern void F77_NAME(geomsup)(void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *);
+*/
 extern void F77_NAME(ghq)(int *, double *, double *, int *);
 extern void F77_NAME(hazards)(int *, int *, int *, int *, int *,
 			      int *, int *, int *, double *, double *);
@@ -170,7 +192,7 @@ static const R_FortranMethodDef FortranEntries[] = {
 /*    {"bootcox",    (DL_FUNC) &F77_NAME(bootcox),    32}, */
     {"chek",       (DL_FUNC) &F77_NAME(chek),        8},
     {"cleanup",    (DL_FUNC) &F77_NAME(cleanup),    15},
-    {"geomsup",    (DL_FUNC) &F77_NAME(geomsup),    27},
+    /*    {"geomsup",    (DL_FUNC) &F77_NAME(geomsup),    27}, */
     {"ghq",        (DL_FUNC) &F77_NAME(ghq),         4},
     {"hazards",    (DL_FUNC) &F77_NAME(hazards),    10},
     {"martres",    (DL_FUNC) &F77_NAME(martres),    11},

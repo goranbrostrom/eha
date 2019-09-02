@@ -57,11 +57,13 @@ void eha_frail_ml(int *family,
 		  int *trace,
 		  double *beta,
 		  double *sigma,
+		  double *sigma_sd,
 		  double *loglik,
 		  double *variance,
 		  double *frail,
-		  double *mu,
-		  int *convergence);
+		  /* double *mu, */
+		  int *convergence,
+		  int *fail);
     
 #endif
 

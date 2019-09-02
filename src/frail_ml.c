@@ -34,8 +34,7 @@ void frail_ml(int *family,
 	      double *sigma_sd,
 	      double *loglik,
 	      double *variance,
-	      double *frail,
-/*	      double *mu,        */
+	      double *frail, /*	double *mu,  */
 	      int *convergence,
 	      int *fail){
     
