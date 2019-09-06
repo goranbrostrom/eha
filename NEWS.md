@@ -1,3 +1,7 @@
+# eha 2.7.1
+
+* *gdgemv.f* contains a new FORTRAN subroutine, essentially a copy of the LAPACK subroutine *dgemv*. Purpose: Avoid bug in gfortran 7+. Relevant calls updated. 
+
 # eha 2.7.0
 
 * *risksets*: Warning about sample_fraction fixed.

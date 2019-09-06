@@ -307,8 +307,8 @@ C     variables needed for ML:
       parameter (zero = 0.d0)
       integer ione
       parameter (ione = 1)
-      character trans
-      parameter (trans = 'N')
+      integer trans
+      parameter (trans = 1)
 
       double precision ddot, dnrm2, L2
 
@@ -320,7 +320,7 @@ C +++ Get initial values for gamma:
       if (dnrm2(antcov, startbeta, ione) .gt. eps) then
          iterate = .TRUE.
          call dcopy(nn, offset, ione, score, ione)
-         call dgemv(trans, nn, antcov, one, covar, nn,
+         call gdgemv(trans, nn, antcov, one, covar, nn,
      &     startbeta, ione, one, score, ione)
       
          do i = 1, nn

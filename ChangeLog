@@ -1,13 +1,8 @@
-2.6.0.9340: (Aug 24, 2019)
+2.7.1: (Sep 4, 2019)
+	* gdgemv.f: New function, essentially a copy of the LAPACK subroutine dgemv. Purpose: Avoid bug in gfortran 7+.
 	* risksets: Warning about sample_fraction fixed.
-
-2.6.0.9330: (Aug 20, 2019)
 	* Errors in plot.aftreg fixed (thanks to Mark Clements).
-
-2.6.0.9320: (Aug 18, 2019)
 	* In eha_fun.c, changed 'finite' to 'isfinite' (C99).
-
-2.6.0.9300: (Sep 25, 2018)
         * New functions: tpchreg, toTpch.
 
 2.6.0.9200: (Jul 22, 2018)
