@@ -300,27 +300,27 @@ C     variables needed for ML:
 
       logical iterate 
 
-      character transa, transb
+C      character transa, transb
       double precision one
       parameter (one = 1.d0)
       double precision zero
       parameter (zero = 0.d0)
       integer ione
       parameter (ione = 1)
-      integer trans
-      parameter (trans = 1)
+      character trans
+      parameter (trans = 'N')
 
       double precision ddot, dnrm2, L2
 
-      transa = 'N'
-      transb = 'T'
+C      transa = 'N'
+C      transb = 'T'
 
 C +++ Get initial values for gamma:
 
       if (dnrm2(antcov, startbeta, ione) .gt. eps) then
          iterate = .TRUE.
          call dcopy(nn, offset, ione, score, ione)
-         call gdgemv(trans, nn, antcov, one, covar, nn,
+         call dgemv(trans, nn, antcov, one, covar, nn,
      &     startbeta, ione, one, score, ione)
       
          do i = 1, nn

@@ -1,6 +1,11 @@
+#define USE_FC_LEN_T
+#include <Rconfig.h>
+#include <R_ext/BLAS.h>
+#ifndef FCONE
+# define FCONE
+#endif
 #include <math.h>
 #include <Rmath.h>
-#include <R_ext/BLAS.h>
 #include <R.h>
 
 #include "phfun.h"
@@ -304,7 +309,7 @@ void d2_loglik_ph(int *dis,
     /* ezb[i] = exp(sum(b_j * z_ij)), i = 0, (*nn - 1). (hopefully;-) */ 
     if (*mb){
 	F77_CALL(dgemv)(&trans, mb, nn, &alf, z, mb,  
-			b, &one, &beta, ezb, &one);
+			b, &one, &beta, ezb, &one FCONE);
 	for (i = 0; i < *nn; i++) ezb[i] = exp(ezb[i] + offset[i]);
     }else{
 	for (i = 0; i < *nn; i++) ezb[i] = exp(offset[i]);

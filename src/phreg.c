@@ -1,3 +1,9 @@
+#define USE_FC_LEN_T
+#include <Rconfig.h>
+#include <R_ext/BLAS.h>
+#ifndef FCONE
+# define FCONE
+#endif
 #include <R.h>
 #include <R_ext/Applic.h>
 #include <R_ext/Linpack.h>
@@ -183,11 +189,11 @@ static void ph_nr(int iter, double eps, int printlevel,
     while ((iter < itmax) & !(*conver)){
 	F77_CALL(dcopy)(&bdim, dloglik, &ione, db, &ione);
 	F77_CALL(dsytrf)(&uplo, &bdim, variance, &bdim, 
-			 ipiv, work, &lwork, &info);
+			 ipiv, work, &lwork, &info FCONE);
 	/* F77_CALL(dpofa)(variance, &bdim, &bdim, &info); linpack */
 	if (!info){
 	    F77_CALL(dsytrs)(&uplo, &bdim, &ione, variance, &bdim,
-			    ipiv, db, &bdim, &info);
+			    ipiv, db, &bdim, &info FCONE);
 	    if(info) {
 		Rprintf("dsytrs reports %d\n", info);
 	    }
@@ -234,11 +240,11 @@ static void ph_nr(int iter, double eps, int printlevel,
 
     /* F77_CALL(dpofa)(variance, &bdim, &bdim, &info); */
     F77_CALL(dsytrf)(&uplo, &bdim, variance, &bdim, 
-		     ipiv, work, &lwork, &info);
+		     ipiv, work, &lwork, &info FCONE);
     if (!info){
 	/* F77_CALL(dpodi)(variance, &bdim, &bdim, det, &job); */
 	F77_CALL(dsytri)(&uplo, &bdim, variance, &bdim,
-			 ipiv, work, &info);
+			 ipiv, work, &info FCONE);
 	for (i = 1; i < bdim; i++){
 	    for (j = 0; j < i; j++){
 		variance[i + j * bdim] = variance[j + i * bdim];

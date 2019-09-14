@@ -1,3 +1,6 @@
+2.7.5: (Sep 11, 2019)
+	* cdgemv.c: C wrapper for dgemv added as replacement for gdgemv.f (removed).
+
 2.7.1: (Sep 4, 2019)
 	* gdgemv.f: New function, essentially a copy of the LAPACK subroutine dgemv. Purpose: Avoid bug in gfortran 7+.
 	* risksets: Warning about sample_fraction fixed.

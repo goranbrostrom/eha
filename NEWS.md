@@ -1,3 +1,9 @@
+# eha 2.7.5
+
+* More fixes to work around the gfortran bug. 
+
+* Add C wrapper, cdgemv,  for Fortran call to BLAS subroutine dgemv.
+
 # eha 2.7.1
 
 * *gdgemv.f* contains a new FORTRAN subroutine, essentially a copy of the LAPACK subroutine *dgemv*. Purpose: Avoid bug in gfortran 7+. Relevant calls updated. 

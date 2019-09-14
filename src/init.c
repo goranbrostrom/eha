@@ -127,6 +127,7 @@ extern void weibsup(int *iter, double *eps, int *printlevel,
 		    double *loglik, double *dloglik, double *variance, double *sctest,
 		    int *conver, int *fail);
 
+
 /* .Fortran calls */
 /* Where is 'bootcox'???
 extern void F77_NAME(bootcox)(void *, void *, void *, void *, void *,
@@ -142,14 +143,14 @@ extern void F77_NAME(chek)(int *, int *, int *, double *, double *, int *,
 extern void F77_NAME(cleanup)(double *, double *, double *, int *, int *,
 			      int *, int *, int *, double *, int *,
 			      double *, double *, double *, int *, int *);
-/*
+
 extern void F77_NAME(geomsup)(void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *, void *, void *, void *,
 			      void *, void *);
-*/
+
 extern void F77_NAME(ghq)(int *, double *, double *, int *);
 extern void F77_NAME(hazards)(int *, int *, int *, int *, int *,
 			      int *, int *, int *, double *, double *);
@@ -166,9 +167,9 @@ extern void F77_NAME(split)(double *, int *, int *, double *, int *,
 extern void F77_NAME(wfunc)(int *, int *, double *, int *, int *, double *,
 			    int *, double *, double *, double *, int *, double *,
 			    double *, double *, double *, int *);
-extern void F77_NAME(wfuncnull)(int *, int *, double *, int *, double *,
-				int *, double *, double *, int *, double *,
-				double *, double *, int *);
+extern void F77_NAME(wfuncnull)(int *, int *, double *,
+				int *, double *, int *, double *, double *, int *,
+				double *, double *, double *, int *);
 
 static const R_CMethodDef CEntries[] = {
     {"aftexpsup",    (DL_FUNC) &aftexpsup,    17},
@@ -189,14 +190,12 @@ static const R_CMethodDef CEntries[] = {
 };
 
 static const R_FortranMethodDef FortranEntries[] = {
-/*    {"bootcox",    (DL_FUNC) &F77_NAME(bootcox),    32}, */
     {"chek",       (DL_FUNC) &F77_NAME(chek),        8},
     {"cleanup",    (DL_FUNC) &F77_NAME(cleanup),    15},
-    /*    {"geomsup",    (DL_FUNC) &F77_NAME(geomsup),    27}, */
+    {"geomsup",    (DL_FUNC) &F77_NAME(geomsup),    27},
     {"ghq",        (DL_FUNC) &F77_NAME(ghq),         4},
     {"hazards",    (DL_FUNC) &F77_NAME(hazards),    10},
     {"martres",    (DL_FUNC) &F77_NAME(martres),    11},
-/*    {"phfuncnull", (DL_FUNC) &F77_NAME(phfuncnull), 13}, */
     {"split",      (DL_FUNC) &F77_NAME(split),      10},
     {"wfunc",      (DL_FUNC) &F77_NAME(wfunc),      16},
     {"wfuncnull",  (DL_FUNC) &F77_NAME(wfuncnull),  13},

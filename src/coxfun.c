@@ -1,5 +1,10 @@
-#include <R.h>
+#define USE_FC_LEN_T
+#include <Rconfig.h>
 #include <R_ext/BLAS.h>
+#ifndef FCONE
+# define FCONE
+#endif
+#include <R.h>
 #include <Rmath.h>
 #include "sup.h"
 #include "eha_zeroin.h"
@@ -169,7 +174,7 @@ void ml_rs(int what, RiskSet *risk,
 				h21, &ione);
 		/* Update h22 (upper triangle): */
 		F77_CALL(dsyr)(&up, &p, &gil, (x + p * who), &ione, 
-			       d2loglik, &p);
+			       d2loglik, &p FCONE);
 	    }
 	}
     }
@@ -191,14 +196,14 @@ void ml_rs(int what, RiskSet *risk,
 		F77_CALL(daxpy)(&p, &hil, (x + p * who), &ione, 
 				h21, &ione);
 		F77_CALL(dsyr)(&up, &p, &hil, (x + p * who), &ione,
-			       d2loglik, &p);
+			       d2loglik, &p FCONE);
 	    }
 	}
     }
 
     if (what >= 2){
 	h11 = -one / h11;
-	F77_CALL(dsyr)(&up, &p, &h11, h21, &ione, d2loglik, &p);
+	F77_CALL(dsyr)(&up, &p, &h11, h21, &ione, d2loglik, &p FCONE);
     }
 }
 
@@ -278,7 +283,7 @@ void breslow_rs(int what, RiskSet *risk,
 	    if (what >= 2){ /* Second derivatives: */
 		F77_CALL(dsyr)(&up, &p, (wsc + i), 
 			       (x + p * who), &ione,
-			       sumd2score, &p);
+			       sumd2score, &p FCONE);
 	    }
 	}
     }
@@ -296,7 +301,7 @@ void breslow_rs(int what, RiskSet *risk,
 			    d2loglik, &ione);
 	    alpha = -alpha / sumscore;
 	    F77_CALL(dsyr)(&up, &p, &alpha, sumdscore, &ione,
-			   d2loglik, &p);
+			   d2loglik, &p FCONE);
 	}
     }
     Free(wsc);
@@ -381,7 +386,7 @@ C     Local (note the deviation from strict standard here!):
 	    if (what >= 2){
 		F77_CALL(dsyr)(&up, &p, (wsc + i),
                                (x + p * who), &ione, 
-                               sumd2score, &p);
+                               sumd2score, &p FCONE);
 /*		F77_CALL(dger)(&p, &p, (score + who), (x + p * who), &ione,
 		(x + p * who), &ione, sumd2score, &p); */
 		
@@ -406,7 +411,7 @@ C     Local (note the deviation from strict standard here!):
 		alpha = -risk->rs_weight / 
 		    (sumscore * sumscore);
 		F77_CALL(dsyr)(&up, &p, &alpha, sumdscore, &ione, 
-		d2loglik, &p); 
+		d2loglik, &p FCONE); 
 /*		F77_CALL(dger)(&p, &p, &alpha, sumdscore, &ione, 
 			       sumdscore, &ione, d2loglik, &p); */
 	    }
@@ -424,7 +429,7 @@ C     Local (note the deviation from strict standard here!):
 		if (what >= 2){ /* second derivatives */
 		    F77_CALL(dsyr)(&up, &p, (wsc + i), 
 				   (x + p * who), &ione,
-				   ed2score, &p); 
+				   ed2score, &p FCONE); 
 /*	       F77_CALL(dger)(&p, &p, (score + who), (x + p * who), &ione,
 	       (x + p * who), &ione, ed2score, &p); */
 		}
@@ -457,7 +462,7 @@ C     Local (note the deviation from strict standard here!):
 				    d2loglik, &ione);
 		    alpha = -one * risk->rs_weight;
 		    F77_CALL(dsyr)(&up, &p, &alpha, temp, &ione,
-				   d2loglik, &p);
+				   d2loglik, &p FCONE);
 		}
 	    }
 	}
@@ -531,7 +536,7 @@ void coxfun(int what, int totrs, RiskSet *risks,
     /* F77_CALL(dcopy)(&nn, offset, &ione, lin, &ione); */
     for (m = 0; m < nn; m++) lin[m] = 0.0;
     F77_CALL(dgemv)(&trans, &p, &nn, &one, x, 
-		    &p, b, &ione, &one, lin, &ione); 
+		    &p, b, &ione, &one, lin, &ione FCONE); 
     /* for (m = 0; m < nn; m++) score[m] = exp(lin[m]); */
 
     /* Start walking thru risksets: */

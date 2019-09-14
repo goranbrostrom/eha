@@ -1,5 +1,10 @@
-#include <R.h>
+#define USE_FC_LEN_T
+#include <Rconfig.h>
 #include <R_ext/BLAS.h>
+#ifndef FCONE
+# define FCONE
+#endif
+#include <R.h>
 #include <R_ext/Lapack.h>
 #include "sup.h"
 #include "coxfun.h"
@@ -129,9 +134,9 @@ static void inv_hess(double *h22, int *fail){
 
 /* Invert J, AKA h22: */ 
     
-    F77_CALL(dpotrf)(&up, &p, h22, &p, fail);
+    F77_CALL(dpotrf)(&up, &p, h22, &p, fail FCONE);
     if (!(*fail)){
-	F77_CALL(dpotri)(&up, &p, h22, &p, fail);
+	F77_CALL(dpotri)(&up, &p, h22, &p, fail FCONE);
 	if (!(*fail)){
 	    for ( i = 1; i < p; i++){
 		for (j = 0; j < i; j++){
@@ -180,7 +185,7 @@ static void n_r(int prl, int itmax, int *iter, double eps,
 /* C +++ Do it with Lapack routine 'dposv': */ 
 
 	F77_CALL(dcopy)(&p, dll, &ione, db, &ione);
-        F77_CALL(dposv)(&uplo, &p, &ione, d2ll, &p, db, &p, &info);
+        F77_CALL(dposv)(&uplo, &p, &ione, d2ll, &p, db, &p, &info FCONE);
 	if (info){
 	    *fail = info;
 	    return;
@@ -543,7 +548,7 @@ C     Only needed for calculation of selection probabilities. */
 /*	F77_CALL(dcopy)(&nn, offset, &ione, score, &ione); */
 	for (j = 0; j < nn; j++) score[j] = 0.0;
 	F77_CALL(dgemv)(&trans, &nn, &p, &one, covar, &nn, beta, &ione, &one,  
-			score, &ione);
+			score, &ione FCONE);
 	
 	for (j = 0; j < nn; j++)
 	    score[j] = exp(score[j]);

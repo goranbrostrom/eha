@@ -127,7 +127,7 @@ void aftexpsup(int *printlevel,
     Exts *ex;
     /* int iok; */
     /* int maxiter; */
-    int trace;
+    /* int trace; */
     /* int *mask; */
     /* double *xin; */
 

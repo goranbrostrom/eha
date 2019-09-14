@@ -1,4 +1,5 @@
-C +++
+
+C+++
 C
       subroutine ginit_ml(ns, antcov, loglik,
      &     h1, h2, h11, h21, h22)
@@ -200,9 +201,8 @@ C
       parameter (zero = 0.d0, one = 1.d0) 
       integer ione
       parameter (ione = 1)
-      integer trans
-      parameter (trans = 1)
-
+      character trans
+      parameter (trans = 'N')
       integer i, j, s, m, rs
       integer aindx, eindx, rsindx, sindx
 
@@ -218,7 +218,7 @@ C     *************************************************************
 C     +++ Calculate score(i), i = 1, nn:
 C
       call dcopy(nn, offset, ione, score, ione)
-      call gdgemv(trans, nn, antcov, one, covar, nn, beta, ione, one,  
+      call dgemv(trans, nn, antcov, one, covar, nn, beta, ione, one,  
      &     score, ione)
       
       do i = 1, nn
