@@ -4,15 +4,45 @@
 \alias{tpchreg}
 \title{Proportional hazards regression with piecewise constant hazards and tabular data.}
 \usage{
-tpchreg(formula, cuts, data)
+tpchreg(
+  formula,
+  data,
+  time,
+  pieces,
+  subset,
+  na.action,
+  contrasts = NULL,
+  start.coef = NULL,
+  control = list(epsilon = 1e-08, maxit = 200, trace = FALSE)
+)
 }
 \arguments{
-\item{formula}{a formula}
-
-\item{cuts}{intervals for constant hazard.}
+\item{formula}{a formula with 'oe(count, exposure) ~ x1 + ...'}
 
 \item{data}{a data frame with event, exposure, age plus covariates}
+
+\item{time}{the time variable, a factor indicating time intervals.}
+
+\item{pieces}{numeric vector of length 1 or length(levels(time)): The length(s)
+of timeintervals.}
+
+\item{subset}{subset of data, not implemented yet.}
+
+\item{na.action}{Not implemented yet.}
+
+\item{contrasts}{Not implemented yet.}
+
+\item{start.coef}{For themoment equal to zero.}
+
+\item{control}{list of control parameters for the optimization.}
 }
 \description{
 Proportional hazards regression with piecewise constant hazards and tabular data.
+}
+\note{
+This function is under development and not well ducumented for the time
+being. Use it with care, but it should work with standard (default) settings.
+}
+\seealso{
+\code{\link{oe}}.
 }

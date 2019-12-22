@@ -4,8 +4,14 @@
 \alias{ltx}
 \title{LaTeX printing of coxreg results.}
 \usage{
-ltx(x, caption = NULL, label = NULL, dr = NULL,
-  digits = max(options()$digits - 4, 3), ...)
+ltx(
+  x,
+  caption = NULL,
+  label = NULL,
+  dr = NULL,
+  digits = max(options()$digits - 4, 3),
+  ...
+)
 }
 \arguments{
 \item{x}{The output from a call to \code{coxreg}, \code{coxreg}, or

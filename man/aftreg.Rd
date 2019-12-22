@@ -4,11 +4,21 @@
 \alias{aftreg}
 \title{Accelerated Failure Time Regression}
 \usage{
-aftreg(formula = formula(data), data = parent.frame(),
-  na.action = getOption("na.action"), dist = "weibull", init,
-  shape = 0, id, param = c("lifeAcc", "lifeExp"), control = list(eps
-  = 1e-08, maxiter = 20, trace = FALSE), singular.ok = TRUE,
-  model = FALSE, x = FALSE, y = TRUE)
+aftreg(
+  formula = formula(data),
+  data = parent.frame(),
+  na.action = getOption("na.action"),
+  dist = "weibull",
+  init,
+  shape = 0,
+  id,
+  param = c("lifeAcc", "lifeExp"),
+  control = list(eps = 1e-08, maxiter = 20, trace = FALSE),
+  singular.ok = TRUE,
+  model = FALSE,
+  x = FALSE,
+  y = TRUE
+)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~
@@ -86,7 +96,7 @@ and left truncated and right censored data.
 \details{
 The parameterization is different from the one used by
 \code{\link[survival]{survreg}}, when \code{param = "lifeAcc"}. The result
-is then true acceleration of time. Then the model is
+is then true acceleration of time. Then the model is 
 
 \deqn{S(t; a, b, \beta, z) = S_0((t / \exp(b - z\beta))^{\exp(a)})}
 {S(t; a, b, beta, z) =  S_0((t/exp(b - z beta))^exp(a))}

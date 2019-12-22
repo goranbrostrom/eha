@@ -4,8 +4,7 @@
 \alias{aftreg.fit}
 \title{Parametric proportional hazards regression}
 \usage{
-aftreg.fit(X, Y, dist, param, strata, offset, init, shape, id, control,
-  pfixed)
+aftreg.fit(X, Y, dist, param, strata, offset, init, shape, id, control, pfixed)
 }
 \arguments{
 \item{X}{The design (covariate) matrix.}

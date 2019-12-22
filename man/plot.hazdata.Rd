@@ -4,10 +4,22 @@
 \alias{plot.hazdata}
 \title{Plots of survivor functions.}
 \usage{
-\method{plot}{hazdata}(x, strata = NULL, fn = c("cum", "surv", "log",
-  "loglog"), fig = TRUE, xlim = NULL, ylim = NULL, main = NULL,
-  xlab = NULL, ylab = NULL, col = "black", lty = 1,
-  printLegend = TRUE, where = NULL, ...)
+\method{plot}{hazdata}(
+  x,
+  strata = NULL,
+  fn = c("cum", "surv", "log", "loglog"),
+  fig = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = "black",
+  lty = 1,
+  printLegend = TRUE,
+  where = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{hazdata} object, typically the 'hazards' element in the

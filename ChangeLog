@@ -1,3 +1,23 @@
+2.8.0: (Dec 19, 2019)
+
+	* Rewriting tpchreg.
+	* Add tpchreg methods: print, plot, extractAIC.
+	* Add new function: oe (occurrence/exposure data).
+
+2.7.6.9200 (Dec 09, 2019)
+
+	* C header files conformed to PKG_CFLAGS=-fno-common.
+
+2.7.6.9100 (Oct 22, 2019)
+
+    * toTpch: Take care of possibly empty interval(s).
+
+2.7.6.9000: (Sep 26, 2019)
+    * tcphreg: Expanding and writing summary, print, and plot methods. Not finished yet.
+
+2.7.6: (Sep 15, 2019)
+    * cdgemv.c: Removed. Finally correct handling of C and Fortran calls to BLAS and LAPACK routines (thanks to Tomas Kalibera).
+
 2.7.5: (Sep 11, 2019)
 	* cdgemv.c: C wrapper for dgemv added as replacement for gdgemv.f (removed).
 

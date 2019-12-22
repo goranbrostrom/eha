@@ -4,9 +4,17 @@
 \alias{make.communal}
 \title{Put communals in "fixed" data frame}
 \usage{
-make.communal(dat, com.dat, communal = TRUE, start, period = 1,
-  lag = 0, surv = c("enter", "exit", "event", "birthdate"),
-  tol = 1e-04, fortran = TRUE)
+make.communal(
+  dat,
+  com.dat,
+  communal = TRUE,
+  start,
+  period = 1,
+  lag = 0,
+  surv = c("enter", "exit", "event", "birthdate"),
+  tol = 1e-04,
+  fortran = TRUE
+)
 }
 \arguments{
 \item{dat}{A data frame containing interval specified survival data and

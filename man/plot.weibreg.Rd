@@ -4,9 +4,17 @@
 \alias{plot.weibreg}
 \title{Plots output from a Weibull regression}
 \usage{
-\method{plot}{weibreg}(x, fn = c("haz", "cum", "den", "sur"),
-  main = NULL, xlim = NULL, ylim = NULL, xlab = NULL,
-  ylab = NULL, new.data = x$means, ...)
+\method{plot}{weibreg}(
+  x,
+  fn = c("haz", "cum", "den", "sur"),
+  main = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  new.data = x$means,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{weibreg} object}

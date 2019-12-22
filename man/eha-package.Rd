@@ -35,4 +35,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Göran Broström \email{goran.brostrom@umu.se}
 
+Other contributors:
+\itemize{
+  \item Jianming Jin [contributor]
+}
+
 }

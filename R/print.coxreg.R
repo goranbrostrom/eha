@@ -4,7 +4,7 @@
 #' 'difficult' objects.
 #' 
 #' Doesn't work with three-way and higher interactions, in which case
-#' \code{print.coxph} is used. Prints also output from \code{\link{mlreg}}.
+#' \code{print.coxph} is used.
 #' 
 #' @param x A \code{coxreg} object, typically the result of running
 #' \code{coxreg}

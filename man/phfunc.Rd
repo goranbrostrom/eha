@@ -4,8 +4,17 @@
 \alias{phfunc}
 \title{Loglihood function of a proportional hazards regression}
 \usage{
-phfunc(beta = NULL, lambda, p, X = NULL, Y, offset = rep(0,
-  length(Y)), ord = 2, pfixed = FALSE, dist = "weibull")
+phfunc(
+  beta = NULL,
+  lambda,
+  p,
+  X = NULL,
+  Y,
+  offset = rep(0, length(Y)),
+  ord = 2,
+  pfixed = FALSE,
+  dist = "weibull"
+)
 }
 \arguments{
 \item{beta}{Regression parameters}

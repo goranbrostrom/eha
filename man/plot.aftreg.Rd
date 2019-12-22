@@ -4,9 +4,20 @@
 \alias{plot.aftreg}
 \title{Plots output from an AFT regression}
 \usage{
-\method{plot}{aftreg}(x, fn = c("haz", "cum", "den", "sur"),
-  main = NULL, xlim = NULL, ylim = NULL, xlab = "Duration",
-  ylab = "", col, lty, printLegend = TRUE, new.data = x$means, ...)
+\method{plot}{aftreg}(
+  x,
+  fn = c("haz", "cum", "den", "sur"),
+  main = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  xlab = "Duration",
+  ylab = "",
+  col,
+  lty,
+  printLegend = TRUE,
+  new.data = x$means,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{aftreg} object}

@@ -7,15 +7,10 @@
 #include "aftreg.h"
 #include "phfun.h"
 
-/*
-int dist;
-*/      
+/*    
 ph0S_fun *S0;  
-/*
 ph0_fun *f0;
-*/   
 ph0_fun *h0;   
-/*
 ph0_fun *f0_t; 
 ph0_fun *h0_t; 
 ph0_fun *h0_tt;

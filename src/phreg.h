@@ -3,13 +3,13 @@
 
 #include "phfun.h"
 
-int dist;         /* Which distribution?           */
-ph0S_fun *S0;      /* Survival fcn (standardized!)  */
-ph0_fun *f0;      /* Density fcn                   */
-ph0_fun *h0;      /* hazard fcn                    */
-ph0_fun *f0_t;     /* First order derivativa of f0  */
-ph0_fun *h0_t;     /* First order derivative of h0  */
-ph0_fun *h0_tt;    /* Second order derivative of h0 */
+extern int dist;         /* Which distribution?           */
+extern ph0S_fun *S0;      /* Survival fcn (standardized!)  */
+extern ph0_fun *f0;      /* Density fcn                   */
+extern ph0_fun *h0;      /* hazard fcn                    */
+extern ph0_fun *f0_t;     /* First order derivativa of f0  */
+extern ph0_fun *h0_t;     /* First order derivative of h0  */
+extern ph0_fun *h0_tt;    /* Second order derivative of h0 */
 
 typedef struct{
     int *ns;

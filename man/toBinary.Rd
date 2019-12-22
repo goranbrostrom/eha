@@ -5,8 +5,12 @@
 \title{Transforms a "survival" data frame into a data frame suitable for binary
 (logistic) regression}
 \usage{
-toBinary(dat, surv = c("enter", "exit", "event"), strats,
-  max.survs = NROW(dat))
+toBinary(
+  dat,
+  surv = c("enter", "exit", "event"),
+  strats,
+  max.survs = NROW(dat)
+)
 }
 \arguments{
 \item{dat}{A data frame with three variables representing the survival

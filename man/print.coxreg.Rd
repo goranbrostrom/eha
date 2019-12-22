@@ -23,7 +23,7 @@ More "pretty-printing" than \code{print.coxph}, which is a fall-back for
 }
 \details{
 Doesn't work with three-way and higher interactions, in which case
-\code{print.coxph} is used. Prints also output from \code{\link{mlreg}}.
+\code{print.coxph} is used.
 }
 \seealso{
 \code{\link{coxreg}}, \code{\link[survival]{print.coxph}}

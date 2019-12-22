@@ -4,8 +4,16 @@
 \alias{wfunk}
 \title{Loglihood function of a Weibull regression}
 \usage{
-wfunk(beta = NULL, lambda, p, X = NULL, Y, offset = rep(0,
-  length(Y)), ord = 2, pfixed = FALSE)
+wfunk(
+  beta = NULL,
+  lambda,
+  p,
+  X = NULL,
+  Y,
+  offset = rep(0, length(Y)),
+  ord = 2,
+  pfixed = FALSE
+)
 }
 \arguments{
 \item{beta}{Regression parameters}

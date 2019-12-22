@@ -13,15 +13,15 @@
 #include "phfun.h"
 #include "loglik_ph.h"
 
-/*
+
 int dist;      
-ph0S_fun *S0;  
+ph0S_fun *S0;
 ph0_fun *f0;   
 ph0_fun *h0;   
 ph0_fun *f0_t; 
 ph0_fun *h0_t; 
 ph0_fun *h0_tt;
-*/
+
 
 
 static double ph_fun(int n, double *beta, void *vex){

@@ -1,3 +1,35 @@
+# eha 2.8.0
+
+* Rewriting *tpchreg*.
+
+* Add tpchreg methods: print, plot, extractAIC.
+
+* Add new function: *oe* (for occurrence/exposure data).
+
+* Submit to CRAN.
+
+# eha 2.7.6.9200
+
+* Fix C header and source files to conform to PKG_CFLAGS=-fno-common.
+
+# eha 2.7.6.9100
+
+* *tpchreg*: Preparations for pretty-printing.
+
+* *print.tpchreg*: Printing method for tpchreg objects introduced. 
+
+# eha 2.7.6.9010
+
+* *toTpch*: Take care of possibly empty interval(s). 
+
+# eha 2.7.6.9000
+
+* Work on *tpchreg*, and adding summary, print, and plot methods.
+    
+# eha 2.7.6
+
+* Release to CRAN accepted (finally).
+
 # eha 2.7.5
 
 * More fixes to work around the gfortran bug. 

@@ -4,10 +4,21 @@
 \alias{plot.coxreg}
 \title{Plot method for \code{coxreg} objects}
 \usage{
-\method{plot}{coxreg}(x, fn = c("cum", "surv", "log", "loglog"),
-  fig = TRUE, xlim = NULL, ylim = NULL, main = NULL,
-  xlab = "Duration", ylab = "", col, lty, printLegend = TRUE,
-  newdata = NULL, ...)
+\method{plot}{coxreg}(
+  x,
+  fn = c("cum", "surv", "log", "loglog"),
+  fig = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  main = NULL,
+  xlab = "Duration",
+  ylab = "",
+  col,
+  lty,
+  printLegend = TRUE,
+  newdata = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{coxreg} object}
