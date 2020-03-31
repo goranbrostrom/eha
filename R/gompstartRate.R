@@ -1,4 +1,4 @@
-gompstartRate <- function(enter, exit, event, score){
+gompstartRate <- function(enter, exit, event, score, simple = TRUE){
     ## Gives start values for Gompertz parameters
     ## To be used only in phreg with 'rate' parametrization:
     ## h(t) = exp(shape + rate * t).
@@ -15,6 +15,14 @@ gompstartRate <- function(enter, exit, event, score){
     D <- sum(event)
     logD <- log(D)
     DT <- sum(exit * event)
+
+    if (simple){ # Assume exponential distribution
+        rate <- 0.0
+        shape <- D / sum(exit - enter)
+        ret <- c(rate, shape)
+        names(ret) <- c("rate", "shape")
+        return(ret)
+    }
 
     shape.rate <- function(rate){
         eshape <- D * rate / sum(exp(score) * (exp(rate * exit) - exp(rate * enter)))
