@@ -13,6 +13,7 @@ BugReports: https://github.com/goranbrostrom/eha/issues
 License: GPL (>= 2)
 LazyData: yes
 ByteCompile: yes
+URL: https://goranbrostrom.github.io/eha/
 Authors@R: c(person("Göran", "Broström", role = c("aut", "cre"),
                     email = "goran.brostrom@umu.se"),
 	     person("Jianming", "Jin", role = "ctb"))
