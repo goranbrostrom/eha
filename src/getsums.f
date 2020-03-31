@@ -104,7 +104,7 @@ C      include 'optcom.inc'
       double precision szz(k * (k + 1) / 2)
 
 C +++ Local:
-      integer i, index
+      integer i, j1, index
 
       double precision wtime
       integer wind
@@ -116,18 +116,18 @@ C +++ Local:
       sy = zero
       syy = zero
 
-C      do 10 j1 = 1, k
-C       sz(j1) = zero
-C       syz(j1) = zero
-C   10 continue
-      call dcopy(k, zero, 0, sz, 1)
-      call dcopy(k, zero, 0, syz, 1)
+      do 10 j1 = 1, k
+         sz(j1) = zero
+         syz(j1) = zero
+   10 continue
+C      call dcopy(k, zero, 0, sz, 1) Pleases Brian 21 feb 2020
+C      call dcopy(k, zero, 0, syz, 1) ditto
 
       index = k * (k + 1) / 2 
-C      do 20 j1 = 1, index
-C       szz(j1) = zero
-C   20 continue
-      call dcopy(index, zero, 0, szz, 1)
+      do 20 j1 = 1, index
+         szz(j1) = zero
+   20 continue
+C      call dcopy(index, zero, 0, szz, 1) ditto
 
       do 100 i = 1, nn
 C         call GetRec(i, wtime, th0,
