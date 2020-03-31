@@ -27,7 +27,7 @@ NULL.} \item{riskset}{If 'members' is TRUE, a vector of pointers to the
 members of the risk sets, in order. The 'n.events' first are the events. If
 'members' is FALSE, 'riskset' is NULL.} \item{size}{The sizes of the risk
 sets.} \item{n.events}{The number of events in each risk set.}
-\item{sample_fraction}{The sampling fraction of survivors in each risk set.
+\item{sample_fraction}{If 'members' is TRUE, the sampling fraction of survivors in each risk set.
 }
 }
 \description{
@@ -38,7 +38,7 @@ If the input argument max.survs is left alone, all survivors are accounted
 for in all risk sets.
 }
 \note{
-can be used to "sample the risk sets".
+Can be used to "sample the risk sets".
 }
 \examples{
 

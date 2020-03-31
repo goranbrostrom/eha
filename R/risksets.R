@@ -20,9 +20,9 @@
 #' members of the risk sets, in order. The 'n.events' first are the events. If
 #' 'members' is FALSE, 'riskset' is NULL.} \item{size}{The sizes of the risk
 #' sets.} \item{n.events}{The number of events in each risk set.}
-#' \item{sample_fraction}{The sampling fraction of survivors in each risk set.
+#' \item{sample_fraction}{If 'members' is TRUE, the sampling fraction of survivors in each risk set.
 #' }
-#' @note can be used to "sample the risk sets".
+#' @note Can be used to "sample the risk sets". 
 #' @author Göran Broström
 #' @seealso \code{\link{table.events}}, \code{\link{coxreg}}.
 #' @keywords survival
@@ -92,7 +92,7 @@ risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
   counts$size <- counts$size[1:counts$totrs]
 
   totsize <- sum(counts$size)
-  if (totsize >= 2^31) stop("Too large  risk sets.") 
+  if (totsize >= 2^31 & members) stop("Too large  risk sets.") 
   totevents <- sum(counts$n.events)
 
   Eventset <- NULL
@@ -138,11 +138,18 @@ risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
              antrs = counts$antrs,
              risktimes = counts$risktimes,
              n.events = counts$n.events,
-             ##size = counts$size,
-             size = Size,
-             eventset = Eventset,
-             riskset = Riskset,
-             sample_fraction = sample_fraction)
+             size = counts$size,
+             ##size = Size,
+             ##eventset = Eventset,
+             ##riskset = Riskset,
+             ##sample_fraction = sample_fraction
+             )
+  if (members){
+    rs$size <- Size
+    rs$eventset <- Eventset
+    rs$riskset <- Riskset
+    rs$sample_fraction <- sample_fraction
+  }
   class(rs) <- "risksets"
   
   invisible(rs)
