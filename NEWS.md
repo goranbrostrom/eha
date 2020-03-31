@@ -4,6 +4,8 @@
 
 * *getsums.f*: Replace 'dcopy' in three instances to please gfortran 10. 
 
+* *risksets*: Bug fix: Now works when members = FALSE.
+
 # eha 2.8.0
 
 * Rewriting *tpchreg*.
