@@ -138,7 +138,7 @@ risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
              antrs = counts$antrs,
              risktimes = counts$risktimes,
              n.events = counts$n.events,
-             size = counts$size,
+             size = counts$size
              ##size = Size,
              ##eventset = Eventset,
              ##riskset = Riskset,
