@@ -1,4 +1,14 @@
-2.8.0: (Dec 19, 2019)
+2.8.1 (Mar 31, 2020)
+    * Published on CRAN.
+    
+2.8.0.9050 (Mar 3, 2020)
+	* gompstartRate: Simpler starting values introduced (internal).
+	* risksets: Bug fix: Now works when 'members = FALSE'.
+
+2.8.0.9000 (Feb 21, 2020)
+	* getsums.f: Replace 'dcopy' in three instances to please gfortran 10. 
+
+2.8.0 (Dec 19, 2019)
 
 	* Rewriting tpchreg.
 	* Add tpchreg methods: print, plot, extractAIC.

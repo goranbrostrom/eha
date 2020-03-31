@@ -1,3 +1,9 @@
+# eha 2.8.1
+
+* *gompstartRate*: Simpler starting values introduced (internal).
+
+* *getsums.f*: Replace 'dcopy' in three instances to please gfortran 10. 
+
 # eha 2.8.0
 
 * Rewriting *tpchreg*.
