@@ -2,19 +2,12 @@
 % Please edit documentation in R/tpchreg.R
 \name{tpchreg}
 \alias{tpchreg}
-\title{Proportional hazards regression with piecewise constant hazards and tabular data.}
+\title{Proportional hazards regression with piecewise constant hazards and tabular 
+data.}
 \usage{
-tpchreg(
-  formula,
-  data,
-  time,
-  pieces,
-  subset,
-  na.action,
-  contrasts = NULL,
-  start.coef = NULL,
-  control = list(epsilon = 1e-08, maxit = 200, trace = FALSE)
-)
+tpchreg(formula, data, time, subset, na.action, contrasts = NULL,
+start.coef = NULL, 
+control = list(epsilon = 1.e-8, maxit = 200, trace = FALSE))
 }
 \arguments{
 \item{formula}{a formula with 'oe(count, exposure) ~ x1 + ...'}
@@ -23,24 +16,22 @@ tpchreg(
 
 \item{time}{the time variable, a factor indicating time intervals.}
 
-\item{pieces}{numeric vector of length 1 or length(levels(time)): The length(s)
-of timeintervals.}
-
 \item{subset}{subset of data, not implemented yet.}
 
 \item{na.action}{Not implemented yet.}
 
 \item{contrasts}{Not implemented yet.}
 
-\item{start.coef}{For themoment equal to zero.}
+\item{start.coef}{For the moment equal to zero.}
 
 \item{control}{list of control parameters for the optimization.}
 }
 \description{
-Proportional hazards regression with piecewise constant hazards and tabular data.
+Proportional hazards regression with piecewise constant hazards and tabular 
+data.
 }
 \note{
-This function is under development and not well ducumented for the time
+This function is under development and not well documented for the time
 being. Use it with care, but it should work with standard (default) settings.
 }
 \seealso{

@@ -77,7 +77,8 @@ plot.phreg <- function(x,
         scale <- exp(x$coefficients[ncov + (1:ns) * 2 - 1])
     }
 
-    if (ncov && x$center){# New in 2.4-0:
+    if (FALSE){ # x$center deprecated, fix newdata later...
+    ##if (ncov && x$center){# New in 2.4-0:
         score <- exp(sum(x$means * x$coefficients[1:ncov]))
     }else{
         score <- 1

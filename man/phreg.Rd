@@ -18,7 +18,7 @@ phreg(
   model = FALSE,
   x = FALSE,
   y = TRUE,
-  center = TRUE
+  center = NULL
 )
 }
 \arguments{
@@ -71,33 +71,44 @@ the other(s).}
 
 \item{y}{Return the response in the model object?}
 
-\item{center}{Logical, only affects plotting. Results are reported as is,
-without centering. See Details.}
+\item{center}{Is now deprecated.}
 }
 \value{
 A list of class \code{c("phreg", "coxreg")} with components
-\item{coefficients}{Fitted parameter estimates.} \item{cuts}{Cut points for
-the "pch" distribution. \code{NULL} otherwise.} \item{hazards}{The estimated
+\item{coefficients}{Fitted parameter estimates.} 
+\item{cuts}{Cut points for
+the "pch" distribution. \code{NULL} otherwise.} 
+\item{hazards}{The estimated
 constant levels in the case of the "pch" distribution. \code{NULL}
-otherwise.} \item{var}{Covariance matrix of the estimates.}
+otherwise.} 
+\item{var}{Covariance matrix of the estimates.}
 \item{loglik}{Vector of length two; first component is the value at the
 initial parameter values, the second componet is the maximized value.}
 \item{score}{The score test statistic (at the initial value).}
 \item{linear.predictors}{The estimated linear predictors.}
 \item{means}{Means of the columns of the design matrix, except those columns
-corresponding to a factor level, if \code{center = TRUE}. Otherwise all
-zero.} \item{w.means}{Weighted (against exposure time) means of covariates;
-weighted relative frequencies of levels of factors.} \item{n}{Number of
+corresponding to a factor level. Otherwise all
+zero.} 
+\item{w.means}{Weighted (against exposure time) means of covariates;
+weighted relative frequencies of levels of factors.} 
+\item{n}{Number of
 spells in indata (possibly after removal of cases with NA's).}
-\item{events}{Number of events in data.} \item{terms}{Used by extractor
-functions.} \item{assign}{Used by extractor functions.} %
+\item{events}{Number of events in data.} 
+\item{terms}{Used by extractor functions.} 
+\item{assign}{Used by extractor functions.} %
 \item{wald.test}{The Wald test statistic (at the initial value).}
-\item{y}{The Surv vector.} \item{isF}{Logical vector indicating the
-covariates that are factors.} \item{covars}{The covariates.}
-\item{ttr}{Total Time at Risk.} \item{levels}{List of levels of factors.}
-\item{formula}{The calling formula.} \item{call}{The call.}
-\item{method}{The method.} \item{convergence}{Did the optimization
-converge?} \item{fail}{Did the optimization fail? (Is \code{NULL} if not).}
+\item{y}{The Surv vector.} 
+\item{isF}{Logical vector indicating the
+covariates that are factors.} 
+\item{covars}{The covariates.}
+\item{ttr}{Total Time at Risk.} 
+\item{levels}{List of levels of factors.}
+\item{formula}{The calling formula.} 
+\item{call}{The call.}
+\item{method}{The method.} 
+\item{convergence}{Did the optimization
+converge?} 
+\item{fail}{Did the optimization fail? (Is \code{NULL} if not).}
 \item{pfixed}{TRUE if shape was fixed in the estimation.}
 }
 \description{
@@ -113,15 +124,6 @@ modelling function). The model is \deqn{S(t; a, b, \beta, z) =
 S_0((t/b)^a)^{\exp((z-mean(z))\beta)}}{% S(t; a, b, beta, z) =
 S0((t/b)^a)^exp((z - mean(z)) beta)} where S0 is some standardized survivor
 function.
-
-If \code{center = TRUE} (default), graphs show the "baseline" distribution
-at the means of (continuous) covariates, and for the reference category in
-case of factors (avoiding representing "flying pigs"). If \code{center =
-FALSE} the baseline distribution is at the value zero of all covariates. It
-is usually a good idea to use \code{center = FALSE} in combination with
-"precentering" of covariates, that is, subtracting a reference value,
-ideally close to the center of the covariate distribution. In that way, the
-"reference" will be the same for all subsets of the data.
 }
 \note{
 The lognormal and loglogistic baseline distributions are extended to a

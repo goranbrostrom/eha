@@ -51,12 +51,12 @@ check.dist <- function(sp, pp, main = NULL, col = NULL, printLegend = TRUE){
     if (!inherits(pp, "phreg"))
         stop ("Some argument must be of type 'phreg' or 'pchreg'")
 
-    if (!sp$nullModel){
-        if ((!sp$center) && pp$center)
-            warning("The non-parametric fit is not centered.") 
-        if ((!pp$center) && sp$center)
-            warning("The parametric fit is not centered.")
-    }
+    ##if (!sp$nullModel){ # NOTE: 'center' is deprecated in both!
+      ##  if ((!sp$center) && pp$center)
+        ##    warning("The non-parametric fit is not centered.") 
+    ##    if ((!pp$center) && sp$center)
+      ##      warning("The parametric fit is not centered.")
+    ##}
     if ((!is.null(sp$strata)) || (!is.null(pp$strata)))
         stop("Not for stratified fits; try a comparison stratum by stratum.") 
     if (is.null(main)){

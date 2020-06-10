@@ -7,13 +7,14 @@
 oe(count, exposure)
 }
 \arguments{
-\item{count}{Number of events, a non-negative integer.}
+\item{count}{Number of events, a non-negative integer-valued vector.}
 
-\item{exposure}{exposure time corresponding to count. A positive numeric vector.}
+\item{exposure}{exposure time corresponding to count. 
+A positive numeric vector.}
 }
 \description{
-Create an \emph{oe} ("occurrence/exposure") object, used as a response variable in a model formula
-specifically in tpchreg.
+Create an \emph{oe} ("occurrence/exposure") object, used as a response 
+variable in a model formula specifically in \code{\link{tpchreg}}.
 }
 \seealso{
 \code{\link{tpchreg}}.

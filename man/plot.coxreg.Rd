@@ -7,15 +7,16 @@
 \method{plot}{coxreg}(
   x,
   fn = c("cum", "surv", "log", "loglog"),
+  conf.int = FALSE,
   fig = TRUE,
   xlim = NULL,
   ylim = NULL,
   main = NULL,
   xlab = "Duration",
   ylab = "",
-  col,
-  lty,
-  printLegend = TRUE,
+  col = 1,
+  lty = 1,
+  printLegend = FALSE,
   newdata = NULL,
   ...
 )
@@ -25,6 +26,8 @@
 
 \item{fn}{What should be plotted? Default is "cumhaz", and the other choices
 are "surv", "log", and "loglog".}
+
+\item{conf.int}{logical or a value like 0.95 (default for one curve).}
 
 \item{fig}{logical. If \code{TRUE} the plot is actually drawn, otherwise
 only the coordinates of the curve(s) are returned.}
@@ -46,10 +49,10 @@ only the coordinates of the curve(s) are returned.}
 \item{printLegend}{Either a logical or a text string; if \code{TRUE}, a
 legend is printed at a default place, if \code{FALSE}, no legend is printed.
 Otherwise, if a text string, it should be one of "bottomleft",
-"bottomright", "topleft", etc., see \code{\link{legend}} for all possibe
+"bottomright", "topleft", etc., see \code{\link{legend}} for all possible
 choices.}
 
-\item{newdata}{Not used}
+\item{newdata}{Not used yet.}
 
 \item{...}{Other parameters to pass to the plot.}
 }
@@ -59,5 +62,5 @@ curve(s).
 }
 \description{
 A plot of a baseline function of a \code{coxreg} fit is produced, one curve
-for each stratum.
+for each stratum. A wrapper for \code{plot.survfit} in \code{\link{survival}}.
 }

@@ -1,6 +1,29 @@
+2.8.1.9200 (June 9, 2020)
+    * coxreg revised for "coxhp case".
+    * plot.coxreg rewritten, using survival::(survfit, plot.survfit)
+    * toTpch: Bug fixed.
+    * nobs.coxreg: Changed to count events instead of rows (bug fix).
+    * plot.hazards: Removed.
+    * plot.hazdata: Removed.
+    
+2.8.1.9150 (june 7, 2020)
+    * coxreg: Arguments 'hazards' and 'center' deprecated.
+    * phreg: Argument 'center' deprecated.
+    * Bugs (some ...) fixed.
+    
+2.8.1.9100 (June 6, 2020)
+    * coxreg: Default values of arguments 'hazards' and 'center' changed to FALSE.
+              A null model output has a 'terms' added.
+              
+2.8.1.9050 (Jun 4, 2020)
+    * tpchreg: Argument 'pieces' removed (is now calculated from 'time').
+
+2.8.1.9000 (Jun 3, 2020)
+	* tpchreg: and friends. Work continues.
+
 2.8.1 (Mar 31, 2020)
     * Published on CRAN.
-    
+
 2.8.0.9050 (Mar 3, 2020)
 	* gompstartRate: Simpler starting values introduced (internal).
 	* risksets: Bug fix: Now works when 'members = FALSE'.

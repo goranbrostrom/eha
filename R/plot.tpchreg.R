@@ -54,7 +54,7 @@ plot.tpchreg <- function(x,
         on.exit(par(oldpar))
     }
     if (is.null(xlim)){
-        xlim <- c(0, sum(x$pieces))
+        xlim <- range(x$cuts)
     }
     npts <- 4999
     ns <- NROW(x$hazards)
@@ -63,13 +63,15 @@ plot.tpchreg <- function(x,
     sur <- haz
     Haz <- haz
     ## hazard
-    cuts <- cumsum(x$pieces)
-    cuts <- cuts[-length(cuts)]
+    cuts <- x$cuts - x$cuts[1]
+    cuts <- cuts[-c(1, length(cuts))]
+    
+    ##cuts <- cuts[-length(cuts)]
         for (i in 1:ns){
-            haz[i, ] <- hpch(xx, cuts, x$hazards[i, ])
-            sur[i, ] <- ppch(xx, cuts, x$hazards[i, ],
+            haz[i, ] <- hpch(xx - x$cuts[1], cuts, x$hazards[i, ])
+            sur[i, ] <- ppch(xx - x$cuts[1], cuts, x$hazards[i, ],
                              lower.tail = FALSE)
-            Haz[i, ] <- Hpch(xx, cuts, x$hazards[i, ])
+            Haz[i, ] <- Hpch(xx - x$cuts[1], cuts, x$hazards[i, ])
         }
         dist <- "Pcwise const"
 
@@ -111,7 +113,7 @@ plot.tpchreg <- function(x,
         }
         if (is.logical(printLegend)){
             if ((ns > 1) && printLegend){
-                legend(x = "bottomright",  legend = x$strata, lty = lty,
+                legend(x = "topleft",  legend = x$strata, lty = lty,
                        inset = 0.001,
                        col = col)
             }

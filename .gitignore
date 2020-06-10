@@ -10,3 +10,6 @@ src/*~
 R/*~
 inst/doc
 revdep
+docs/
+_pkgdown.yml
+

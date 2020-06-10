@@ -1,7 +1,8 @@
-#' LaTeX printing of coxreg results.
+#' LaTeX printing of regression results.
 #' 
 #' This (generic) function prints the LaTeX code of the results of a fit from
-#' \code{\link{coxreg}}, \code{\link{phreg}}, or \code{\link{aftreg}}, similar
+#' \code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{tpchreg}}, 
+#' or \code{\link{aftreg}}, similar
 #' to what \code{xtable} does for fits from other functions.
 #' 
 #' The result is a printout which is (much) nicer than the standard printed
@@ -15,10 +16,13 @@
 #' @param digits Number of digits to be printed.
 #' @param \dots Not used.
 #' @return LaTeX code version of the results from a run with
-#' \code{\link{coxreg}}, \code{\link{phreg}}, or \code{\link{aftreg}}.
-#' @note There is no method in \code{xtable} for \code{coxreg}.
+#' \code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{phreg}}, 
+#' or \code{\link{aftreg}}.
+#' @note There is no method in \code{xtable} for \code{coxreg} and
+#' friends.
 #' @author Göran Broström.
-#' @seealso \code{xtable}, \code{\link{coxreg}}
+#' @seealso \code{xtable}, \code{\link{coxreg}}, \code{\link{phreg}}, 
+#' \code{\link{phreg}}, and \code{\link{aftreg}}.
 #' @keywords printing
 #' @examples
 #' 

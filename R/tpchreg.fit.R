@@ -1,6 +1,5 @@
-tpchreg.fit <- function(X, count, exposure, offset, strata, time, pieces){
+tpchreg.fit <- function(X, count, exposure, offset, strata, time){
     ##print(str(time))
-    names(pieces) <- levels(time)
     ivl <- as.integer(time)
     ##cat("unique(time) = ", unique(time), "\n")
     nn <- length(count)

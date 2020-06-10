@@ -7,8 +7,8 @@
 coxreg(formula = formula(data), data = parent.frame(), weights,
 subset, t.offset, na.action = getOption("na.action"), init = NULL, method =
 c("efron", "breslow", "mppl", "ml"), control = list(eps = 1e-08, maxiter =
-25, trace = FALSE), singular.ok = TRUE, model = FALSE, center = TRUE, x =
-FALSE, y = TRUE, hazards = TRUE, boot = FALSE, efrac = 0, geometric = FALSE,
+25, trace = FALSE), singular.ok = TRUE, model = FALSE, center, x =
+FALSE, y = TRUE, hazards, boot = FALSE, efrac = 0, geometric = FALSE,
 rs = NULL, frailty = NULL, max.survs = NULL)
 }
 \arguments{
@@ -45,15 +45,14 @@ the other(s).}
 
 \item{model}{Not used}
 
-\item{center}{Logical. If \code{center = TRUE} (default), the baseline
-hazards are calculated at the means of the covariates and for the reference
-category for factors, otherwise at the value zero. See Details.}
+\item{center}{deprecated. See Details.}
 
 \item{x}{Return the design matrix in the model object?}
 
 \item{y}{return the response in the model object?}
 
-\item{hazards}{Calculate baseline hazards? Default is TRUE.}
+\item{hazards}{deprecated. Was: Calculate baseline hazards? Default is TRUE.
+Calculating hazards is better done separately, after fitting.}
 
 \item{boot}{Number of boot replicates. Defaults to FALSE, no boot samples.}
 
@@ -64,7 +63,7 @@ probability. Default is FALSE.}
 
 \item{rs}{Risk set?}
 
-\item{frailty}{Grouping variable for frailty analysis. Not in use yet.}
+\item{frailty}{Grouping variable for frailty analysis. Not in use (yet).}
 
 \item{max.survs}{Sampling of risk sets? If given, it should be (the upper
 limit of) the number of survivors in each risk set.}
@@ -120,15 +119,6 @@ The default method, \code{efron}, and the alternative, \code{breslow}, are
 both the same as in \code{\link[survival]{coxph}} in package
 \code{survival}. The methods \code{mppl} and \code{ml} are maximum
 likelihood, discrete-model, based.
-
-If \code{center = TRUE} (default), graphs show the "baseline" distribution
-at the means of (continuous) covariates, and for the reference category in
-case of factors (avoiding representing "flying pigs"). If \code{center =
-FALSE} the baseline distribution is at the value zero of all covariates. It
-is usually a good idea to use \code{center = FALSE} in combination with
-"precentering" of covariates, that is, subtracting a reference value,
-ideally close to the center of the covariate distribution. In that way, the
-"reference" will be the same for all subsets of the data.
 }
 \note{
 This function starts by creating risksets, if no riskset is supplied

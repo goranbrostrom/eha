@@ -2,7 +2,7 @@
 % Please edit documentation in R/ltx.R
 \name{ltx}
 \alias{ltx}
-\title{LaTeX printing of coxreg results.}
+\title{LaTeX printing of regression results.}
 \usage{
 ltx(
   x,
@@ -29,11 +29,13 @@ ltx(
 }
 \value{
 LaTeX code version of the results from a run with
-\code{\link{coxreg}}, \code{\link{phreg}}, or \code{\link{aftreg}}.
+\code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{phreg}}, 
+or \code{\link{aftreg}}.
 }
 \description{
 This (generic) function prints the LaTeX code of the results of a fit from
-\code{\link{coxreg}}, \code{\link{phreg}}, or \code{\link{aftreg}}, similar
+\code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{tpchreg}}, 
+or \code{\link{aftreg}}, similar
 to what \code{xtable} does for fits from other functions.
 }
 \details{
@@ -41,7 +43,8 @@ The result is a printout which is (much) nicer than the standard printed
 output from \code{glm} and friends,
 }
 \note{
-There is no method in \code{xtable} for \code{coxreg}.
+There is no method in \code{xtable} for \code{coxreg} and
+friends.
 }
 \examples{
 
@@ -52,7 +55,8 @@ ltx(fit, dr = dr, caption = "A test example.", label = "tab:test1")
 
 }
 \seealso{
-\code{xtable}, \code{\link{coxreg}}
+\code{xtable}, \code{\link{coxreg}}, \code{\link{phreg}}, 
+\code{\link{phreg}}, and \code{\link{aftreg}}.
 }
 \author{
 Göran Broström.

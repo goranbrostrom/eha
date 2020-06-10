@@ -1,11 +1,12 @@
 #' Plot method for \code{coxreg} objects
 #' 
 #' A plot of a baseline function of a \code{coxreg} fit is produced, one curve
-#' for each stratum.
+#' for each stratum. A wrapper for \code{plot.survfit} in \code{\link{survival}}.
 #' 
 #' @param x A \code{coxreg} object
 #' @param fn What should be plotted? Default is "cumhaz", and the other choices
 #' are "surv", "log", and "loglog".
+#' @param conf.int logical or a value like 0.95 (default for one curve).
 #' @param fig logical. If \code{TRUE} the plot is actually drawn, otherwise
 #' only the coordinates of the curve(s) are returned.
 #' @param xlim Start and end of the x axis.
@@ -18,58 +19,64 @@
 #' @param printLegend Either a logical or a text string; if \code{TRUE}, a
 #' legend is printed at a default place, if \code{FALSE}, no legend is printed.
 #' Otherwise, if a text string, it should be one of "bottomleft",
-#' "bottomright", "topleft", etc., see \code{\link{legend}} for all possibe
+#' "bottomright", "topleft", etc., see \code{\link{legend}} for all possible
 #' choices.
-#' @param newdata Not used
+#' @param newdata Not used yet.
 #' @param ... Other parameters to pass to the plot.
 #' @return An object of class \code{hazdata} containing the coordinates of the
 #' curve(s).
 #' @export
 plot.coxreg <- function(x,
                         fn = c("cum", "surv", "log", "loglog"),
+                        conf.int = FALSE,
                         fig = TRUE,
                         xlim = NULL,
                         ylim = NULL,
                         main = NULL,
                         xlab = "Duration",
                         ylab = "",
-                        col,
-                        lty, 
-                        printLegend = TRUE,
+                        col = 1,
+                        lty = 1, 
+                        printLegend = FALSE,
                         newdata = NULL,
                         ...){
-   if (!inherits(x, c("coxreg"))) stop("Works only with 'coxreg' objects")
-   if (!is.null(x$hazards)){
-       y <- x$hazards
+   if (!inherits(x, c("coxreg", "coxph"))){
+      stop("Works only with 'coxreg' and 'coxph' objects")
+   }
+   class(x) <- "coxph"
+   fn <- fn[1]
+   if (fn == "cum"){
+      fn = "cumhaz"
    }else{
-       if (!is.null(x$stratum)){
-           if(x$nullModel){
-               y <- with(x, getHaz(y, stratum, rep(1, NROW(y))))
-           }else{
-               y <- with(x, getHaz(y, stratum, exp(linear.predictors)))
-           }
-       }else{
-           if (x$nullModel){
-               y <- with(x, getHaz(y, rep(1, NROW(y)), rep(1, NROW(y))))
-           }else{
-               y <- getHaz(x$y, rep(1, length(x$linear.predictors)),
-                           exp(x$linear.predictors))
-           }
-       }
+      if (fn == "loglog"){
+         fn = "cloglog"
+      }
    }
-    if (missing(col)) col <- "black"
-   if (missing(lty)) lty <- 1
-   if (fig){
-       if (is.logical(printLegend)){
-           where <- NULL
-       }else{
-           where <- printLegend
-           printLegend <- TRUE
-       }
-       plot.hazdata(y, strata = x$strata, fn = fn, fig = fig,
-                    xlim = xlim, ylim = ylim, main = main,
-                    xlab = xlab, ylab = ylab, lty = lty, col = col,
-                    printLegend = printLegend, where = where, ...)
+   
+   if (is.null(xlim)) {
+      if (NCOL(x$y) == 3){
+         xlim <- c(min(as.numeric(x$y[, 1])), max(as.numeric(x$y[, 2])))
+      }
    }
-   invisible(y)
+   if (is.null(ylim)){
+      
+   }
+   
+   if (FALSE){
+   ##if (!is.null(x$nullModel) && x$nullModel){ # NOT NEEDED!!!
+      ## Null model and from coxreg...
+      plot(x$y ~ 1, fun = fn, xlab = xlab, ylab = ylab, main = main, 
+           xlim = xlim, col = col, lty = lty, conf.int = conf.int)
+      if (printLegend && length(x$stratum)){
+         legend("bottom", legend = x$stratum, lty = lty, col = col)
+      }
+         
+   }else{
+      plot(survival::survfit(x), fun = fn, xlab = xlab, ylab = ylab, 
+           main = main, xlim = xlim, col = col, lty = lty, conf.int = conf.int)
+      if (printLegend && length(x$stratum) >= 2){
+         legend("bottom", legend = x$stratum, lty = lty, col = col)
+      } 
+   }
+   ##invisible(y)
 }

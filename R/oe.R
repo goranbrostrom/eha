@@ -1,10 +1,12 @@
 #' Create an oe object
 #'
-#' Create an \emph{oe} ("occurrence/exposure") object, used as a response variable in a model formula
-#' specifically in tpchreg. 
-
-#'@param count Number of events, a non-negative integer.
-#'@param exposure exposure time corresponding to count. A positive numeric vector.
+#' Create an \emph{oe} ("occurrence/exposure") object, used as a response 
+#' variable in a model formula specifically in \code{\link{tpchreg}}. 
+#'
+#' @usage oe(count, exposure)
+#' @param count Number of events, a non-negative integer-valued vector.
+#' @param exposure exposure time corresponding to count. 
+#' A positive numeric vector.
 #'
 #'@seealso \code{\link{tpchreg}}.
 #'@export

@@ -1,17 +1,20 @@
-#' Proportional hazards regression with piecewise constant hazards and tabular data.
+#' Proportional hazards regression with piecewise constant hazards and tabular 
+#' data.
+#' 
+#' @usage tpchreg(formula, data, time, subset, na.action, contrasts = NULL,
+#' start.coef = NULL, 
+#' control = list(epsilon = 1.e-8, maxit = 200, trace = FALSE))
 #' 
 #' @param formula a formula with 'oe(count, exposure) ~ x1 + ...'
 #' @param data a data frame with event, exposure, age plus covariates
 #' @param time the time variable, a factor indicating time intervals.
-#' @param pieces numeric vector of length 1 or length(levels(time)): The length(s)
-#' of timeintervals.
 #' @param subset subset of data, not implemented yet.
 #' @param na.action Not implemented yet. 
 #' @param contrasts Not implemented yet.
-#' @param start.coef For themoment equal to zero.
+#' @param start.coef For the moment equal to zero.
 #' @param control list of control parameters for the optimization. 
 
-#' @note This function is under development and not well ducumented for the time
+#' @note This function is under development and not well documented for the time
 #' being. Use it with care, but it should work with standard (default) settings.
 #' 
 #' @seealso \code{\link{oe}}.
@@ -20,13 +23,15 @@
 tpchreg <- function(formula,
                     data,
                     time,
-                    pieces, # length of pieces
                     subset,
                     na.action,
                     contrasts = NULL,
                     start.coef = NULL,
                     control = list(epsilon = 1.e-8,
                                    maxit = 200, trace = FALSE)){
+    if (missing(time)){
+        stop("Argument 'time' is missing with no default")
+    }
 
     if (is.list(control)) {
         if (is.null(control$epsilon))
@@ -84,53 +89,63 @@ tpchreg <- function(formula,
     else {
         covars <- names(m)[-1]
     }
-
+    ## Added 5 jun 2020:
+    jj <- which(covars == "(time)")
+    covars <- covars[-jj]
+    ## End Add
+    
     time <- m$"(time)"
     if(is.null(strats)){
-        strata <- rep(1, length(count))
+        stratum <- rep(1, length(count))
+        strata <- NULL
     }else{
-        strata <- strats
+        stratum <- strats
+        strata <- levels(as.factor(strata.keep))
     }
 
-    if (is.null(time)) time <- rep(1, length(count))
-
+    ##if (is.null(time)) time <- rep(1, length(count))
+    if (is.character(time)) {
+        time <- as.factor(time)
+    }
+    if (!is.factor(time)){
+        stop("Argument 'time' must be a character or factor variable")
+    }
+    cuts <- as.numeric(unique(unlist(strsplit(levels(time), "-"))))
+    
     n.ivls <- length(unique(time))
-    if (missing(pieces)) {
-        pieces <- rep(1, n.ivls)
-    }else{
-        if (length(pieces) == 1){
-            pieces <- rep(pieces, n.ivls)
-        }else{
-            if (length(pieces) != n.ivls){
-                stop("Interval count mismatch")
-            }
-        }
-    }
-    ##cbind(count, offset, X, strata, time)
 
     offset <- rep(0, length(count))
     ## Calling the work horse:
-    fit <- tpchreg.fit(X, count, exposure, offset, strata, time, pieces)
+    fit <- tpchreg.fit(X, count, exposure, offset, stratum, time)
     ##Terms
     fit$covars <- covars
     fit$terms <- Terms
     ##fit$newTerms <- newTerms
-    stru <- struct(m, covars, dropx, X, exposure)
+    stru <- struct(m, covars, dropx, X, exposure) 
+    ## 'struct' is a function in 'eha'!
     fit$isI <- stru$isI
     fit$isF <- stru$isF
     fit$isO <- stru$isO
     fit$levels <- stru$levels
     fit$call <- call
     fit$w.means <- stru$w.means
+    fit$events <- sum(count)
     fit$ttr <- stru$ttr
-    fit$pieces <- pieces
-    class(fit) <- "tpchreg"
+    fit$n <- length(count)
+    fit$cuts <- cuts
+    fit$strata <- strata
+    class(fit) <- c("tpchreg", "phreg")
     fit
 }
 
-#'@export
+#' @export
 extractAIC.tpchreg <- function(fit, scale, k = 2, ...){
     edf <- sum(fit$df)
     loglik <- fit$loglik[length(fit$loglik)]
     c(edf, -2 * loglik + k * edf)
+}
+
+#' @export
+nobs.tpchreg <- function(object, ...){
+    object$n
 }

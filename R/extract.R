@@ -24,7 +24,7 @@ extractAIC.aftreg <- function(fit, scale, k = 2, ...)
 
 #' @export
 nobs.coxreg <- function(object, ...){
-    object$n
+    object$n.events
 }
 
 #' @export

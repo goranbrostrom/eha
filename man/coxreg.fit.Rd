@@ -14,14 +14,14 @@ coxreg.fit(
   offset,
   init,
   max.survs,
-  method = "breslow",
-  center = TRUE,
+  method = "efron",
   boot = FALSE,
   efrac = 0,
-  calc.hazards = TRUE,
   calc.martres = TRUE,
   control,
-  verbose = TRUE
+  verbose = TRUE,
+  calc.hazards = NULL,
+  center = NULL
 )
 }
 \arguments{
@@ -46,20 +46,20 @@ survivors in each risk set.}
 
 \item{method}{Either "efron" (default) or "breslow".}
 
-\item{center}{See \code{\link{coxreg}}.}
-
 \item{boot}{Number of bootstrap replicates. Defaults to FALSE, no
 bootstrapping.}
 
 \item{efrac}{Upper limit of fraction failures in 'mppl'.}
-
-\item{calc.hazards}{Should estimates of baseline hazards be calculated?}
 
 \item{calc.martres}{Should martingale residuals be calculated?}
 
 \item{control}{See \code{\link{coxreg}}}
 
 \item{verbose}{Should Warnings about convergence be printed?}
+
+\item{calc.hazards}{Deprecated. See \code{\link{coxreg}}.}
+
+\item{center}{Deprecated. See \code{\link{coxreg}}.}
 }
 \value{
 A list with components \item{coefficients}{Estimated regression

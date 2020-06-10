@@ -15,14 +15,16 @@
 #' @param max.survs Sampling of risk sets? If so, gives the maximum number of
 #' survivors in each risk set.
 #' @param method Either "efron" (default) or "breslow".
-#' @param center See \code{\link{coxreg}}.
+#'
 #' @param boot Number of bootstrap replicates. Defaults to FALSE, no
 #' bootstrapping.
 #' @param efrac Upper limit of fraction failures in 'mppl'.
-#' @param calc.hazards Should estimates of baseline hazards be calculated?
 #' @param calc.martres Should martingale residuals be calculated?
 #' @param control See \code{\link{coxreg}}
 #' @param verbose Should Warnings about convergence be printed?
+#' @param calc.hazards Deprecated. See \code{\link{coxreg}}.
+#' @param center Deprecated. See \code{\link{coxreg}}.
+#'  
 #' @return A list with components \item{coefficients}{Estimated regression
 #' parameters.} \item{var}{Covariance matrix of estimated coefficients.}
 #' \item{loglik}{First component is value at \code{init}, second at maximum.}
@@ -53,11 +55,19 @@
 #' @export
 coxreg.fit <- function(X, Y, rs, weights, t.offset = NULL,
                        strats, offset, init, max.survs,
-                       method = "breslow", center = TRUE,
+                       method = "efron",
                        boot = FALSE, efrac = 0,
-                       calc.hazards = TRUE, calc.martres = TRUE,
-                       control, verbose = TRUE){
+                       calc.martres = TRUE,
+                       control, verbose = TRUE, calc.hazards = NULL,
+                       center = NULL){
 
+    if (!missing(center)){
+      warning("argument 'center' is deprecated.")
+    }
+    if (!missing(calc.hazards)){
+      warning("argument 'calc.hazards' is deprecated")
+    }
+  
     nn <- NROW(Y)
     if (is.matrix(X)){
         ncov <- NCOL(X)
