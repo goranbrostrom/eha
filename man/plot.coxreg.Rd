@@ -17,7 +17,6 @@
   col = 1,
   lty = 1,
   printLegend = FALSE,
-  newdata = NULL,
   ...
 )
 }
@@ -51,8 +50,6 @@ legend is printed at a default place, if \code{FALSE}, no legend is printed.
 Otherwise, if a text string, it should be one of "bottomleft",
 "bottomright", "topleft", etc., see \code{\link{legend}} for all possible
 choices.}
-
-\item{newdata}{Not used yet.}
 
 \item{...}{Other parameters to pass to the plot.}
 }

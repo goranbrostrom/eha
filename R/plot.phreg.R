@@ -5,9 +5,7 @@
 #' 
 #' 
 #' @param x A \code{phreg} object
-#' @param fn Which functions shoud be plotted! Default is all. They will scroll
-#' by, so you have to take care explicitely what you want to be produced. See,
-#' eg, \code{par(mfrow = ...)}
+#' @param fn Which function should be plotted? Default is the cumulative hazard(s).  
 #' @param main Header for the plot
 #' @param xlim x limits
 #' @param ylim y limits
@@ -18,11 +16,12 @@
 #' @param printLegend Logical, or character ("topleft", "bottomleft",
 #' "topright" or "bottomright"); if \code{TRUE} or character, a legend is added
 #' to the plot if the number of strata is two or more.
-#' @param new.data Now deprecated; reference hazard is given by the fit; either
-#' zero or the means all covariates, and (always) the reference category for
-#' factors.
+#' @param new.data Now deprecated; reference hazard is given by the fit; 
+#' zero for all covariates, and  the reference category for factors.
+#' @param fig logical, should the graph be drawn? If FALSE, data is returned.
 #' @param \dots Extra parameters passed to 'plot' and 'lines'.
-#' @return No return value.
+#' @return No return value if fig = TRUE, otherwise the cumulative 
+#' hazards function (coordinates), given \code{fn = "cum"}.
 #' @author Göran Broström
 #' @seealso \code{\link{phreg}}
 #' @keywords dplot survival
@@ -35,7 +34,7 @@
 #' 
 #' @export
 plot.phreg <- function(x,
-                       fn = c("haz", "cum", "den", "sur"),
+                       fn = c("cum"),
                        main = NULL,
                        xlim = NULL,
                        ylim = NULL,
@@ -46,6 +45,7 @@ plot.phreg <- function(x,
                        printLegend = TRUE,
                        ##legend = printLegend,
                        new.data = NULL,
+                       fig = TRUE,
                        ...){
 
     if (!inherits(x, "phreg")) stop("Works only with 'phreg' objects.")
@@ -235,7 +235,7 @@ plot.phreg <- function(x,
         }
     }
     ## Cumulative hazard
-    if ("cum" %in% fn){
+    if ("cum" %in% fn && fig){
         
         if (is.null(ylim)){
             ylim0 <- c(0, max(Haz))
@@ -361,5 +361,7 @@ plot.phreg <- function(x,
         }
         
     }
+
+    if (fn == "cum" & !fig) invisible(list(xx = xx, Haz = Haz))
     ##par(oldpar)
 }

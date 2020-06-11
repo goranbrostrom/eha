@@ -13,6 +13,7 @@
 #' @param main Header for the plot. Default is distribution and "cumulative
 #' hazard function"
 #' @param col Line colors. should be \code{NULL} (black lines) or of length 2
+#' @param lty line types.
 #' @param printLegend Should a legend be printed? Default is \code{TRUE}.
 #' @return No return value.
 #' @author Göran Broström
@@ -37,7 +38,8 @@
 #' par(oldpar)
 #' 
 #' @export
-check.dist <- function(sp, pp, main = NULL, col = NULL, printLegend = TRUE){
+check.dist <- function(sp, pp, main = NULL, col = 1:2, 
+                       lty = 1:2, printLegend = TRUE){
     if (!inherits(sp, "coxreg")){
         if (inherits(pp, "coxreg")){ # swap:
             tmp <- pp
@@ -51,6 +53,7 @@ check.dist <- function(sp, pp, main = NULL, col = NULL, printLegend = TRUE){
     if (!inherits(pp, "phreg"))
         stop ("Some argument must be of type 'phreg' or 'pchreg'")
 
+    if (length(col) == 1) col <- c(col, col)
     ##if (!sp$nullModel){ # NOTE: 'center' is deprecated in both!
       ##  if ((!sp$center) && pp$center)
         ##    warning("The non-parametric fit is not centered.") 
@@ -66,33 +69,15 @@ check.dist <- function(sp, pp, main = NULL, col = NULL, printLegend = TRUE){
         if (main == "Ev") main = "Extreme value"
     }
 
-    x.max <- max(pp$y[, 2])
-    x <- plot.coxreg(sp, fn = "cum", fig = FALSE)
-    if (is.null(x)){
-        cat("Error: Must be fixed in check.dist!")
-        return(x)
-    }
+    ##x.max <- max(pp$y[, 2])
+    plot.coxreg(sp, fn = "cum", main = main, col = col[1], lty = lty[1])
     
-    x[[1]][, 2] <- cumsum(x[[1]][, 2]) # Added in 2.4-2
-    y.max <- max(x[[1]][, 2])
-    if (length(x) > 1){
-        for (i in 2:length(x)) y.max <- max(y.max, x[[i]][, 2])
-    }
-    if (is.null(col)){
-        col <- c(1, 1)
-    }else{
-        if (length(col) != 2) stop("Length of 'col' must be 0 or 2.")
-    }
-    plot(pp, fn = "cum", fig = TRUE, ## Removed 2.4-0: new.data = pp$means,
-         ylim = c(0, y.max), main = main, col = col[1])
-    for (rr in 1:length(x)){
-        xx <- x[[rr]]
-        xx <- rbind(xx, c(x.max, xx[NROW(xx), 2])) # Added 2011-08-10 (2.0-3)
-        lines(xx[, 1], xx[, 2], type = "s", lty = 2, col = col[2])
-    }
+    x <- plot(pp, fig = FALSE)
+    lines(x$xx, x$Haz, col = col[2], lty = lty[2])
+    
     if (printLegend){
-        legend(x = "topleft", legend = c("Parametric", "Non-parametric"),
-               lty = 1:2, col = col)
+        legend(x = "topleft", legend = c("Non-parametric", "Parametric"),
+               col = col, lty = lty)
     }
 }
 

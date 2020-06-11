@@ -21,7 +21,6 @@
 #' Otherwise, if a text string, it should be one of "bottomleft",
 #' "bottomright", "topleft", etc., see \code{\link{legend}} for all possible
 #' choices.
-#' @param newdata Not used yet.
 #' @param ... Other parameters to pass to the plot.
 #' @return An object of class \code{hazdata} containing the coordinates of the
 #' curve(s).
@@ -38,11 +37,11 @@ plot.coxreg <- function(x,
                         col = 1,
                         lty = 1, 
                         printLegend = FALSE,
-                        newdata = NULL,
                         ...){
    if (!inherits(x, c("coxreg", "coxph"))){
       stop("Works only with 'coxreg' and 'coxph' objects")
    }
+   x$means <- numeric(length(x$coefficients))
    class(x) <- "coxph"
    fn <- fn[1]
    if (fn == "cum"){
@@ -52,7 +51,7 @@ plot.coxreg <- function(x,
          fn = "cloglog"
       }
    }
-   
+
    if (is.null(xlim)) {
       if (NCOL(x$y) == 3){
          xlim <- c(min(as.numeric(x$y[, 1])), max(as.numeric(x$y[, 2])))
@@ -72,8 +71,9 @@ plot.coxreg <- function(x,
       }
          
    }else{
-      plot(survival::survfit(x), fun = fn, xlab = xlab, ylab = ylab, 
-           main = main, xlim = xlim, col = col, lty = lty, conf.int = conf.int)
+       plot(survival::survfit(x), fun = fn, xlab = xlab,
+            ylab = ylab, main = main, xlim = xlim, col = col, lty = lty,
+            conf.int = conf.int)
       if (printLegend && length(x$stratum) >= 2){
          legend("bottom", legend = x$stratum, lty = lty, col = col)
       } 

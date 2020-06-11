@@ -1,3 +1,6 @@
+2.8.1.9300 (June 11, 2020)
+	* plot.coxreg: Bug fix.
+
 2.8.1.9200 (June 9, 2020)
     * coxreg revised for "coxhp case".
     * plot.coxreg rewritten, using survival::(survfit, plot.survfit)

@@ -4,7 +4,7 @@
 \alias{check.dist}
 \title{Graphical goodness-of-fit test}
 \usage{
-check.dist(sp, pp, main = NULL, col = NULL, printLegend = TRUE)
+check.dist(sp, pp, main = NULL, col = 1:2, lty = 1:2, printLegend = TRUE)
 }
 \arguments{
 \item{sp}{An object of type "coxreg", typically output from
@@ -17,6 +17,8 @@ check.dist(sp, pp, main = NULL, col = NULL, printLegend = TRUE)
 hazard function"}
 
 \item{col}{Line colors. should be \code{NULL} (black lines) or of length 2}
+
+\item{lty}{line types.}
 
 \item{printLegend}{Should a legend be printed? Default is \code{TRUE}.}
 }
