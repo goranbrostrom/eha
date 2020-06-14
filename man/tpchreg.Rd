@@ -16,6 +16,8 @@ control = list(epsilon = 1.e-8, maxit = 200, trace = FALSE))
 
 \item{time}{the time variable, a factor indicating time intervals.}
 
+\item{weights}{Case weights.}
+
 \item{subset}{subset of data, not implemented yet.}
 
 \item{na.action}{Not implemented yet.}
@@ -31,8 +33,7 @@ Proportional hazards regression with piecewise constant hazards and tabular
 data.
 }
 \note{
-This function is under development and not well documented for the time
-being. Use it with care, but it should work with standard (default) settings.
+
 }
 \seealso{
 \code{\link{oe}}.

@@ -1,3 +1,6 @@
+2.8.1.9400 (June 14, 2020)
+    * tpchreg: Finish first step of development, now useful.
+
 2.8.1.9300 (June 11, 2020)
 	* plot.coxreg: Bug fix.
 

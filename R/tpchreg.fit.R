@@ -1,5 +1,7 @@
-tpchreg.fit <- function(X, count, exposure, offset, strata, time){
+tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
     ##print(str(time))
+    count <- count * weights
+    exposure <- exposure * weights
     ivl <- as.integer(time)
     ##cat("unique(time) = ", unique(time), "\n")
     nn <- length(count)
@@ -14,12 +16,14 @@ tpchreg.fit <- function(X, count, exposure, offset, strata, time){
         strata <- as.integer(strata)
         ns <- max(strata)
     }
-
+    if (missing(weights)){
+        weights <- rep(1, nn)
+    }
     ns <- length(unique(strata))
     ncov <- NCOL(X) # Assume here that ncov >= 0!
     init <- rep(0, ncov) ## FIX THIS hack!!
     n.ivl <- length(unique(time))
-    Dtot <- sum(count)
+    Dtot <- sum(count) 
 #########
     loglik0 <- function(){
         alpha <- matrix(0, nrow = ns, ncol = n.ivl)
@@ -51,7 +55,7 @@ tpchreg.fit <- function(X, count, exposure, offset, strata, time){
         ##cat("beta = ", beta, "\n") 
         zb <- offset + X %*% beta
         ##cat("zb = ", zb, "\n")
-        tezb <- exposure * exp(zb)
+        tezb <- exposure * exp(zb) 
         ##cat("tezb = ", tezb, "\n")
         ##res <- sum(d * zb) - Dtot
         res <- drop(count %*% zb) - Dtot

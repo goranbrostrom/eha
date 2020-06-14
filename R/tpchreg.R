@@ -8,14 +8,14 @@
 #' @param formula a formula with 'oe(count, exposure) ~ x1 + ...'
 #' @param data a data frame with event, exposure, age plus covariates
 #' @param time the time variable, a factor indicating time intervals.
+#' @param weights Case weights.
 #' @param subset subset of data, not implemented yet.
-#' @param na.action Not implemented yet. 
+#' @param na.action Not implemented yet.
 #' @param contrasts Not implemented yet.
 #' @param start.coef For the moment equal to zero.
 #' @param control list of control parameters for the optimization. 
 
-#' @note This function is under development and not well documented for the time
-#' being. Use it with care, but it should work with standard (default) settings.
+#' @note 
 #' 
 #' @seealso \code{\link{oe}}.
 #' 
@@ -23,6 +23,7 @@
 tpchreg <- function(formula,
                     data,
                     time,
+                    weights,
                     subset,
                     na.action,
                     contrasts = NULL,
@@ -47,7 +48,7 @@ tpchreg <- function(formula,
     #
     call <- match.call()
     m <- match.call(expand.dots = FALSE)
-    temp <- c("", "formula", "data", "time", "subset", "na.action")
+    temp <- c("", "formula", "data", "time", "offset", "weights", "subset", "na.action")
     m <- m[match(temp, names(m), nomatch = 0)]
     special <- "strata"
     Terms <- if (missing(data)) 
@@ -62,7 +63,6 @@ tpchreg <- function(formula,
 ### Y:
     count <- Y[, 1]
     exposure <- Y[, 2]
-    ##offset <- log(Y[, 2])
 ### is the response
     attr(Terms, "intercept") <- 1
     strats <- attr(Terms, "specials")$strata
@@ -93,8 +93,23 @@ tpchreg <- function(formula,
     jj <- which(covars == "(time)")
     covars <- covars[-jj]
     ## End Add
+    offset <-  attr(Terms, "offset")
+    tt <- length(offset)
+    offset <- if (tt == 0)
+        rep(0, length(count))
+    else if (tt == 1)
+        m[[offset]]
+    else {
+        ff <- m[[offset[1]]]
+        for (i in 2:tt) ff <- ff + m[[offset[i]]]
+        ff
+    }
     
     time <- m$"(time)"
+    weights <- m$"(weights)"
+    if (is.null(weights)){
+        weights <- rep(1, length(count))
+    }
     if(is.null(strats)){
         stratum <- rep(1, length(count))
         strata <- NULL
@@ -113,10 +128,8 @@ tpchreg <- function(formula,
     cuts <- as.numeric(unique(unlist(strsplit(levels(time), "-"))))
     
     n.ivls <- length(unique(time))
-
-    offset <- rep(0, length(count))
-    ## Calling the work horse:
-    fit <- tpchreg.fit(X, count, exposure, offset, stratum, time)
+   ## Calling the work horse:
+    fit <- tpchreg.fit(X, count, exposure, offset, weights, stratum, time)
     ##Terms
     fit$covars <- covars
     fit$terms <- Terms
