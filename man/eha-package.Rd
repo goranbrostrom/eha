@@ -28,7 +28,7 @@ Press, Boca Raton, FL.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://goranbrostrom.github.io/eha/}
+  \item \url{http://ehar.se/r/eha/}
   \item Report bugs at \url{https://github.com/goranbrostrom/eha/issues}
 }
 

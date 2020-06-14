@@ -5,7 +5,7 @@
 \title{Proportional hazards regression with piecewise constant hazards and tabular 
 data.}
 \usage{
-tpchreg(formula, data, time, subset, na.action, contrasts = NULL,
+tpchreg(formula, data, time, weights, subset, na.action, contrasts = NULL,
 start.coef = NULL, 
 control = list(epsilon = 1.e-8, maxit = 200, trace = FALSE))
 }

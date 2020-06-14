@@ -1,4 +1,3 @@
-#' @export
 struct <- function(m, covars, dropx, X, exposure){
     isI <- logical(NCOL(X)) # Added Jan 2014; 2.4-0.
     isF <- logical(length(covars))
