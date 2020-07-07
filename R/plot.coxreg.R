@@ -41,6 +41,12 @@ plot.coxreg <- function(x,
    if (!inherits(x, c("coxreg", "coxph"))){
       stop("Works only with 'coxreg' and 'coxph' objects")
    }
+   if (x$method %in% c("ml", "mppl")){
+      plot.hazdata(x$hazards, fn = fn, fig = fig, xlim = xlim, ylim = ylim, 
+                   main = main, xlab = xlab, ylab = ylab, col = col, 
+                   lty = lty, printLegend = printLegend)
+      return(invisible(NULL))
+   }
    x$means <- numeric(length(x$coefficients))
    class(x) <- "coxph"
    fn <- fn[1]

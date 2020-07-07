@@ -1,21 +1,24 @@
 #' Proportional hazards regression with piecewise constant hazards and tabular 
 #' data.
 #' 
-#' @usage tpchreg(formula, data, time, weights, subset, na.action, contrasts = NULL,
-#' start.coef = NULL, 
+#' @usage tpchreg(formula, data, time, weights, last, subset, na.action, 
+#' contrasts = NULL, start.coef = NULL, 
 #' control = list(epsilon = 1.e-8, maxit = 200, trace = FALSE))
 #' 
 #' @param formula a formula with 'oe(count, exposure) ~ x1 + ...'
-#' @param data a data frame with event, exposure, age plus covariates
-#' @param time the time variable, a factor indicating time intervals.
+#' @param data a data frame with occurrence/exposure data plus covariates.
+#' @param time the time variable, a factor character vector indicating time 
+#' intervals, or numeric, indicating the start of intervals.
 #' @param weights Case weights.
+#' @param last If \code{time} is numeric, the closing of the last interval.
 #' @param subset subset of data, not implemented yet.
 #' @param na.action Not implemented yet.
 #' @param contrasts Not implemented yet.
-#' @param start.coef For the moment equal to zero.
+#' @param start.coef For the moment equal to zero, not used.
 #' @param control list of control parameters for the optimization. 
 
-#' @note 
+#' @note The interpretation of cuts is different from that in \code{link{hpch}}.
+#' This is intentional.
 #' 
 #' @seealso \code{\link{oe}}.
 #' 
@@ -24,6 +27,7 @@ tpchreg <- function(formula,
                     data,
                     time,
                     weights,
+                    last,
                     subset,
                     na.action,
                     contrasts = NULL,
@@ -121,13 +125,28 @@ tpchreg <- function(formula,
     ##if (is.null(time)) time <- rep(1, length(count))
     if (is.character(time)) {
         time <- as.factor(time)
+    }else if (is.numeric(time)){ # Start points of intervals.
+        cuts <- sort(unique(time))
+        n <- length(cuts)
+        if (missing(last)){ 
+            warning("'last' is missing, needed when 'time' is numeric. Created.")
+            last <- cuts[n] + 1
+        }
+        cuts <- c(cuts, last)
+        tlev <- paste(cuts[-(n+1)], cuts[-1], sep = "-")
+        time <- factor(time, levels = cuts[-(n+1)], labels = tlev)
     }
+
     if (!is.factor(time)){
         stop("Argument 'time' must be a character or factor variable")
     }
+    if (any(is.na(time))){
+        cat("Bad values in 'time', returned\n")
+        return(time)
+    }
     cuts <- as.numeric(unique(unlist(strsplit(levels(time), "-"))))
-    
-    n.ivls <- length(unique(time))
+    if (any(is.na(cuts))) stop("Bad values in the 'time' variable.")
+    ##n.ivls <- length(unique(time)) # not used?
    ## Calling the work horse:
     fit <- tpchreg.fit(X, count, exposure, offset, weights, stratum, time)
     ##Terms
@@ -147,6 +166,17 @@ tpchreg <- function(formula,
     fit$n <- length(count)
     fit$cuts <- cuts
     fit$strata <- strata
+    if (fit$n.strata > 1){
+        if (control$trace){
+            cat("levels(time) = ", levels(time), "\n")
+            cat("strata = ", fit$strata, "\n")
+            cat("dim(hazards) = ", dim(fit$hazards), "\n")
+        }
+        colnames(fit$hazards) <- levels(time)
+        rownames(fit$hazards) <- fit$strata
+    }else{
+        names(fit$hazards) <- levels(time)
+    }
     class(fit) <- c("tpchreg", "phreg")
     fit
 }

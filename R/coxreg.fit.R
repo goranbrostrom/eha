@@ -61,10 +61,10 @@ coxreg.fit <- function(X, Y, rs, weights, t.offset = NULL,
                        control, verbose = TRUE, calc.hazards = NULL,
                        center = NULL){
 
-    if (!missing(center)){
+    if (!is.null(center)){
       warning("argument 'center' is deprecated.")
     }
-    if (!missing(calc.hazards)){
+    if (!is.null(calc.hazards)){
       warning("argument 'calc.hazards' is deprecated")
     }
   

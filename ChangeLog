@@ -1,3 +1,26 @@
+2.8.1.9650 (Jul 7, 2020)
+    * plot.coxreg: Fixed newly introduced bug in the cases 'method = m(pp)l'.
+    * eha vignette: First serious attempt.
+    * summary.tpchreg: New function, with a print method.
+
+2.8.1.9600 (June 30, 2020)
+    * tpchreg: add argument 'last', and allow 'time' to be numeric. 
+    Documentation changed accordingly.
+
+2.8.1.9550 (June 28, 2020)
+    * swepop: New data set, Swedish population by age, sex, and 
+    year 1968-2019.
+    * swedeaths: New data set, Swedish deaths by age, sex, and 
+    year 1968-2019.
+    * swe07: Old data set is now obsolete and deprecated. Will be removed.
+
+2.8.1.9500 (June 17, 2020)
+	* tcphreg: Added debug info.
+
+2.8.1.9450 (June 15, 2020)
+    * tpchreg: Add rownames and colnames to hazards (if matrix).
+    * summary.tpchreg: New function.
+    
 2.8.1.9400 (June 14, 2020)
     * tpchreg: Finish first step of development, now useful.
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.coxreg.R
 \name{summary.coxreg}
 \alias{summary.coxreg}
-\title{Prints coxreg objects}
+\title{A summary of coxreg objects.}
 \usage{
 \method{summary}{coxreg}(object, ...)
 }
@@ -12,14 +12,13 @@
 \item{\dots}{Additional ...}
 }
 \description{
-This is the same as \code{\link{print.coxreg}}
+A summary of coxreg objects.
 }
 \examples{
 
-## The function is currently defined as
-function (object, ...) 
-print(object)
-
+fit <- coxreg(Surv(enter, exit, event) ~ sex + civ, data = oldmort)
+summary(fit)
+ 
 }
 \seealso{
 \code{\link{print.coxreg}}

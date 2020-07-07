@@ -1,8 +1,17 @@
 tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
+    ## NOTE: 'time' must be a factor here.
+    
+    if (!is.factor(time)){
+        cat("time:", time[1:5], "\n")
+        stop("[tpchreg.fit] time must be a factor here.")
+    } 
     ##print(str(time))
-    count <- count * weights
-    exposure <- exposure * weights
-    ivl <- as.integer(time)
+    if (!missing(weights)){
+        count <- count * weights
+        exposure <- exposure * weights   
+    }
+    
+    ivl <- as.integer(time) ## time must be a factor here!
     ##cat("unique(time) = ", unique(time), "\n")
     nn <- length(count)
         if (!is.matrix(X)) X <- matrix(X, ncol = 1)
@@ -15,9 +24,6 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
         name.s <- levels(strata)
         strata <- as.integer(strata)
         ns <- max(strata)
-    }
-    if (missing(weights)){
-        weights <- rep(1, nn)
     }
     ns <- length(unique(strata))
     ncov <- NCOL(X) # Assume here that ncov >= 0!

@@ -1,56 +1,283 @@
 ---
 title: "Event History and Survival Analysis"
+subtitle: "The eha package"
 author: "Göran Broström"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+slug: eha
+output: 
+    knitr:::html_vignette:
+        toc: yes
+bibliography: mybib.bib
 vignette: >
   %\VignetteIndexEntry{Event History and Survival Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
-## Introduction
+```{r setup, include = FALSE}
+library(eha)
+options(digits = 4)
+```
 
-This vignette is not written yet! That is, it is under construction. With each 
-new version of **eha**, this vignette will (hopefully) be more complete. 
+This vignette is still ongoing work, so if you are looking for something you cannot
+find, please [alert me](https://github.com/goranbrostrom/eha/issues/) and I will
+do something about it.
 
-## What is **eha** in relation to  **survival**?
+# Background
 
-The **eha** package can be seen as a complement to the recommended package **survival**: 
+## Early eighties
+
+In the year 1979, I got my first real job after finishing my PhD studies in 
+mathematical statistics at Umeå University the same year. My new job was as a 
+statistical consultant at the Demographic Data Base (DDB), Umeå University, and
+I soon got 
+involved in a research project concerning infant mortality in the 19th century
+northern Sweden. Individual data were collected from church books registered at
+the DDB, and we searched for relevant statistical methods for the analysis of the 
+data in relation to our research questions.
+
+Almost parallel in time, the now classical book *"The Statistical Analysis of 
+Failure Time Data"*, @kp80 was published, and I realized that I had found the 
+answer to our prayers. There was only one small problem, lack of suitable
+software. However, there was in the book an appendix with Fortran code for 
+*Cox regression*, and since I had taken a course in Fortran77, I decided to 
+transfer the appendix to to punch cards(!) and feed them to the mainframe at
+the university, of course with our infant mortality data. Bad luck: It turned out 
+that by accident two pages in the appendix had been switched, without introducing 
+any syntactic error! It however introduced an infinite loop in the code, so the 
+prize for the first run was high (this error was corrected in later printings of 
+the book).
+
+This was the starting point of my development of software for survival analysis.
+The big challenge was to find ways to illustrate results graphically. It led to
+translating the Fortran code to *Turbo Pascal* (Borland, MS Dos) in the mid and late 
+eighties. 
+
+I soon regretted that choice, and the reason was *portability*: That Pascal code 
+didn't work well on Unix work stations and other environments outside MS Dos.
+And on top of that, another possibility for getting 
+graphics into the picture showed soon up: **R**. So the Pascal code was 
+quickly translated into *C*, and it was an easy process to call the C and Fortran
+functions 
+from R and on top of that write simple routines for presenting results 
+graphically and as tables. And so in 2003, the *eha* package was introduced on 
+*CRAN*.
+
+## Extensions to Cox regression
+
+During the eighties and nineties, focus was on *Cox regression* and extensions
+thereof, but after the transform to an R package, the *survival* package has 
+been allowed to take over most of the stuff that was (and still is) found in the 
+**eha::coxreg** function.
+
+Regarding *Cox regression*, the **eha** package can be seen as a complement to 
+the recommended package **survival**: 
 In fact, **eha** *depends* on **survival**, and for *standard Cox regression*, 
 `eha::coxreg()` simply calls `survival::agreg.fit()` or `survival::coxph.fit()`,
 functions *exported* by **survival**. The simple reason for this is that the
 underlying code in these **survival** functions is very fast and efficient.
 However, `eha::coxreg()` has some unique features: *Sampling of risk sets*, 
-*The "weird" bootstrap*, and *discrete time modeling* via maximum likelihood.  
+*The "weird" bootstrap*, and *discrete time modeling* via maximum likelihood, 
+which motivates the continued support of it.  
 
-I have also put effort in producing nice and relevant printouts of regression results,
-both on screen and to $\LaTeX$ documents (HTML output is on the TODO list). By
+I have put effort in producing nice and relevant printouts of regression results,
+both on screen and to $\LaTeX$ documents (HTML output may come next). By
 *relevant* output I basically mean *avoiding misleading p-values*, show all 
-*factor levels*, and use the *likelihood ratio test* in front of the *Wald test* 
+*factor levels*, and use the *likelihood ratio test* instead of the *Wald test* 
 where possible. 
 
-## Parametric survival models in **eha**
+To summarize, the extensions are (in descending order of importance, by my own 
+judgement).
+
+### Relevant printed output
+
+Consider the following standard way of performing a Cox regression and reporting 
+the result.
+
+```{r coxph}
+fit <- coxph(Surv(enter, exit, event) ~ sex + civ + imr.birth, data = oldmort)
+summary(fit)
+```
+
+The presentation of the covariates and corresponding coefficient estimates follows
+common **R** standard, but it is a little bit confusing regarding covariates that 
+are represented as *factors*. In this example we have *civ* (civil status), with
+three levels, `unmarried`, `married`, and `widow`, but only two are shown, the 
+*reference category*, `unmarried`, is hidden. Moreover, the variable *name* is 
+joined with the variable *labels*, in a somewhat hard-to-read fashion. I prefer
+the following result presentation.
+
+```{r coxreg}
+fit <- coxreg(Surv(enter, exit, event) ~ sex + civ + imr.birth, data = oldmort)
+summary(fit)
+```
+
+There are a few things to notice here. First, the layout: Variables are clearly 
+separated from their labels, and *all* categories for factors are shown, even
+the reference categories. Second, *p*-values are given for *variables*, not for 
+levels, and third, the *p*-values are *likelihood ratio* (LR) based, and not Wald
+tests. The importance of this was explained by @hd77. They considered logistic 
+regression, but their conclusions in fact hold for most nonlinear models. The 
+very short version is that a large Wald *p*-value can mean one of two things: 
+(i) Your finding is statistically non-significant (what you expect), or (ii)
+your finding is strongly significant (surprise!). Experience shows that condition 
+(ii) is quite rare, but why take chances? (The truth is that it is more time 
+consuming and slightly more complicated to program, so standard statistical
+software, including **R**, avoids it.)
+
+Regarding *p*-values for *levels*, it is a strongly discouraged practice. *Only* if 
+a test shows a small enough *p*-value for the *variable*, dissemination of the 
+significance of contrasts is allowed, and then only if treated as a *mass 
+significance* problem .
+
+### Sampling of risk sets
+
+The idea is that you can regard what happens in a risk set as a very unbalanced 
+two-sample problem: The two groups are (i) those who dies at the given time 
+point, often only one individual, and (ii) those who survive (many persons).
+The questions is which covariate values that tend to create a death, and we simply 
+can do without so many survivors, so we take a random sample of them. It will 
+save computer time and storage, and in some cases the prize for collecting the
+information about all survivors is high [@bgl95].
+
+### The weird bootstrap
+
+The weird bootstrap is aimed at getting estimates of the uncertainty of the
+regression parameter estimates in a Cox regression. It works by regarding each
+risk set and the number of failures therein as given and by simulation determining
+who will be failures. It is assumed that what happens in one riskset is independent 
+of what has happened in other risk sets (this is the "weird" part in the procedure). 
+This is repeated many times, resulting in a collection of parameter estimates,
+the bootstrap samples. 
+
+
+
+
+```{r boot, eval = FALSE}
+library(eha)
+fit <- coxreg(Surv(enter, exit, event) ~ sex, data = oldmort, boot = 100, 
+              control = list(trace = TRUE))
+```
+
+### Discrete time methods
+
+These methods are supposed to be used with data that are heavily tied, so that 
+a discrete time model may be reasonable.
+
+The method *ml* performs a maximum likelihood estimation, and the "mppl" method 
+is a compromise between the ML method and Efron's metod of handling ties. These 
+methods are described in detail in @gb02.
+
+```{r mppl, cache = TRUE, eval = FALSE}
+library(eha)
+fit <- coxreg(Surv(enter, exit, event) ~ sex, data = oldmort, method = "ml")
+plot(c(60, fit$hazards[[1]][, 1]), c(0, cumsum(fit$hazards[[1]][, 2])), type = "l")
+```
+
+The importance of discrete time methods in the framework of Cox regression, as 
+a means of treating tied data, has diminished in the light of *Efron*'s 
+approximation, today the default method in the *survival* and *eha* packages.
+
+
+## Later development
+
+The development before 2010 is summarized in the book *Event History Analysis 
+with R* [@gb12]. Later focus has 
+been on parametric survival models, who are more suitable to handle huge amounts 
+of data through methods based on the theory of sufficient statistics, 
+in particular *piecewise constant hazards models*. In demographic applications 
+(in particular *mortality* studies), the *Gompertz* survival distribution is 
+important, because adult mortality universally shows a pattern of increasing 
+exponentially with increasing age.
+
+# Parametric survival models
+
 
 There is a special vignette describing the theory and implementation of the 
-parametric failure time models. It is *not* very useful as a *user's manual*.
+parametric failure time models. It is *not* very useful as a *user's manual*. It also 
+has the flaw that it only considers the theory in the case of time fixed covariates, 
+although it also works for time-varying ones. This is fairy trivial for the PH models,
+but some care is needed to be taken with the AFT models.
 
-### Accelerated Failure Time models
+## Accelerated Failure Time (AFT) models
 
 The parametric accelerated failure time (AFT) models are present via `eha::aftreg()`,
 which is corresponding to `survival::survreg()`. An important difference is that 
 `eha::aftreg()` allows for *left truncated data*.
 
-### Parametric proportional hazards models
+## Proportional Hazards (PH) models
 
 Parametric proportional hazards (PH) modeling is available through the functions
 `eha::phreg()` and `eha::weibreg()`, the latter still in the package for 
 historical reasons. It will eventually be removed, since the Weibull distribution 
 is also available in `eha::phreg()`.
 
-## Utilities
+## PH models with tabular data 
+
+Cox regression is not very suitable in the analysis of huge data sets with a lot
+of events (e.g., deaths). For instance, consider analyzing the mortality of 
+the Swedish population aged 60--110 during the years 1968-2019, where we can 
+count to more than four million deaths. 
+
+The obvious way to handle that situation is by tabulation and applying a 
+*piecewise constant hazard* function. It is a well-known fact that any 
+continuous function can arbitrary well be approximated by a step function, 
+simply by taking small enough steps.
+
+An example: The data sets `swepop` and `swedeaths` contain age and sex specific 
+yearly information on population size and number of deaths, respectively. They 
+both cover the years 1968--2019.
+
+The first few rows of each:
+
+```{r swe}
+head(swepop)
+head(swedeaths)
+```
+
+The funny rownames and the column `id` is created by the function `reshape`, 
+which was used to transform the original tables, given in *wide format*, to
+*long format*. In the original data, downloaded from 
+[Statistics Sweden](https://www.scb.se), the population size refers to the last
+day, December 31, of the given year, but here it refers to an average of that 
+value and the corresponding one the previous year. In that way we get an estimate
+of the number of *person years*, which allows us to consider number of 
+*occurrences* and *exposure time* in each cell of the data. This information will 
+allow us to fit *proportional hazards* survival models. So we start by joining
+the two data sets and remove irrelevant stuff:
+
+```{r cleantab}
+dat <- swepop[, c("age", "sex", "year", "pop")]
+dat$deaths <- swedeaths$deaths
+rownames(dat) <- 1:NROW(dat) # Simplify rownames to avoid distraction.
+head(dat)
+tail(dat)
+```
+
+We note that the age column ends with `age == 100`, which in fact means 
+`age >= 100`. There are in total `r sum(dat$deaths)` observed deaths during the years 
+1968--2019, or `r as.integer(round(sum(dat$deaths) / (2019 - 1967)))` deaths per year on average.
+
+```{r tpchreg}
+fit <- tpchreg(oe(deaths, pop) ~ sex + I(year - 2000), time = age, last = 105,
+               data = dat)
+summary(fit)
+```
+
+
+## The Gompertz distribution
+
+
+# Utilities
 
 The primary applications in mind for **eha** were *demography* and *epidemiology*.
 There are some functions in **eha** that makes certain common tasks in that context 
 easy to perform, for instance *rectangular cuts* in the *Lexis diagram*, creating 
 *period* and *cohort* statistics, etc.
+
+## Lexis cuts
+
+## Tabulation
+
+# References
