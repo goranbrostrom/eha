@@ -12,20 +12,21 @@
 #' for \eqn{x \ge 0}{x >= 0}.
 #' If \code{param = "canonical"}, then then a --> a/b, so that b is a
 #' true scale parameter (for any fixed a), and b is an 'AFT parameter'.
-#' 
+#' If \code{param = "rate"}, then b --> 1/b.
 #' @name Gompertz
 #' @aliases gompertz dgompertz pgompertz qgompertz hgompertz Hgompertz rgompertz
-#' @usage dgompertz(x, shape = 1, scale = 1, log = FALSE, 
-#' param = c("default", "canonical")) 
-#' pgompertz(q, shape = 1, scale = 1, lower.tail = TRUE, log.p = FALSE, 
-#' param = c("default", "canonical")) 
-#' qgompertz(p, shape = 1, scale = 1, lower.tail = TRUE, log.p = FALSE, 
-#' param = c("default", "canonical")) 
-#' hgompertz(x, shape = 1, scale = 1, log = FALSE, 
-#' param = c("default", "canonical")) 
-#' Hgompertz(x, shape = 1, scale = 1, log.p = FALSE, 
-#' param = c("default", "canonical")) 
-#' rgompertz(n, shape = 1, scale = 1, param = c("default", "canonical"))
+#' @usage dgompertz(x, shape = 1, scale = 1, rate, log = FALSE, 
+#' param = c("default", "canonical", "rate")) 
+#' pgompertz(q, shape = 1, scale = 1, rate, lower.tail = TRUE, log.p = FALSE, 
+#' param = c("default", "canonical", "rate")) 
+#' qgompertz(p, shape = 1, scale = 1, rate, lower.tail = TRUE, log.p = FALSE, 
+#' param = c("default", "canonical", "rate")) 
+#' hgompertz(x, shape = 1, scale = 1, rate, log = FALSE, 
+#' param = c("default", "canonical", "rate")) 
+#' Hgompertz(x, shape = 1, scale = 1, rate, log.p = FALSE, 
+#' param = c("default", "canonical", "rate")) 
+#' rgompertz(n, shape = 1, scale = 1, , rate, 
+#' param = c("default", "canonical", "rate"))
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations. If \code{length(n) > 1}, the length is
@@ -34,7 +35,7 @@
 #' @param log,log.p logical; if TRUE, probabilities p are given as log(p).
 #' @param lower.tail logical; if TRUE (default), probabilities are \eqn{P(X \le
 #' x)}{P(X <= x)}, otherwise, \eqn{P(X > x)}{P(X > x)}.
-#' @param param default or canonical.
+#' @param param default or canonical or rate.
 #' @return \code{dgompertz} gives the density, \code{pgompertz} gives the distribution
 #' function, \code{qgompertz} gives the quantile function, \code{hgompertz} gives the
 #' hazard function, \code{Hgompertz} gives the cumulative hazard function, and
@@ -43,9 +44,9 @@
 #' Invalid arguments will result in return value \code{NaN}, with a warning.
 #' @keywords distribution
 #' @export
-pgompertz <- function(q, shape = 1, scale = 1,
+pgompertz <- function(q, shape = 1, scale = 1, rate,
                      lower.tail = TRUE, log.p = FALSE,
-                      param = c("default", "canonical")){
+                      param = c("default", "canonical", "rate")){
 
     n <- length(q)
     if (any(scale == 0)){
@@ -69,6 +70,8 @@ pgompertz <- function(q, shape = 1, scale = 1,
     if (param == "canonical"){
         ## Transform to "default"
         shape <- shape / scale ## ?
+    }else if (param == "rate") {
+        scale <- 1 / rate
     }else if (param != "default") stop("Illegal 'param'")
     ##
 
@@ -104,8 +107,8 @@ pgompertz <- function(q, shape = 1, scale = 1,
 }
 
 #' @export
-dgompertz <- function(x, shape = 1, scale = 1, log = FALSE,
-                      param = c("default", "canonical")){
+dgompertz <- function(x, shape = 1, scale = 1, rate, log = FALSE,
+                      param = c("default", "canonical", "rate")){
 
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")
@@ -118,6 +121,8 @@ dgompertz <- function(x, shape = 1, scale = 1, log = FALSE,
     if (param == "canonical"){
         ## Transform to "default"
         shape <- shape / scale ## ?
+    }else if (param == "rate"){
+        scale = 1 / rate
     }else if (param != "default") stop("Illegal 'param'")
     ##
 
@@ -138,27 +143,33 @@ dgompertz <- function(x, shape = 1, scale = 1, log = FALSE,
 }
 
 #' @export
-hgompertz <- function(x, shape = 1, scale = 1, log = FALSE,
-                      param = c("default", "canonical")){
+hgompertz <- function(x, shape = 1, scale = 1, rate, log = FALSE,
+                      param = c("default", "canonical", "rate")){
 
-    if (any(scale == 0)) {
-        return(rep(Inf, length(x)))
+    if ( any(shape < 0) ){
+        cat("shape = ", shape, "\n")
+        stop("Negative shape")
     }
+    
+    param <- param[1]
+
+    if (param == "rate"){
+        if (missing(rate)) rate <- 1 / scale
+        ret <- shape * exp(rate * x)
+        if (log) ret <- log(ret)
+        return(ret)
+    }
+    
     ##if ( any(c(shape, scale) <= 0) ){
     if ( any(scale <= 0) ){
         cat("scale = ", scale, "\n")
         warning("Non-positive scale")
-        return(NaN)
+        return(rep(Inf, length(x)))
     }
 
-    if ( any(shape < 0) ){
-        cat("shape = ", shape, "\n")
-        warning("Negative shape")
-        return(NaN)
-    }
 
     ## New in 2.1-3:
-    param <- param[1]
+
     if (param == "canonical"){
         ## Transform to "default"
         shape <- shape / scale ## ?
@@ -182,9 +193,9 @@ hgompertz <- function(x, shape = 1, scale = 1, log = FALSE,
 }
 
 #' @export
-qgompertz <- function(p, shape = 1, scale = 1,
+qgompertz <- function(p, shape = 1, scale = 1, rate,
                      lower.tail = TRUE, log.p = FALSE,
-                      param = c("default", "canonical")){
+                      param = c("default", "canonical", "rate")){
 
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")
@@ -196,6 +207,8 @@ qgompertz <- function(p, shape = 1, scale = 1,
     if (param == "canonical"){
         ## Transform to "default"
         shape <- shape / scale ## ?
+    }else if (param == "rate"){
+        scale <- 1 / rate
     }else if (param != "default") stop("Illegal 'param'")
     ##
     
@@ -214,9 +227,31 @@ qgompertz <- function(p, shape = 1, scale = 1,
 }
 
 #' @export
-Hgompertz <- function(x, shape = 1, scale = 1, log.p = FALSE,
-                      param = c("default", "canonical")){
+Hgompertz <- function(x, shape = 1, scale = 1, rate, log.p = FALSE,
+                      param = c("default", "canonical", "rate")){
 
+    if ( any(shape < 0) ){
+        cat("shape = ", shape, "\n")
+        stop("Negative shape")
+    }
+    
+    param <- param[1]
+    
+    if (param == "rate"){
+        if (missing(rate)) rate <- 1 / scale
+        if (isTRUE(all.equal(rate, 0))){
+            ret <- shape * x
+        }else{
+            y <- x * rate
+            ret <- ifelse(x <= 0,
+                          0,
+                          shape / rate * expm1(y)
+            )
+        }
+        if (log.p) ret <- log(ret)
+        return(ret)
+    }
+    
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")
         return(NaN)
@@ -243,8 +278,8 @@ Hgompertz <- function(x, shape = 1, scale = 1, log.p = FALSE,
 }
 
 #' @export
-rgompertz <- function(n, shape = 1, scale = 1,
-                      param = c("default", "canonical")){
+rgompertz <- function(n, shape = 1, scale = 1, rate,
+                      param = c("default", "canonical", "rate")){
 
     if ( any(c(shape, scale) <= 0) ){
         warning("Non-positive shape or scale")
@@ -256,6 +291,8 @@ rgompertz <- function(n, shape = 1, scale = 1,
     if (param == "canonical"){
         ## Transform to "default"
         shape <- shape / scale ## ?
+    }else if (param == "rate"){
+        scale <- 1 / rate
     }else if (param != "default") stop("Illegal 'param'")
     ##
 
