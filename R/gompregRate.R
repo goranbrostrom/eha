@@ -43,7 +43,21 @@ gompregRate <- function(X, Y, strata, offset, init, control){
 
     bdim <- ncov + 2 * ns
 
+    dcumhaz_rate <- function(x, shape, rate){
+        ## Gives the partial derivative of the cumulative hazards function
+        ## wrt 'rate'. Deals also with the case 'rate = 0'.
+        
+        if (isTRUE(all.equal(rate, 0))){
+            ret <- shape * x^2 / 2
+        }else{
+            eta <- exp(x * rate)
+            ret <- (shape * rate * x * eta - shape * (eta - 1)) / rate^2
+        }
+        ret
+    }
+
     dGomp <- function(beta){
+        
         ## Calculates the first derivatives of a Gompertz regression (stratified)
         ## beta[1:ncov] = the beta coefficients.
         ## beta[ncov + 1], beta[ncov + 3], ... = rate[1, 2, ...] ("gamma")
@@ -67,25 +81,34 @@ gompregRate <- function(X, Y, strata, offset, init, control){
             z <- X[strata == i, ,drop = FALSE]
             
             ezb <- exp(bz[strata == i])
-            shape <- beta[ncov + 2 * i] # log(shape)
-            rate <- beta[ncov + 2 * i - 1] # rate
+            shape <- exp(beta[ncov + 2 * i]) # beta[ncov+2i] = log(shape)
+            rate <- beta[ncov + 2 * i - 1] 
             
-            ezbH <- ezb * (exp(rate * T) - exp(rate * T0))
+            ##ezbH <- ezb * (exp(rate * T) - exp(rate * T0))
+            ezbHr <- ezb * (dcumhaz_rate(T, shape, rate) - 
+                               dcumhaz_rate(T0, shape, rate))
             
-            grad[ncov + 2 * i] <- sum(D) -  sum(ezbH) * exp(shape) / rate
+            ezbH <- ezb * 
+                (Hgompertz(T, shape = shape, rate = rate, param = "rate") -
+                     Hgompertz(T0, shape = shape, rate = rate, param = "rate"))
+            ezbHs <- ezbH 
             
-            grad[ncov + 2 * i - 1] <- sum(D * T) +
-                sum(ezbH) * exp(shape) / rate^2 -
-                sum(ezb * (T * exp(rate * T) -
-                           T0 * exp(rate * T0))) * exp(shape) / rate
+            ## shape:
+            grad[ncov + 2 * i] <- sum(D) - sum(ezbHs)
             
+            ##rate:
+            grad[ncov + 2 * i - 1] <- sum(D * T) - sum(ezbHr)
+            
+            ## Covariates (if any):
             if (ncov){
                 for (j in 1:ncov){
                     grad[j] <- grad[j] +
-                        sum(D * z[, j]) - sum(ezbH * z[, j]) * exp(shape) / rate
+                        ##sum(D * z[, j]) - sum(ezbH * z[, j]) * exp(shape) / rate
+                        sum(D * z[, j]) - sum(z[, j] * ezbH)
                 }
             }
         }
+
         grad
     }    
     
@@ -102,17 +125,22 @@ gompregRate <- function(X, Y, strata, offset, init, control){
             T <- exit[strata == i]
             D <- event[strata == i]
             rate <- beta[ncov + 2 * i - 1] # Note; eg, log(scale) = rate!
-            shape <- beta[ncov + 2 * i]    # Note; eg, log(shape)!
+
+            shape <- exp(beta[ncov + 2 * i])    # Note; beta = log(shape)!
             if (ncov){
                 bz <- offset[strata == i] +
                     X[strata == i, , drop = FALSE] %*% beta[1:ncov]
+                if (printlevel) cat("beta = ", beta[1:ncov], "\n")
             }else{
                 bz <- offset[strata == i]
             }
             ebz <- exp(bz)
-            ell <- sum(D * (shape + rate * T + bz)) -
-                exp(shape) * sum(ebz * (exp(rate * T) - exp(rate * T0))) / rate
-            total <- total + ell
+            H1 <- Hgompertz(T, shape = shape, rate = rate, param = "rate")
+            H0 <- Hgompertz(T0, shape = shape, rate = rate, param = "rate")
+            ## log(h):
+            h <- hgompertz(T, shape = shape, rate = rate, 
+                           param = "rate", log = TRUE)
+            total <- total + sum(D * (h + bz)) - sum(ebz * (H1 - H0))
         }
         if (printlevel){
             cat("[Fmin]: total = ", total, "\n")
@@ -134,53 +162,60 @@ gompregRate <- function(X, Y, strata, offset, init, control){
         event <- Y[strata == i, 3]
         score <- offset[strata == i]## + X[strata == i, , drop = FALSE] %*% init
         beta0[(2 * i - 1):(2 * i)] <-
-            gompstartRate(enter, exit, event, score) 
+            gompstartRate(enter, exit, event, score, simple = FALSE) 
         if (printlevel){
             cat("[gompregRate null]: i = ", i, "start values = ", beta0[(2 * i - 1):(2 * i)], "\n")
         }
-        ##beta0[ncov + 2 * i - 1] <- log(max(Y[strata == i, 2]))
-        ##beta0[ncov + 2 * i] <- log(sum(Y[strata == i, 3]) /
-          ##                          sum(Y[strata == i, 2])) - 1
     }
 
     ## NULL model:
     res0 <- optim(beta0, Fmin, gr = dGomp,
                  method = "BFGS",
-                 control = list(fnscale = -1, reltol = 1e-10),
+                 control = list(fnscale = -1, reltol = 1e-10, 
+                                trace = printlevel),
                  hessian = FALSE)
-    ## Done; now the real thing:
+
+
+    if (printlevel){
+        cat("counts: ", res0$counts, "\n")
+        cat("[res0] fprim = ", dGomp(res0$par), "\n")
+    }
+    
+    ## Done; now the real thing:    
+    
     ncov <- ncov.save
 
-    
     beta <- numeric(bdim)
     
     if (ncov)
         beta[1:ncov] <- init  # Start values
 
-    ##beta[(ncov + 1):length(beta)] <- res0$par # Ditto
-    ##Start values:
-    for (i in 1:ns){
-        enter <- Y[strata == i, 1]
-        exit <- Y[strata == i, 2]
-        event <- Y[strata == i, 3]
-        score <- offset[strata == i] + X[strata == i, , drop = FALSE] %*% init
-        beta[(ncov + 2 * i - 1):(ncov + 2 * i)] <-
-            gompstartRate(enter, exit, event, score) 
-        if (printlevel){
-            cat("[gompregRate]: i = ", i, "start values = ", beta0[(2 * i - 1):(2 * i)], "\n")
+    beta[(ncov + 1):length(beta)] <- res0$par # Ditto
+    if (FALSE){
+        ##Start values: # Already given above
+        for (i in 1:ns){
+            enter <- Y[strata == i, 1]
+            exit <- Y[strata == i, 2]
+            event <- Y[strata == i, 3]
+            score <- offset[strata == i] + X[strata == i, , drop = FALSE] %*% init
+            beta[(ncov + 2 * i - 1):(ncov + 2 * i)] <-
+                gompstartRate(enter, exit, event, score, simple = FALSE) 
+            if (printlevel){
+                cat("[gompregRate]: i = ", i, "start values = ", 
+                    beta, "\n")
+                ##beta[(ncov + 2 * i - 1):(ncov + 2 * i)], "\n")
+            }
         }
-        ##beta0[ncov + 2 * i - 1] <- log(max(Y[strata == i, 2]))
-        ##beta0[ncov + 2 * i] <- log(sum(Y[strata == i, 3]) /
-          ##                          sum(Y[strata == i, 2])) - 1
     }
 
-    ncov.save <- ncov
-    ncov <- 0
+    ##ncov.save <- ncov
+    ##ncov <- 0
     ##l0 <- Fmin(beta[(ncov.save + 1):bdim])
-    ncov <- ncov.save
+    ##ncov <- ncov.save
     res <- optim(beta, Fmin, gr = dGomp,
                  method = "BFGS",
-                 control = list(fnscale = -1, reltol = 1e-10),
+                 control = list(fnscale = -1, reltol = 1e-10,
+                                trace = printlevel),
                  hessian = TRUE)
     if (res$convergence != 0) stop("[gompreg]: No convergence")
     coefficients <- res$par

@@ -369,15 +369,17 @@ phreg <- function (formula = formula(data),
     }
 
     if (ncov){
-        fit$linear.predictors <- offset + X %*%
-            fit$coefficients[1:(ncov + intercept)]
-        fit$means <- X.means
+      ##cat("ncov = ", ncov, "\n")
+      fit$linear.predictors <- offset + X %*%
+        fit$coefficients[1:(ncov + intercept)]
+      ##fit$means <- X.means
     }else{
-        fit$linear.predictors <- numeric(0)
-        fit$means <- numeric(0)
+      fit$linear.predictors <- numeric(0)
+      ##fit$means <- numeric(0)
     }
     ##score <- exp(lp)
 
+    ##cat("fit$means == ", fit$means, "\n")
     if (!fit$fail){
         fit$fail <- NULL
     }else{
