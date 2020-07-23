@@ -1,0 +1,94 @@
+---
+title: "Parametric survival models"
+author: "Göran Broström"
+package: eha
+date: "`r Sys.Date()`"
+slug: eha
+link-citations: yes
+output: 
+    bookdown::html_document2:
+        toc: yes
+        toc_depth: 2
+pkgdown:
+    as_is: true
+bibliography: mybib.bib
+vignette: >
+  %\VignetteIndexEntry{Parametric survival models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+library(eha)
+options(digits = 4, fig.width=8)
+```
+
+A unified implementation of parametric *proportional hazards* (PH) and
+*accelerated failure time* (AFT) models for right-censored or
+interval-censored and left-truncated data is described in a 
+[separate paper](parametric1.pdf). It gives the mathematical background, but the 
+user guide is this vignette.
+
+# The proportional hazards model
+
+The parametric proportional hazards (PH) model has the same characteristics as 
+*Cox's proportional hazards model*, with the exception that the 
+*baseline hazard function* in the parametric case is explicitly estimated together
+with regression coefficients (if any). If two hazard functions $h_0$ and $h_1$
+have the property that
+\begin{equation}
+h_1(t) = \psi h_0(t), \quad \text{for all $t > 0$ and some $\psi > 0$},
+\end{equation}
+we say that they are *proportional*. This property is inherited by the 
+*cumulative hazards functions*:
+
+\begin{equation}
+H_1(t) = \psi H_0(t), \quad \text{for all $t > 0$ and some $\psi > 0$},
+\end{equation}
+but the relation between the corresponding survivor functions becomes
+
+\begin{equation}
+S_1(t) = \{S_0(t)\}^\psi, \quad \text{for all $t > 0$ and some $\psi > 0$}.
+\end{equation}
+
+We assume here that $\psi$ is *constant*, not varying with $t$.
+
+## Available distributions
+
+The *Weibull* distribution is one of the distributions that are available in
+the `phreg` function. Its hazard function is available in **eha** under
+the name `hweibull`, and it is defined as
+
+\begin{equation}
+h_0\bigl(t; (p, \lambda)\bigr) = \frac{p}{\lambda}\biggl(\frac{t}{\lambda}\biggr)^{p - 1},
+\quad t, p, \lambda > 0.
+\end{equation}
+Here $p$ is a *shape* parameter and $\lambda$ is a *scale* parameter, and it is
+easy to see that if we keep $p$ fixed and vary $\lambda$, the result is a family 
+of proportional hazards Weibull distributions, or, in other words, the Weibull
+distribution is *closed under proportional hazards*. 
+
+The PH regression model looks like this:
+\begin{equation}
+h(t; (p, \lambda, \beta)) = e^{\beta z} h_0\bigl(t; (p, \lambda)\bigr),
+\quad t, p, \lambda > 0.
+\end{equation}
+where $\beta$ is the (vector of) regression coefficient(s). The Weibull 
+hazard function is *monotone*, that is, either increasing ($p > 1$) or 
+decreasing ($p < 1$). When $p = 1$, the hazard function is constant over time
+and this special case is called the *exponential distribution*. 
+
+In demographic applications, the Weibull distribution has been used to describe 
+mortality in early ages, say 0--10 years of age. The  
+
+
+
+
+
+
+
+
+# The accelerated failure time model
+
+Here it is more natural to 
