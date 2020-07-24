@@ -5,7 +5,7 @@
 #' 
 #' 
 #' @param x A \code{phreg} object
-#' @param fn Which function should be plotted? Default is the cumulative hazard(s).  
+#' @param fn Which function should be plotted? Default is the hazard function(s).  
 #' @param main Header for the plot
 #' @param xlim x limits
 #' @param ylim y limits
@@ -34,7 +34,7 @@
 #' 
 #' @export
 plot.phreg <- function(x,
-                       fn = c("cum"),
+                       fn = c("haz", "cum", "den", "sur"),
                        main = NULL,
                        xlim = NULL,
                        ylim = NULL,
@@ -56,18 +56,21 @@ plot.phreg <- function(x,
     if (length(col) < x$n.strata) col <- rep(col, x$n.strata)
     if (length(lty) < x$n.strata) lty <- rep(lty, x$n.strata)
 
-    if (!(all(fn %in% c("haz", "cum", "den", "sur"))))
+    fn <- fn[1]
+    if (fn == "surv") fn <- "sur"
+    if (fn == "cumhaz") fn <- "cum"
+    if (!(fn %in% c("haz", "cum", "den", "sur")))
         stop(paste(fn, "is an illegal value of 'fn'"))
 
 
-    if (length(fn) >= 3){
-        oldpar <- par(mfrow = c(2, 2))
-        on.exit(par(oldpar))
-    }else if (length(fn) == 2){
-        oldpar <- par(mfrow = c(2, 1))
-        on.exit(par(oldpar))
-    }
-    ncov <- length(x$means)
+    ##if (length(fn) >= 3){
+    ##    oldpar <- par(mfrow = c(2, 2))
+    ##    on.exit(par(oldpar))
+    ##}else if (length(fn) == 2){
+    ##    oldpar <- par(mfrow = c(2, 1))
+    ##    on.exit(par(oldpar))
+    ##}
+    ncov <- length(x$w.means)
     ns <- x$n.strata
     if (x$pfixed){
         shape <- rep(x$shape, ns)
