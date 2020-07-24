@@ -1,8 +1,5 @@
 #' Prints summary.coxreg objects
 #' 
-#' Doesn't work with three-way and higher interactions, in which case
-#' \code{print.coxph} is used.
-#' 
 #' @param x A \code{summary.coxreg} object, typically the result of running
 #' \code{summary.coxreg}, summary on a coxreg object.
 #' @param digits Output format.
@@ -40,10 +37,10 @@ print.summary.coxreg <- function(x, digits = 3, ...){
     savedig <- options(digits = digits)
     on.exit(options(savedig))
 
-    coef <- x$coefficients
-    se <- sqrt(diag(x$var))
+    coef <- x$coefficients[, 1]
+    se <- x$coefficients[, 3]
 
-    wald.p <- formatC(1 - pchisq((coef/ se)^2, 1),
+    wald.p <- formatC(pchisq((coef / se)^2, 1, lower.tail = FALSE),
                       digits = digits,
                       width = 9, format = "f")
     if(is.null(coef) | is.null(se))
@@ -51,7 +48,8 @@ print.summary.coxreg <- function(x, digits = 3, ...){
     ## Check for dr:
     lp <- !is.null(x$dr)
     if (lp){
-        lpval <- formatC(x$dr[-1, 4], digits = digits, width = 9, format = "f")
+        dr <- x$dr[rownames(x$dr) %in% x$covars, ]
+        lpval <- formatC(dr[, 4], digits = digits, width = 9, format = "f")
     }
 #####################################
     if (lp){

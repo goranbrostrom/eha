@@ -11,9 +11,9 @@
 #' @usage coxreg(formula = formula(data), data = parent.frame(), weights,
 #' subset, t.offset, na.action = getOption("na.action"), init = NULL, method =
 #' c("efron", "breslow", "mppl", "ml"), control = list(eps = 1e-08, maxiter =
-#' 25, trace = FALSE), singular.ok = TRUE, model = FALSE, center, x =
-#' FALSE, y = TRUE, hazards, boot = FALSE, efrac = 0, geometric = FALSE,
-#' rs = NULL, frailty = NULL, max.survs = NULL)
+#' 25, trace = FALSE), singular.ok = TRUE, model = FALSE, center = NULL, x =
+#' FALSE, y = TRUE, hazards = NULL, boot = FALSE, efrac = 0, geometric = FALSE,
+#' rs = NULL, frailty = NULL, max.survs = NULL, coxph = FALSE)
 #'
 #' @param formula a formula object, with the response on the left of a ~
 #' operator, and the terms on the right. The response must be a survival object
@@ -41,7 +41,7 @@
 #' @param x Return the design matrix in the model object?
 #' @param y return the response in the model object?
 #' @param hazards deprecated. Was: Calculate baseline hazards? Default is TRUE.
-#' Calculating hazards is better done separately, after fitting.
+#' Calculating hazards is better done separately, after fitting. In most cases.
 #' @param boot Number of boot replicates. Defaults to FALSE, no boot samples.
 #' @param efrac Upper limit of fraction failures in 'mppl'.
 #' @param geometric If TRUE, forces an 'ml' model with constant riskset
@@ -50,6 +50,8 @@
 #' @param frailty Grouping variable for frailty analysis. Not in use (yet).
 #' @param max.survs Sampling of risk sets? If given, it should be (the upper
 #' limit of) the number of survivors in each risk set.
+#' @param coxph Logical, defaults to \code{FALSE}. Determines if standard work
+#' should be passed to \code{\link[survival]{coxph}} via entry points. 
 #' @return A list of class \code{c("coxreg", "coxph")} with components
 #' \item{coefficients}{Fitted parameter estimates.}
 #' \item{var}{Covariance matrix of the estimates.}
@@ -59,10 +61,10 @@
 #' \item{score}{The score test statistic (at the initial value).}
 #' \item{linear.predictors}{The estimated linear predictors.}
 #' \item{residuals}{The martingale residuals.}
-#' \item{hazard}{The estimated baseline hazard, calculated at the means of
+#' \item{hazard}{The estimated baseline hazard, calculated at the value zero of
 #' the covariates (rather, columns of the design matrix). Is a list,
 #' with one component per stratum. Each
-#' component is a matrix with two columns, the first contains risktimes, the
+#' component is a matrix with two columns, the first contains risk times, the
 #' second the corresponding hazard atom.}
 #' \item{means}{Means of the columns of
 #' the design matrix corresponding to covariates, if \code{center = TRUE}.
@@ -73,7 +75,7 @@
 #' weighted relative frequencies of levels of factors.}
 #' \item{n}{Number of spells in indata (possibly after removal of cases
 #' with NA's).}
-#' \item{events}{Number of events in data.}
+#' \item{n.events}{Number of events in data.}
 #' \item{terms}{Used by extractor functions.}
 #' \item{assign}{Used by extractor functions.}
 #' \item{y}{The Surv vector.}
@@ -136,7 +138,8 @@ coxreg <- function (formula = formula(data),
                     geometric = FALSE,
                     rs = NULL,
                     frailty = NULL,
-                    max.survs = NULL)
+                    max.survs = NULL,
+                    coxph = FALSE)
 {
 
     if (!missing(center)){
@@ -147,22 +150,26 @@ coxreg <- function (formula = formula(data),
     }
     
     meth <- method[1]
-    cox.ph <- (missing(t.offset) &&
-               (meth %in% c("breslow", "efron")) &&
-               is.null(rs) &&
-               is.null(max.survs) &&
-               (!boot) &&
-               (efrac == 0) &&
-               is.null(frailty) &&
-               (!geometric)
-               )
-    
-    if (cox.ph){
+    if (coxph){
+        cox.ph <- (missing(t.offset) &&
+                       (meth %in% c("breslow", "efron")) &&
+                       is.null(rs) &&
+                       is.null(max.survs) &&
+                       (!boot) &&
+                       (efrac == 0) &&
+                       is.null(frailty) &&
+                       (!geometric))
+        if (!cox.ph) warning("'coxph is not called despite 'coxph = TRUE'")
+    }else{
+        cox.ph <- coxph # == FALSE
+    }
+    if (FALSE){  ############################## NOTE!!!!###########
+    ##if (cox.ph){
         Call <- match.call()
         Call[[1]] <- quote(survival::coxph)
         ##return(Call)
         fit <- eval.parent(Call)
-        class(fit) <- "coxreg"
+        class(fit) <- c("coxreg", "coxph")
         ##return(fit)
     }
     if (!is.null(frailty))
@@ -214,7 +221,7 @@ coxreg <- function (formula = formula(data),
         dropx <- c(dropx, temp$terms)
         if (length(temp$vars) == 1)
             strata.keep <- m[[temp$vars]]
-        else strata.keep <- strata(m[, temp$vars], shortlabel = TRUE)
+        else strata.keep <- survival::strata(m[, temp$vars], shortlabel = TRUE)
         strats <- as.numeric(strata.keep)
     }
     if (length(dropx))
@@ -304,8 +311,9 @@ coxreg <- function (formula = formula(data),
 
     n.events <- sum(Y[, NCOL(Y)] != 0)
     if (n.events == 0) stop("No events; no sense in continuing!")
-        
-    if (cox.ph){  ## NEW ++++
+    
+    if (FALSE){   ########################## NOTE!!!! ################### 
+    ##if (cox.ph){  ## NEW ++++
         fit$df <- length(fit$coefficients)
         fit$isF <- isF
         fit$isI <- isI
@@ -346,10 +354,10 @@ coxreg <- function (formula = formula(data),
         }
         fit$nullModel <- TRUE
         ##if (hazards){
-          ##  scores <- exp(offset)
-        ##    hazards <- getHaz(Y, stratum, scores)
-        ##    class(hazards) <- "hazdata"
-        ##    fit$hazards <- hazards
+        scores <- exp(offset)
+        hazards <- getHaz(Y, stratum, scores) ## Make this fast with C?
+        class(hazards) <- "hazdata"
+        fit$hazards <- hazards
         ##}
         fit$call <- call
         fit$n.events <- n.events
@@ -585,7 +593,7 @@ coxreg <- function (formula = formula(data),
     fit$formula <- formula(Terms)
     fit$terms <- Terms
     fit$call <- call
-    fit$events <- n.events
+    fit$n.events <- n.events
     ##fit$center <- center
     if (length(fit$coefficients)){
         names(fit$coefficients) <- colnames(X)
