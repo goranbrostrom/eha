@@ -1,0 +1,256 @@
+---
+title: "Proportional hazards regression with tabular data"
+author: "Göran Broström"
+package: eha
+date: "`r Sys.Date()`"
+slug: eha
+link-citations: yes
+output: 
+    bookdown::html_document2:
+        toc: yes
+        toc_depth: 2
+pkgdown:
+    as_is: true
+bibliography: mybib.bib
+vignette: >
+  %\VignetteIndexEntry{Proportional hazards regression with tabular data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+library(eha)
+options(digits = 4, fig.width=8)
+```
+
+Cox regression is not very suitable in the analysis of huge data sets with a lot
+of events (e.g., deaths). For instance, consider analyzing the mortality of 
+the Swedish population aged 60--110 during the years 1968-2019, where we can 
+count to more than four million deaths. 
+
+The obvious way to handle that situation is by tabulation and applying a 
+*piecewise constant hazard* function, because it is a well-known fact that any 
+continuous function can arbitrary well be approximated by a step function, 
+simply by taking small enough steps.
+
+# Tabular data
+
+The data sets `swepop` and `swedeaths` in `eha` contain age and sex 
+specific yearly information on population size and number of deaths, 
+respectively. They both cover the full *Swedish population* the years 1968--2019.
+
+The first few rows of each:
+
+```{r swe}
+head(swepop)
+head(swedeaths)
+```
+
+The funny rownames and the column `id` are created by the function `reshape`, 
+which was used to transform the original tables, given in *wide format*, to
+*long format*. In the original data, downloaded from 
+[Statistics Sweden](https://www.scb.se), the population size refers to the last
+day, December 31, of the given year, but here it refers to an average of that 
+value and the corresponding one the previous year. In that way we get an estimate
+of the number of *person years*, which allows us to consider number of 
+*occurrences* and *exposure time* in each cell of the data. This information will 
+allow us to fit *proportional hazards* survival models. So we start by joining
+the two data sets and remove irrelevant stuff:
+
+```{r cleantab}
+dat <- swepop[, c("age", "sex", "year", "pop")]
+dat$deaths <- swedeaths$deaths
+rownames(dat) <- 1:NROW(dat) # Simplify rownames.
+head(dat)
+tail(dat)
+```
+
+We note that the age column ends with `age == 100`, which in fact means 
+`age >= 100`. There are in total `r sum(dat$deaths)` observed deaths during the years 
+1968--2019, or `r as.integer(round(sum(dat$deaths) / (2019 - 1967)))` deaths per
+year on average. There are 101 age groups, two sexes, and 52 years, in all 10504 
+cells (rows in the data frame).
+
+## Poission regression
+
+Assuming a piecewise constant hazards model on the 101 age groups, we can fit a 
+proportional hazards model by *Poisson regression*, utilizing the fact that two 
+likelihood functions in fact are identical. In **R**, we use `glm`.
+
+```{r glm}
+fit.glm <- glm(deaths ~ offset(log(pop)) + I(year - 2000) + sex + 
+                 factor(age), data = dat, family = poisson)
+summary(fit.glm)$coefficients[2:3, ]
+```
+
+The 101 coefficients corresponding to the intercept and the age factor can be 
+used to estimate the *hazard function*: The intercept, `r fit.glm$coefficients[1]`,
+is the log of the hazard in the age interval 0-1, and the rest are differences to
+that value, so we can reconstruct the baseline hazard by
+
+```{r glmbase}
+
+lhaz <- coefficients(fit.glm)[-(2:3)]
+n <- length(lhaz)
+lhaz[-1] <- lhaz[-1] + lhaz[1]
+haz <- exp(lhaz)
+``` 
+
+and plot the result, see Figure \@ref(fig:glmbasefig).
+
+```{r glmbasefig,  fig.cap = "Age-specific mortality, Sweden 1968-2019. Poisson regression."}
+oldpar <- par(las = 1, lwd = 1.5, mfrow = c(1, 2))
+plot(0:(n-1), haz, type = "s", main = "log(hazards)", 
+     xlab = "Age", ylab = "", log = "y")
+plot(0:(n-1), haz, type = "s", main = "hazards", 
+     xlab = "Age", ylab = "Deaths / Year")
+```
+
+
+```{r restore1, echo = FALSE}
+par(oldpar) # Restore the default
+```
+
+
+## The tpchreg function
+
+While it straightforward to use glm and Poisson regression to fit the model, it
+takes some efforts to get it right. That is the reason for the creation of
+the function `tpchreg` ("Tabular Piecewise Constant Hazards REGression"), and 
+with it, the "Poisson analysis" is performed by
+
+```{r tpchreg1}
+fit <- tpchreg(oe(deaths, pop) ~ I(year - 2000) + sex, 
+               time = age, last = 101, data = dat)
+```
+
+Note:
+
+*   The function `oe` ("occurrence/exposure") takes two arguments, the first 
+is the number of events (deaths in our example), and the second is exposure time,
+or person years.
+
+*   The argument `time` is the defining time intervals variable. It can be either character, like 
+c("0-1", "1-2", ..., "100-101") or numeric (as here). If numeric, the value refers 
+to the start of the corresponding interval, and the next start is the end of the
+previous interval. This leaves the last interval's endpoint undefined, and if not given
+by the `last` argument (see below), it is chosen so that the length of the last interval is 
+one.
+
+*   The argument `last` closes the last interval, if is not already closed, see 
+above. The exact value of last is only important for plotting and for the calculation 
+of the *restricted mean survival time*, (RMST) see the summary result below.
+
+```{r showf}
+summary(fit)
+```
+
+The restricted mean survival time is defined as the integral of the survivor 
+function over the given time interval. Note that if the lower limit of the interval
+is larger than zero, it gives the *conditional* restricted mean survival time, given 
+survival to the lower endpoint.
+
+Graphs of the hazards and the log(hazards) functions are shown in Figure 
+\@ref(fig:tpplot).
+
+```{r tpplot, fig.cap = "Age-specific mortality, Sweden 1968-2019. 'tpch' regression. Baseline refers to women and the year 2000."}
+oldpar <- par(mfrow = c(1, 2), las = 1, lwd = 1.5)
+plot(fit, fn = "haz", log = "y", main = "log(hazards)", 
+     xlab = "Age")
+plot(fit, fn = "haz", log = "", main = "hazards", 
+     xlab = "Age", ylab = "Deaths / Year")
+```
+
+Same results as with `glm` and Poisson regression, but a lot simpler.
+
+# Tabulating standard survival data
+
+Sometimes you have a large data file in classical, individual form, suitable for
+*Cox regression* with `coxreg`, but the mere size makes it impractical, or even
+impossible. Then help is close by tabulating and assuming a piecewise constant 
+hazard function, returning to the method in the previous section, that is, using
+`tpchreg`.
+
+The helper function is `toTpch`, and we illustrate its use on the `oldmort` data
+frame:
+
+```{r tpTpchex}
+head(oldmort[, c("enter", "exit", "event", "sex", "civ", "birthdate")])
+oldmort$birthyear <- floor(oldmort$birthdate) - 1800
+om <- toTpch(Surv(enter, exit, event) ~ sex + civ + birthyear, 
+             cuts = seq(60, 100, by = 2), data = oldmort)
+head(om)
+```
+Note two things:
+
+*   The creation of a new variable, `birthyear`. The original `birthdate` is
+given with precision days and contains `r length(unique(oldmort$birthdate))` 
+unique values, which will contribute to creating a very large table, so the 
+transformation gives *birth year* with `r length(unique(oldmort$birthyear))`
+unique values. Further, the new variable is given a 
+*reference value* of 1800 by subtraction, necessary so that the baseline does
+not coincide with the birth of Christ. Will foremost affect plotting of the 
+estimated survivor function. However, regression parameter estimates are 
+unaffected, as long as *no interaction effect* including `birthyear` is present. 
+
+*   The length of the time pieces is set to two years, in order to avoid empty 
+intervals in the upper age range. This choice has only a marginal effect on the
+final results of the analyses. You can try it out yourself. Note that it is not 
+necessary to use equidistant cut points, it is chosen here only for convenience.
+
+Now we can run `tpchreg` as before
+
+```{r rbef}
+fit3 <- tpchreg(oe(event, exposure) ~ sex + civ + 
+                  birthyear, time = age, data = om)
+summary(fit3)
+
+```
+
+And the hazards graphs are shown in Figure \@ref(fig:plotom).
+
+```{r plotom, fig.cap = "Old age mortality, Skellefteå 1860-1880."}
+oldpar <- par(mfrow = c(1, 2), las = 1, lwd = 1.5)
+plot(fit3, fn = "haz", log = "y", main = "log(hazards)", 
+     xlab = "Age", ylab = "log(Deaths / Year)", col = "blue")
+plot(fit3, fn = "haz", log = "", main = "hazards", 
+     xlab = "Age", ylab = "Deaths / Year", col = "blue")
+```
+
+The plots of the *survivor* and *cumulative hazards* functions are "smoother", 
+see Figure \@ref(fig:plotsurcum).
+
+```{r plotsurcum, fig.cap = "Old age mortality, Skellefteå 1860-1880. Cumulative hazards and survivor functions."}
+oldpar <- par(mfrow = c(1, 2), las = 1, lwd = 1.5)
+plot(fit3, fn = "cum", log = "y", main = "Cum. hazards", 
+     xlab = "Age", col = "blue")
+plot(fit3, fn = "sur", log = "", main = "Survivor function", 
+     xlab = "Age", col = "blue")
+par(oldpar)
+```
+
+A comparison with Cox regression on the original data.
+
+```{r coxorig}
+fit4 <- coxreg(Surv(enter, exit, event) ~ sex + civ + I(birthdate - 1800), 
+               data = oldmort)
+summary(fit4)
+```
+
+And the graphs, see Figure \@ref(fig:coxgraphs).
+
+```{r coxgraphs, fig.cap = "Old age mortality, Skellefteå 1860-1880. Cox regression with original data."}
+oldpar <- par(mfrow = c(1, 2), lwd = 1.5, las = 1)
+plot(fit4, main = "Cumulative hazards", xlab = "Age", 
+     col = "blue")
+plot(fit4, main = "Survivor function", xlab = "Age", 
+     fn = "surv", col = "blue")
+```
+
+```{r echo = FALSE}
+par(oldpar)
+```
+
+
+# References

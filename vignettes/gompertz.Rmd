@@ -1,0 +1,30 @@
+---
+title: "The Gompertz distribution"
+author: "Göran Broström"
+date: "`r Sys.Date()`"
+slug: eha
+output: bookdown::html_document2
+link-citations: yes
+pkgdown:
+  as_is: true
+bibliography: mybib.bib
+vignette: >
+  %\VignetteIndexEntry{The Gompertz distribution}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+library(eha)
+options(digits = 4)
+```
+
+This vignette is still ongoing work, so if you are looking for something you cannot
+find, please [alert me](https://github.com/goranbrostrom/eha/issues/) and I will
+do something about it.
+
+# Background
+
+Despite stated otherwise by some, the *Gompertz* distribution can be parameterized 
+both as a PH model *and* as an AFT one.
