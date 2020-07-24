@@ -1,3 +1,41 @@
+2.8.1.9925 (Jul 24, 2020)
+    * plot.phreg: Only one function per plot is the rule now. Except of course
+    if the analysis was stratified.
+    * Gompertz: Fix errors in documentation.
+    * plot.coxreg: Some minor anomalies fixed.
+    * coxreg: Default for coxph changed to FALSE.
+    * print.summary.coxreg: Bug wrt LR p fixed.
+    * child: New data set added.
+
+2.8.1.9920 (Jul 23, 2020)
+    * phreg: fixed bug in Gompertz regresion with 'rate' parametrization. 
+    BTW, the 'rate' paramerization will be the default soon!
+
+2.8.1.9910 (Jul 22, 2020)
+    * Gompertz: added argument 'rate' to all functions.
+    
+2.8.1.9900 (Jul 17, 2020)
+    plot.coxreg: Test for presence of 'hazards' object, avoid bug when 
+    'coxph = FALSE'.
+
+2.8.1.9850 (Jul 13, 2020)
+    * risksets: New argument 'collate_sets', a logical. Defaults to FALSE,
+    which conserves old behaviour. If TRUE, output is a list of lists, where 
+    each level 2 list describes one risk set.
+    
+2.8.1.9800 (Jul 13, 2020)
+	* coxfunk: New function calculating a partial likelihood.
+
+2.8.1.9750 (Jul 10, 2020)
+    * Vignette 'Proportional hazards regression with tabular data' develops.
+
+2.8.1.9700 (Jul 8, 2020)
+    * coxreg: New argument 'coxph' (logical) is introduced. If TRUE, 
+    survival::agreg.fit (or survival::coxph.fit) is called for in the 
+    optimization. If FALSE, 'own' optimization is called for, can be slow 
+    for (even moderately) large data sets (many distinct event time points).
+    Default value is TRUE.
+
 2.8.1.9650 (Jul 7, 2020)
     * plot.coxreg: Fixed newly introduced bug in the cases 'method = m(pp)l'.
     * eha vignette: First serious attempt.
