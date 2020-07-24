@@ -34,7 +34,7 @@
 From 5641 first-born in seven Swedish parishes 1820-1895, from Fleninge in the
 very south to Nedertorneå in the very north, those whose mother died
 during their first year of life were selected, in all 35 infants. To
-each of them, two cotrols were selected by matching on the given covariates.
+each of them, two controls were selected by matching on the given covariates.
 } 
 \source{
 Data originate from The Demographic Data Base, Umeå University, Umeå, Sweden,

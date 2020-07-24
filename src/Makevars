@@ -2,3 +2,5 @@
 ##PKG_FFLAGS = -fno-optimize-sibling-calls
 PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) 
 ##CFLAGS=-Wall -g -O2 -fpic -pedantic -flto
+###PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS)
+###PKG_LIBS = $(SHLIB_OPENMP_CFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)

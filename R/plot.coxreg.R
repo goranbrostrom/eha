@@ -36,53 +36,65 @@ plot.coxreg <- function(x,
                         ylab = "",
                         col = 1,
                         lty = 1, 
-                        printLegend = FALSE,
+                        printLegend = TRUE,
                         ...){
    if (!inherits(x, c("coxreg", "coxph"))){
       stop("Works only with 'coxreg' and 'coxph' objects")
    }
-   if (x$method %in% c("ml", "mppl")){
-      plot.hazdata(x$hazards, fn = fn, fig = fig, xlim = xlim, ylim = ylim, 
-                   main = main, xlab = xlab, ylab = ylab, col = col, 
+   ##if (x$method %in% c("ml", "mppl")){
+   if (is.null(x$hazards)){
+      x$hazards <- getHaz(x$y, strats = x$stratum, 
+                          score = exp(x$linear.predictors))
+   }
+   ##if (!is.null(x$hazards)){
+   if (all(names(x$hazards) == as.character(1:length(x$hazards)))){
+      if (!is.null(x$strata)){
+         names(x$hazards) <- x$strata 
+      }
+   }
+   res <- plot.hazdata(x$hazards, fn = fn, fig = fig, xlim = xlim, ylim = ylim, 
+                  main = main, xlab = xlab, ylab = ylab, col = col, 
                    lty = lty, printLegend = printLegend)
-      return(invisible(NULL))
-   }
-   x$means <- numeric(length(x$coefficients))
-   class(x) <- "coxph"
-   fn <- fn[1]
-   if (fn == "cum"){
-      fn = "cumhaz"
-   }else{
-      if (fn == "loglog"){
-         fn = "cloglog"
-      }
-   }
+   return(invisible(res))
 
-   if (is.null(xlim)) {
-      if (NCOL(x$y) == 3){
-         xlim <- c(min(as.numeric(x$y[, 1])), max(as.numeric(x$y[, 2])))
-      }
-   }
-   if (is.null(ylim)){
-      
-   }
-   
    if (FALSE){
-   ##if (!is.null(x$nullModel) && x$nullModel){ # NOT NEEDED!!!
-      ## Null model and from coxreg...
-      plot(x$y ~ 1, fun = fn, xlab = xlab, ylab = ylab, main = main, 
-           xlim = xlim, col = col, lty = lty, conf.int = conf.int)
-      if (printLegend && length(x$stratum)){
-         legend("bottom", legend = x$stratum, lty = lty, col = col)
+      x$means <- numeric(length(x$coefficients))
+      class(x) <- "coxph"
+      fn <- fn[1]
+      if (fn == "cum"){
+         fn = "cumhaz"
+      }else{
+         if (fn == "loglog"){
+            fn = "cloglog"
+         }
       }
+      
+      if (is.null(xlim)) {
+         if (NCOL(x$y) == 3){
+            xlim <- c(min(as.numeric(x$y[, 1])), max(as.numeric(x$y[, 2])))
+         }
+      }
+      if (is.null(ylim)){
          
-   }else{
-       plot(survival::survfit(x), fun = fn, xlab = xlab,
-            ylab = ylab, main = main, xlim = xlim, col = col, lty = lty,
-            conf.int = conf.int)
-      if (printLegend && length(x$stratum) >= 2){
-         legend("bottom", legend = x$stratum, lty = lty, col = col)
-      } 
+      }
+      
+      if (FALSE){
+         ##if (!is.null(x$nullModel) && x$nullModel){ # NOT NEEDED!!!
+         ## Null model and from coxreg...
+         plot(x$y ~ 1, fun = fn, xlab = xlab, ylab = ylab, main = main, 
+              xlim = xlim, col = col, lty = lty, conf.int = conf.int)
+         if (printLegend && length(x$stratum)){
+            legend("bottom", legend = x$stratum, lty = lty, col = col)
+         }
+         
+      }else{
+         plot(survival::survfit(x), fun = fn, xlab = xlab,
+              ylab = ylab, main = main, xlim = xlim, col = col, lty = lty,
+              conf.int = conf.int)
+         if (printLegend && length(x$stratum) >= 2){
+            legend("bottom", legend = x$stratum, lty = lty, col = col)
+         } 
+      }
    }
    ##invisible(y)
 }

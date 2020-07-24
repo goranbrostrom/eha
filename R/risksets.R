@@ -12,15 +12,23 @@
 #' sampling if missing.
 #' @param members If TRUE, all members of all risk sets are listed in the
 #' resulting list, see below.
-#' @return A list with components \item{antrs}{No. of risk sets in each
+#' @param collate_sets logical. If TRUE, group information by
+#' risk sets in a list. Only if \code{members = TRUE}.
+#' @return A list with components (if \code{collate_sets = FALSE})
+#' \item{antrs}{No. of risk sets in each
 #' stratum. The number of strata is given by \code{length(antrs)}.}
-#' \item{risktimes}{Ordered distinct failure time points.} \item{eventset}{If
+#' \item{risktimes}{Ordered distinct failure time points.}
+#' \item{eventset}{If
 #' 'members' is TRUE, a vector of pointers to events in each risk set, else
-#' NULL.} \item{riskset}{If 'members' is TRUE, a vector of pointers to the
+#' NULL.}
+#' \item{riskset}{If 'members' is TRUE, a vector of pointers to the
 #' members of the risk sets, in order. The 'n.events' first are the events. If
-#' 'members' is FALSE, 'riskset' is NULL.} \item{size}{The sizes of the risk
-#' sets.} \item{n.events}{The number of events in each risk set.}
-#' \item{sample_fraction}{If 'members' is TRUE, the sampling fraction of survivors in each risk set.
+#' 'members' is FALSE, 'riskset' is NULL.}
+#' \item{size}{The sizes of the risk
+#' sets.}
+#' \item{n.events}{The number of events in each risk set.}
+#' \item{sample_fraction}{If 'members' is TRUE, the sampling fraction of
+#' survivors in each risk set.
 #' }
 #' @note Can be used to "sample the risk sets". 
 #' @author Göran Broström
@@ -36,7 +44,8 @@
 #' @export risksets
 #' 
 
-risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
+risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE,
+                      collate_sets = FALSE){
     ## x is a Surv (survival) object.
 
   nn <- NROW(x)
@@ -145,10 +154,36 @@ risksets <- function (x, strata = NULL, max.survs = NULL, members = TRUE){
              ##sample_fraction = sample_fraction
              )
   if (members){
-    rs$size <- Size
-    rs$eventset <- Eventset
-    rs$riskset <- Riskset
-    rs$sample_fraction <- sample_fraction
+      rs$size <- Size
+      rs$eventset <- Eventset
+      rs$riskset <- Riskset
+      rs$sample_fraction <- sample_fraction
+      if (collate_sets){
+          out <- vector(mode = "list", length = sum(rs$antrs))
+          rstart <- 1
+          estart <- 1
+          start <- 1
+          for (strata in 1:rs$ns){
+        
+              for (i in 1:rs$antrs[strata]){
+            
+                  ##cat("stratum = ", strata, "rs = ", i, "\n")
+                  out[[start]] <-
+                      list(stratum = strata,
+                           risktime = rs$risktimes[rstart],
+                           events =
+                               rs$eventset[estart:(estart +
+                                                   rs$n.events[start] - 1)],
+                           risk = rs$riskset[rstart:(rstart +
+                                                rs$size[start] - 1)],
+                           sfrac = rs$sample_fraction[start])
+                  estart <- estart + rs$n.events[start]
+                  rstart <- rstart + rs$size[start]
+                  start <- start + 1
+              }
+          }
+          rs <- out
+      }
   }
   class(rs) <- "risksets"
   

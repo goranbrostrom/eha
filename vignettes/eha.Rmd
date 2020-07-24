@@ -169,7 +169,7 @@ The method *ml* performs a maximum likelihood estimation, and the "mppl" method
 is a compromise between the ML method and Efron's metod of handling ties. These 
 methods are described in detail in @gb02.
 
-```{r mppl, cache = TRUE, eval = FALSE}
+```{r mppl, cache = FALSE, eval = FALSE}
 library(eha)
 fit <- coxreg(Surv(enter, exit, event) ~ sex, data = oldmort, method = "ml")
 plot(c(60, fit$hazards[[1]][, 1]), c(0, cumsum(fit$hazards[[1]][, 2])), type = "l")
@@ -218,56 +218,15 @@ is also available in `eha::phreg()`.
 Cox regression is not very suitable in the analysis of huge data sets with a lot
 of events (e.g., deaths). For instance, consider analyzing the mortality of 
 the Swedish population aged 60--110 during the years 1968-2019, where we can 
-count to more than four million deaths. 
-
-The obvious way to handle that situation is by tabulation and applying a 
-*piecewise constant hazard* function. It is a well-known fact that any 
-continuous function can arbitrary well be approximated by a step function, 
-simply by taking small enough steps.
-
-An example: The data sets `swepop` and `swedeaths` contain age and sex specific 
-yearly information on population size and number of deaths, respectively. They 
-both cover the years 1968--2019.
-
-The first few rows of each:
-
-```{r swe}
-head(swepop)
-head(swedeaths)
-```
-
-The funny rownames and the column `id` is created by the function `reshape`, 
-which was used to transform the original tables, given in *wide format*, to
-*long format*. In the original data, downloaded from 
-[Statistics Sweden](https://www.scb.se), the population size refers to the last
-day, December 31, of the given year, but here it refers to an average of that 
-value and the corresponding one the previous year. In that way we get an estimate
-of the number of *person years*, which allows us to consider number of 
-*occurrences* and *exposure time* in each cell of the data. This information will 
-allow us to fit *proportional hazards* survival models. So we start by joining
-the two data sets and remove irrelevant stuff:
-
-```{r cleantab}
-dat <- swepop[, c("age", "sex", "year", "pop")]
-dat$deaths <- swedeaths$deaths
-rownames(dat) <- 1:NROW(dat) # Simplify rownames to avoid distraction.
-head(dat)
-tail(dat)
-```
-
-We note that the age column ends with `age == 100`, which in fact means 
-`age >= 100`. There are in total `r sum(dat$deaths)` observed deaths during the years 
-1968--2019, or `r as.integer(round(sum(dat$deaths) / (2019 - 1967)))` deaths per year on average.
-
-```{r tpchreg}
-fit <- tpchreg(oe(deaths, pop) ~ sex + I(year - 2000), time = age, last = 105,
-               data = dat)
-summary(fit)
-```
+count to more than four million deaths. This is elaborated in a separate 
+vignette.
 
 
 ## The Gompertz distribution
 
+The *Gompertz* distribution has long been part of the possible distributions in 
+the `phreg` and `aftreg` functions, but it is now placed with a function of its 
+own, `gompreg`, see the separate vignette on this topiv.
 
 # Utilities
 

@@ -7,9 +7,11 @@
 #' 
 #' @param x A \code{hazdata} object, typically the 'hazards' element in the
 #' output from \code{link{coxreg}} with \code{method = "ml"} or 
-#' \code{method = "mppl"}.
+#' \code{method = "mppl"} or \code{coxph = FALSE}.
 #' @param strata Stratum names if there are strata present.
-#' @param fn Which type of plot?
+#' @param fn Which type of plot? Allowed values are "cum" (or "cumhaz"),
+#' "surv" (or "sur"), "log", or "loglog". The last two plots the cumulative 
+#' hazards on a log (y) scale or a log-log (xy) scale, respectively. 
 #' @param fig Should a plot actually be produced? Default is TRUE.
 #' @param xlim Horizontal plot limits. If NULL, calculated by the function.
 #' @param ylim Vertical plot limits. If NULL, set to \code{c(0, 1)} for a 
@@ -41,6 +43,8 @@
 #' event <- rep(1, 50)
 #' fit <- coxreg(Surv(time0, time1, event) ~ x + strata(group), method = "ml")
 #' plot(fit$hazards, col = 1:2, fn = "surv", xlab = "Duration")
+#' ## Same result as:
+#' ## plot(fit, col = 1:2, fn = "sur", xlab = "Duration")
 #' 
 #' @export
 plot.hazdata <- function(x, strata = NULL,
@@ -84,24 +88,32 @@ plot.hazdata <- function(x, strata = NULL,
         return(NULL)
     }
         
-    if (!inherits(x, "hazdata")){
-        if (!inherits(x, "coxreg")){
-            stop("First argument must be of type 'hazdata' or 'coxreg'")
-        }else{
-            y <- x
-            x <- x$hazards
-            if (is.null(x)) stop("No 'hazards' component present")
-        }
-    }
+    # if (!inherits(x, "hazdata")){
+    #     if (!inherits(x, "coxreg")){
+    #         stop("First argument must be of type 'hazdata' or 'coxreg'")
+    #     }else{
+    #         y <- x
+    #         x <- x$hazards
+    #         if (is.null(x)) stop("No 'hazards' component present")
+    #     }
+    # }
     fn <- fn[1]
-
+    
+    if (fn == "sur"){
+        fn <- "surv"
+    }else{
+        if (fn == "cumhaz") fn <- "cum"
+    }
     if (!(fn %in% c("cum", "surv", "log", "loglog")))
         stop(paste(fn, "is an illegal value of 'fn'"))
 
     n.strata <- length(x)
+    if (n.strata >= 2 & is.null(strata) & !is.null(names(x))){
+        strata <- names(x)
+    }
 
     if (length(col) < n.strata) col <- rep(col, n.strata)
-    if (length(lty) < n.strata) lty <- rep(lty, n.strata)
+    if (length(lty) < n.strata) lty <- 1:n.strata
     
     yVal <- function(x){
         if (fn == "cum") return(cumsum(x))

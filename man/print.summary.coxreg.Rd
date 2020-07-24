@@ -18,8 +18,7 @@
 No value is returned.
 }
 \description{
-Doesn't work with three-way and higher interactions, in which case
-\code{print.coxph} is used.
+Prints summary.coxreg objects
 }
 \seealso{
 \code{\link{coxreg}}, \code{\link{summary.coxreg}}

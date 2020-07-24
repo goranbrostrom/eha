@@ -17,7 +17,7 @@ Summary for tpchreg objects
 \examples{
 
 ## The function is currently defined as
-function (object, ...) 
+## function (object, ...) 
 
 }
 \seealso{

@@ -6,6 +6,7 @@
 #' 
 #' @param x A \code{tpchreg} object
 #' @param fn Which functions shoud be plotted! Default is the hazard function.
+#' @param log character, "" (default), "y", or "xy".
 #' @param main Header for the plot
 #' @param xlim x limits
 #' @param ylim y limits
@@ -25,6 +26,7 @@
 #' @export
 plot.tpchreg <- function(x,
                        fn = c("haz", "cum", "sur"),
+                       log = "",
                        main = NULL,
                        xlim = NULL,
                        ylim = NULL,
@@ -82,6 +84,10 @@ plot.tpchreg <- function(x,
         }else{
             ylim0 <- ylim
         }
+        if (log != ""){
+            ylim0 <- NULL # ??
+            xlim <- NULL
+        }
         ##if (min(p) < 1) ylim0[2] <- min(ylim0[2], max(haz[, -1]))
 
         if (is.null(xlab)) xlab <- "Duration"
@@ -92,7 +98,7 @@ plot.tpchreg <- function(x,
             hmain <- main
         }
         plot(xx, haz[1, ], type = "l", xlim = xlim, ylim = ylim0,
-             col = col[1], lty = lty[1],
+             col = col[1], lty = lty[1], log = log,
              xlab = xlab, ylab = ylab, main = hmain, ...)
         if (ns > 1){
             for (i in 2:ns){

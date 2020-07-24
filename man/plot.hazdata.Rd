@@ -23,11 +23,13 @@
 \arguments{
 \item{x}{A \code{hazdata} object, typically the 'hazards' element in the
 output from \code{link{coxreg}} with \code{method = "ml"} or 
-\code{method = "mppl"}.}
+\code{method = "mppl"} or \code{coxph = FALSE}.}
 
 \item{strata}{Stratum names if there are strata present.}
 
-\item{fn}{Which type of plot?}
+\item{fn}{Which type of plot? Allowed values are "cum" (or "cumhaz"),
+"surv" (or "sur"), "log", or "loglog". The last two plots the cumulative 
+hazards on a log (y) scale or a log-log (xy) scale, respectively.}
 
 \item{fig}{Should a plot actually be produced? Default is TRUE.}
 
@@ -79,6 +81,8 @@ time1 <- rexp( 50, exp(group) )
 event <- rep(1, 50)
 fit <- coxreg(Surv(time0, time1, event) ~ x + strata(group), method = "ml")
 plot(fit$hazards, col = 1:2, fn = "surv", xlab = "Duration")
+## Same result as:
+## plot(fit, col = 1:2, fn = "sur", xlab = "Duration")
 
 }
 \author{

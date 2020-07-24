@@ -16,7 +16,7 @@
   ylab = "",
   col = 1,
   lty = 1,
-  printLegend = FALSE,
+  printLegend = TRUE,
   ...
 )
 }

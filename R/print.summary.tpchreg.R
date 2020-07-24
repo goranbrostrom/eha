@@ -9,11 +9,17 @@
 #' @seealso \code{\link{tpchreg}}, \code{\link{summary.tpchreg}}
 #' @keywords survival
 #' @export
-
 print.summary.tpchreg <- function(x, 
                                   digits = max(getOption("digits") - 3, 3),
                                   ...){
-    class(x) <- c(class(x), "summary.coxreg")
-    print.summary.coxreg(x, digits)
-    cat("\nRestricted mean survival: ", x$rmean, "\n")
+    class(x) <- c("summary.coxreg", class(x))
+    print(x, digits)
+    ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
+    if (x$n.strata == 1){
+        cat("\nRestricted mean survival: ", x$rmean, "in", ivl, "\n")
+    }else{
+        cat("\nRestricted mean survival: \n")
+        names(x$rmean) <- x$strata
+        print(x$rmean)
+    }
 }

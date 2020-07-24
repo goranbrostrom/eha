@@ -16,7 +16,7 @@
 #' @param event Character string with the name of the event indicator variable.
 #' @param episode Character string with the name of the output variable of the grouped time (a factor variable).
 #' @details If \code{cuts} is missing, nothing is done. Internally, this function first calls 
-#'  \code{survival::survSplit} and the \code{stats::aggregate}. 
+#'  \code{survival::survSplit} and then \code{stats::aggregate}. 
 #' @note Episodes, or parts of episodes, outside \code{min(cuts), max(cuts)} are cut off. 
 #'  With continuous covariates, consider rounding them so that the number of distinct oberved values is not too large.
 #' @return A data frame with exposure time and number of events aggregated by time intervals and covariates.

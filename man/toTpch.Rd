@@ -35,7 +35,7 @@ and exposure time by time intervals and covariates.
 }
 \details{
 If \code{cuts} is missing, nothing is done. Internally, this function first calls 
- \code{survival::survSplit} and the \code{stats::aggregate}.
+ \code{survival::survSplit} and then \code{stats::aggregate}.
 }
 \note{
 Episodes, or parts of episodes, outside \code{min(cuts), max(cuts)} are cut off. 

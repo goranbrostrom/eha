@@ -10,7 +10,7 @@
 #' 
 #' @param dat A data frame containing interval specified survival data and
 #' covariates, of which one must give a "birth date", the connection between
-#' duration and calendat time
+#' duration and calendar time
 #' @param com.dat Data frame with communal covariates. They must have the same
 #' start year and periodicity, given by \code{com.ins}
 #' @param communal Boolean; if TRUE, then it is a true communal (default),

@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{phreg}(
   x,
-  fn = c("cum"),
+  fn = c("haz", "cum", "den", "sur"),
   main = NULL,
   xlim = NULL,
   ylim = NULL,
@@ -23,7 +23,7 @@
 \arguments{
 \item{x}{A \code{phreg} object}
 
-\item{fn}{Which function should be plotted? Default is the cumulative hazard(s).}
+\item{fn}{Which function should be plotted? Default is the hazard function(s).}
 
 \item{main}{Header for the plot}
 

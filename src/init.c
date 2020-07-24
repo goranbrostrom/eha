@@ -126,6 +126,29 @@ extern void weibsup(int *iter, double *eps, int *printlevel,
 		    double *shape, double *shape_sd,
 		    double *loglik, double *dloglik, double *variance, double *sctest,
 		    int *conver, int *fail);
+extern void breslow_rs2(int *what, /* RiskSet *risk, */
+			int *antevents,
+			int *size,
+			int *riskset,
+			double *weights,
+			double *x,
+			double *lin,
+			int *p,
+			double *b,double *e_frac,
+			/* Return: */
+			double *loglik, double *dloglik, 
+			double *d2loglik);
+extern void efron_rs2(int *what, /* RiskSet *risk, */
+		      int *antevents,
+		      int *size,
+		      double *weights,
+		      double *x,
+		      double *lin,
+		      int *p,
+		      double *b, double *e_frac,
+		      /* Return: */
+		      double *loglik, double *dloglik, 
+		      double *d2loglik);
 
 
 /* .Fortran calls */
@@ -186,6 +209,8 @@ static const R_CMethodDef CEntries[] = {
     {"sizes",        (DL_FUNC) &sizes,        11},
     {"sup",          (DL_FUNC) &sup,          30},
     {"weibsup",      (DL_FUNC) &weibsup,      25},
+    {"breslow_rs2",  (DL_FUNC) &breslow_rs2,  12},
+    {"efron_rs2",    (DL_FUNC) &efron_rs2,    12},
     {NULL, NULL, 0}
 };
 

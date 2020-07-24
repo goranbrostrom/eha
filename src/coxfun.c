@@ -396,7 +396,7 @@ C     Local (note the deviation from strict standard here!):
                
     if (risk->antevents == 1){ /* No ties */
 /*     Add into loglik: */
-	*loglik -= risk->rs_weight * log(sumscore);
+       *loglik -= risk->rs_weight * log(sumscore);
 	if (what >= 1){
 /*     Add into dloglik: */
 	    /*  alpha = -one / sumscore; */

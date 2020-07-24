@@ -8,7 +8,7 @@
 #' @examples
 #' 
 #' ## The function is currently defined as
-#' function (object, ...) 
+#' ## function (object, ...) 
 #' 
 #' @export
 summary.tpchreg <- function(object, ...){
@@ -39,11 +39,21 @@ summary.tpchreg <- function(object, ...){
         names(rmean) <- object$sstrata
         names(psurv) <- names(rmean)
     }
+    coefficients <- cbind(object$coefficients, 
+                          exp(object$coefficients),
+                          sqrt(diag(object$var)))
+    zval <- coefficients[, 1] / coefficients[, 3]
+    pval <- pchisq(zval^2, df = 1, lower.tail = FALSE )
+    coefficients <- cbind(coefficients, zval, pval)
+    colnames(coefficients) <- c("coef", "exp(coef)", "se(coef)", "z", "Pr(>|z|)")
+    rownames(coefficients) <- names(object$coefficients)
+    object$coefficients <- coefficients
     
     object$dr <- drop1(object, test = "Chisq")
     
     object$rmean <- rmean
     object$psurv <- psurv
     
+    class(object) <- "summary.tpchreg"
     object
 }
