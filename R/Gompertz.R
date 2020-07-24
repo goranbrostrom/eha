@@ -25,13 +25,14 @@
 #' param = c("default", "canonical", "rate")) 
 #' Hgompertz(x, shape = 1, scale = 1, rate, log.p = FALSE, 
 #' param = c("default", "canonical", "rate")) 
-#' rgompertz(n, shape = 1, scale = 1, , rate, 
+#' rgompertz(n, shape = 1, scale = 1, rate, 
 #' param = c("default", "canonical", "rate"))
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations. If \code{length(n) > 1}, the length is
 #' taken to be the number required.
 #' @param shape,scale shape and scale parameters, both defaulting to 1.
+#' @param rate the rate parameter for that parametrization, replaces scale.
 #' @param log,log.p logical; if TRUE, probabilities p are given as log(p).
 #' @param lower.tail logical; if TRUE (default), probabilities are \eqn{P(X \le
 #' x)}{P(X <= x)}, otherwise, \eqn{P(X > x)}{P(X > x)}.
