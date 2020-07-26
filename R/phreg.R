@@ -32,7 +32,7 @@
 #' @param shape If positive, the shape parameter is fixed at that value (in
 #' each stratum).  If zero or negative, the shape parameter is estimated.  If
 #' more than one stratum is present in data, each stratum gets its own
-#' estimate.
+#' estimate. Only relevant for the Weibull and Extreme Value distributions.
 #' @param param Applies only to the Gompertz distribution: "canonical" is
 #' defined in the description of the \code{\link{Gompertz}} distribution;
 #' "rate" transforms \code{scale} to 1/log(scale), giving the same
@@ -138,7 +138,7 @@ phreg <- function (formula = formula(data),
               Reported results are not centered.", call. = FALSE)
     }
     param <- param[1]
-    pfixed <- any(shape > 0)
+    pfixed <- any(shape > 0) & dist %in% c("weibull", "ev") # Fixed 2020-07-26!
     call <- match.call()
     m <- match.call(expand.dots = FALSE)
     temp <- c("", "formula", "data", "na.action")
@@ -204,7 +204,7 @@ phreg <- function (formula = formula(data),
         intercept <- TRUE
         ncov <- NCOL(X) - 1
     }
-
+    nullModel <- ncov == 0
 #########################################
 
     if (ncov){
@@ -473,13 +473,16 @@ phreg <- function (formula = formula(data),
     fit$call <- call
     fit$dist <- dist
     fit$events <- n.events
+    fit$nullModel <- nullModel # Added 2020-07-26
     ##class(fit) <- c("phreg", "weibreg", "coxreg", "coxph")
     if (fit$dist == "pch"){
         class(fit) <- c("pchreg", "phreg")
     }else{
         class(fit) <- "phreg"
     }
-    fit$pfixed <- pfixed
+    if (dist %in% c("weibull", "cv")){
+      fit$pfixed <- pfixed
+    }
     if (length(strats))
         fit$strata <- names(strats)
     if (length(strats)){

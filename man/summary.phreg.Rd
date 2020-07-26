@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.phreg.R
 \name{summary.phreg}
 \alias{summary.phreg}
-\title{Prints phreg objects}
+\title{A summary of phreg objects.}
 \usage{
 \method{summary}{phreg}(object, ...)
 }
@@ -12,20 +12,18 @@
 \item{\dots}{Additional ...}
 }
 \description{
-This is the same as \code{\link{print.phreg}}
+A summary of phreg objects.
 }
 \examples{
 
-## The function is currently defined as
-function (object, ...) 
-print(object)
-
+fit <- phreg(Surv(enter, exit, event) ~ sex + civ, data = oldmort)
+summary(fit)
+ 
 }
 \seealso{
-\code{\link{print.coxreg}}
+\code{\link{print.phreg}}
 }
 \author{
 Göran Broström
 }
-\keyword{print}
 \keyword{survival}

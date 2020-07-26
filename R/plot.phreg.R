@@ -72,9 +72,14 @@ plot.phreg <- function(x,
     ##}
     ncov <- length(x$w.means)
     ns <- x$n.strata
-    if (x$pfixed){
-        shape <- rep(x$shape, ns)
-        scale <- exp(x$coefficients[ncov + (1:ns)])
+    if (!is.null(x$pfixed)){
+        if (x$pfixed){
+            shape <- rep(x$shape, ns)
+            scale <- exp(x$coefficients[ncov + (1:ns)])
+        }else{
+            shape <- exp(x$coefficients[ncov + (1:ns) * 2])
+            scale <- exp(x$coefficients[ncov + (1:ns) * 2 - 1])
+        }
     }else if (x$dist != "pch"){
         shape <- exp(x$coefficients[ncov + (1:ns) * 2])
         scale <- exp(x$coefficients[ncov + (1:ns) * 2 - 1])

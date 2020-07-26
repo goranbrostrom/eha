@@ -282,6 +282,7 @@ phreg.fit <- function(X,
     coefficients <- fit$beta
     names(coefficients) <- coef.names
     if (intercept) df <- ncov - 1 else df <- ncov
+    
     list(coefficients = coefficients,
          df = df,
          var = var,

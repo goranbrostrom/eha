@@ -214,6 +214,7 @@ aftreg <- function (formula = formula(data),
         }
     }
     
+    nullModel <- ncov == 0
 ##########################################
     type <- attr(Y, "type")
     if (type != "right" && type != "counting")
@@ -374,7 +375,7 @@ aftreg <- function (formula = formula(data),
     }else{ # To be filled for other dists!
         fit$baselineMean <- NULL
     }
-
+    fit$nullModel <- nullModel # Added 2020-07-26.
     ##
     fit$pfixed <- pfixed
     if (pfixed) fit$shape <- shape ## Added 2 Aug 2017.

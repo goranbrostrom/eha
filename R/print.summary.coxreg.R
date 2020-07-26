@@ -51,6 +51,17 @@ print.summary.coxreg <- function(x, digits = 3, ...){
         dr <- x$dr[rownames(x$dr) %in% x$covars, ]
         lpval <- formatC(dr[, 4], digits = digits, width = 9, format = "f")
     }
+    ord <- attr(x$terms, "order")
+    ## New, 2020-07-26:
+    if (any(ord > 1)){
+        lp <- FALSE
+        if (!is.null(x$dr)){
+            print(x$dr)
+            cat("\n")
+        }
+    }
+    ####
+    
 #####################################
     if (lp){
         cat("Covariate           Mean       Coef     Rel.Risk   S.E.    LR p\n")        
@@ -87,7 +98,7 @@ print.summary.coxreg <- function(x, digits = 3, ...){
 
     isF <- x$isF
 
-    ord <- attr(x$terms, "order")
+    
     if (!is.null(col.strata)) ord <- ord[-col.strata]
 
     index <- 0

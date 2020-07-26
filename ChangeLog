@@ -1,3 +1,7 @@
+2.8.1.9930 (Jul 26, 2020)
+    * phreg: Fix issue with 'shape = ' something positive.
+    * summary.phreg: Rewritten to conform with other summaries.
+
 2.8.1.9925 (Jul 24, 2020)
     * plot.phreg: Only one function per plot is the rule now. Except of course
     if the analysis was stratified.

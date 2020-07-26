@@ -48,7 +48,7 @@ value is zero for all variables.}
 \item{shape}{If positive, the shape parameter is fixed at that value (in
 each stratum).  If zero or negative, the shape parameter is estimated.  If
 more than one stratum is present in data, each stratum gets its own
-estimate.}
+estimate. Only relevant for the Weibull and Extreme Value distributions.}
 
 \item{param}{Applies only to the Gompertz distribution: "canonical" is
 defined in the description of the \code{\link{Gompertz}} distribution;
