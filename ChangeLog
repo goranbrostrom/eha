@@ -1,3 +1,28 @@
+2.8.1.9949 (Aug 12, 2020)
+    *phreg: Added 'pfixed = FALSE' to return values of distributions
+    where pfixed is irrelevant. (Yet a reason to split 'phreg' into functions by
+    narrow groups of distributions.)
+
+2.8.1.9949 (Aug 11, 2020)
+    *phreg.summary: Bug fixed. It was introduced by differences between the
+    distribution 'pch' and the other distributions. The piecewise constant 
+    hazards regression will eventually break out of phreg and form a separate
+    function, named 'pchreg'. Have the same thoughts about the Gompertz 
+    distribution, to be put in 'gompreg'. We'll see... Main reason is that 
+    these guys need special treatment in the programming.
+
+2.8.1.9935 (Aug 8, 2020)
+    * phreg: Number of events in output was denoted 'events', now changed
+    to 'n.events'.
+    * aftreg: Number of events in output was denoted 'events', now changed
+    to 'n.events'.
+    * weibreg: Number of events in output was denoted 'events', now changed
+    to 'n.events'.
+    * tpchreg: Number of events in output was denoted 'events', now changed
+    to 'n.events'.
+    * coxreg: Number of events in output was denoted 'events', now changed
+    to 'n.events' (to match output from coxreg).
+
 2.8.1.9930 (Jul 26, 2020)
     * phreg: Fix issue with 'shape = ' something positive.
     * summary.phreg: Rewritten to conform with other summaries.

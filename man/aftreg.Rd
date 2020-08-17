@@ -76,7 +76,7 @@ initial value).} \item{linear.predictors}{The estimated linear predictors.}
 \item{w.means}{Weighted (against exposure time) means of covariates;
 weighted relative frequencies of levels of factors.} \item{n}{Number of
 spells in indata (possibly after removal of cases with NA's).}
-\item{events}{Number of events in data.} \item{terms}{Used by extractor
+\item{n.events}{Number of events in data.} \item{terms}{Used by extractor
 functions.} \item{assign}{Used by extractor functions.} %
 \item{wald.test}{The Wald test statistic (at the initial value).}
 \item{y}{The Surv vector.} \item{isF}{Logical vector indicating the

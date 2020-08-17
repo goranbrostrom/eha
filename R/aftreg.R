@@ -60,7 +60,7 @@
 #' \item{w.means}{Weighted (against exposure time) means of covariates;
 #' weighted relative frequencies of levels of factors.} \item{n}{Number of
 #' spells in indata (possibly after removal of cases with NA's).}
-#' \item{events}{Number of events in data.} \item{terms}{Used by extractor
+#' \item{n.events}{Number of events in data.} \item{terms}{Used by extractor
 #' functions.} \item{assign}{Used by extractor functions.} %
 #' \item{wald.test}{The Wald test statistic (at the initial value).}
 #' \item{y}{The Surv vector.} \item{isF}{Logical vector indicating the
@@ -358,7 +358,7 @@ aftreg <- function (formula = formula(data),
     fit$formula <- formula(Terms)
     fit$call <- call
     fit$dist <- dist
-    fit$events <- n.events
+    fit$n.events <- n.events
 
     class(fit) <- c("aftreg", "phreg")
     fit$param <- param # New in 2.1-1:

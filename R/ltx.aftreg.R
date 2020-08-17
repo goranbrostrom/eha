@@ -265,7 +265,7 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         cat("\\hline \n")
     }
     cat("\\hline \n")
-    cat("Events & ", x$events, " & TTR & ", x$ttr, "\\\\ \n")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
     logtest <- -2 * (x$loglik[1] - x$loglik[2])
     df <- x$df
     if (is.null(df)){

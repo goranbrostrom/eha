@@ -161,7 +161,7 @@ tpchreg <- function(formula,
     fit$levels <- stru$levels
     fit$call <- call
     fit$w.means <- stru$w.means
-    fit$events <- sum(count)
+    fit$n.events <- sum(count)
     fit$ttr <- stru$ttr
     fit$n <- length(count)
     fit$cuts <- cuts

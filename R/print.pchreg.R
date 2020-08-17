@@ -214,7 +214,7 @@ print.pchreg <- function(x, digits=max(options()$digits - 4, 3), ...){
 ##    if (x$pfixed) {
 ##        cat(" Shape is fixed at ", x$shape, "\n\n")
 ##    }
-    cat(formatC("Events", width = 25, flag = "-"), x$events, "\n")
+    cat(formatC("Events", width = 25, flag = "-"), x$n.events, "\n")
     cat(formatC("Total time at risk", width = 25, flag = "-"),
         formatC(x$ttr, digits = 5, format = "fg"), "\n")
     cat(formatC("Max. log. likelihood", width = 25, flag = "-"),

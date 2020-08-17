@@ -44,9 +44,10 @@ summary.phreg <- function(object, ...){
         hazards <- cbind(hazards, sqrt(varhaz))
         colnames(hazards) <- c("par", "se(par)")
         rownames(hazards) <- haznames
+
+        object$hazards <- hazards
     }
-    ##list(fit = object, coefficients = coefficients)
     object$coefficients <- coefficients
-    object$hazards <- hazards
+    ##list(fit = object, coefficients = coefficients)
     object
 }

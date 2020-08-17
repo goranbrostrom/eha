@@ -68,7 +68,7 @@
 #' weighted relative frequencies of levels of factors.} 
 #' \item{n}{Number of
 #' spells in indata (possibly after removal of cases with NA's).}
-#' \item{events}{Number of events in data.} 
+#' \item{n.events}{Number of events in data.} 
 #' \item{terms}{Used by extractor functions.} 
 #' \item{assign}{Used by extractor functions.} %
 #' \item{wald.test}{The Wald test statistic (at the initial value).}
@@ -472,7 +472,7 @@ phreg <- function (formula = formula(data),
     fit$formula <- formula(Terms)
     fit$call <- call
     fit$dist <- dist
-    fit$events <- n.events
+    fit$n.events <- n.events
     fit$nullModel <- nullModel # Added 2020-07-26
     ##class(fit) <- c("phreg", "weibreg", "coxreg", "coxph")
     if (fit$dist == "pch"){
@@ -481,7 +481,9 @@ phreg <- function (formula = formula(data),
         class(fit) <- "phreg"
     }
     if (dist %in% c("weibull", "cv")){
-      fit$pfixed <- pfixed
+        fit$pfixed <- pfixed
+    }else{
+        fit$pfixed <- FALSE
     }
     if (length(strats))
         fit$strata <- names(strats)

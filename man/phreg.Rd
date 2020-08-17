@@ -93,7 +93,7 @@ zero.}
 weighted relative frequencies of levels of factors.} 
 \item{n}{Number of
 spells in indata (possibly after removal of cases with NA's).}
-\item{events}{Number of events in data.} 
+\item{n.events}{Number of events in data.} 
 \item{terms}{Used by extractor functions.} 
 \item{assign}{Used by extractor functions.} %
 \item{wald.test}{The Wald test statistic (at the initial value).}

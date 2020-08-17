@@ -194,7 +194,7 @@ print.coxreg <-
     if (is.null(x$df)) df <- sum(!is.na(coef))
     else  df <- round(sum(x$df),2)
     cat("\n")
-    cat(formatC("Events", width = 25, flag = "-"), x$events, "\n")
+    cat(formatC("Events", width = 25, flag = "-"), x$n.events, "\n")
     cat(formatC("Total time at risk", width = 25, flag = "-"),
         formatC(x$ttr, digits = 5, format = "fg"), "\n")
     cat(formatC("Max. log. likelihood", width = 25, flag = "-"),

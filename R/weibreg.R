@@ -323,7 +323,7 @@ weibreg <-
     fit$levels <- levels
     fit$formula <- formula(Terms)
     fit$call <- call
-    fit$events <- n.events 
+    fit$n.events <- n.events 
     ##class(fit) <- c("weibreg", "coxreg", "coxph")
     class(fit) <- c("weibreg", "phreg")
     fit$pfixed <- pfixed

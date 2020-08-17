@@ -321,7 +321,7 @@ coxreg <- function (formula = formula(data),
         fit$n.events <- n.events
         fit$nullModel <- (NCOL(X) == 0)
         fit$levels <- levels
-        fit$events <- n.events
+        fit$n.events <- n.events
         fit <- wMeans(fit, Y, m, isF)
         class(fit) <- "coxreg"
         if (length(strats)){

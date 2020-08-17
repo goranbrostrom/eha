@@ -206,7 +206,7 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         
     }
     cat("\\hline \n")
-    cat("Events & ", x$events, " & TTR & ", x$ttr, "\\\\ \n")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
     cat("Max. Log Likelihood & ", x$loglik[2], "\\\\ \\hline \n")
     cat("\\hline \n")
 
