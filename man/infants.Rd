@@ -38,7 +38,7 @@ each of them, two controls were selected by matching on the given covariates.
 } 
 \source{
 Data originate from The Demographic Data Base, Umeå University, Umeå, Sweden,
-\url{http://www.ddb.umu.se}.}
+\url{http://www.cedar.umu.se}.}
 \references{
 Broström, G. (1987). The influence of mother's death on infant
 mortality: A case study in matched data survival analysis. Scandinavian
@@ -51,6 +51,6 @@ fit <- coxreg(Surv(enter, exit, event) ~ strata(stratum) + mother, data
 fit
 fit.w <- phreg(Surv(enter, exit, event) ~ mother + parish + ses, data =
 infants)
-fit.w ## Weibull proportional hazards model.
+summary(fit.w) ## Weibull proportional hazards model.
 }
 \keyword{datasets}

@@ -40,12 +40,12 @@ Sweden
   Data is coming from The Demographic Data Base, Umea University, Umea, Sweden.
 }
 \references{
-\url{http://www.ddb.umu.se}  
+\url{http://www.cedar.umu.se}  
 }
 \examples{
 data(fert)
 fit <- coxreg(Surv(next.ivl, event) ~ ses + prev.ivl, data = fert, subset =
 (parity == 1))
-drop1(fit, test = "Chisq")
+summary(fit)
 }
 \keyword{datasets}

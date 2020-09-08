@@ -6,12 +6,12 @@
 \alias{eha-package}
 \title{eha: Event History Analysis}
 \description{
-Sampling of risk sets in Cox regression, selections in 
-        the Lexis diagram, bootstrapping. Parametric proportional 
-        hazards fitting with left truncation and right censoring for 
-        common families of distributions, piecewise constant hazards, 
-        and discrete models. Parametric accelerated failure time models 
-        for left truncated and right censored data.
+Parametric proportional hazards fitting with left truncation and 
+        right censoring for common families of distributions, piecewise constant 
+        hazards, and discrete models. Parametric accelerated failure time models 
+        for left truncated and right censored data. Proportional hazards
+        models for tabular and register data. Sampling of risk sets in Cox 
+        regression, selections in the Lexis diagram, bootstrapping.
 }
 \details{
 Eha enhances the recommended \pkg{survival} package in several ways, 

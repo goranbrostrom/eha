@@ -35,10 +35,11 @@
   Data is coming from The Demographic Data Base, Umea University, Umeå, Sweden.
 }
 \references{
-\url{http://www.ddb.umu.se}  
+\url{http://www.cedar.umu.se}  
 }
 \examples{
 data(male.mortality)
-coxreg(Surv(enter, exit, event) ~ ses, data = male.mortality)
+fit <- coxreg(Surv(enter, exit, event) ~ ses, data = male.mortality)
+summary(fit)
 }
 \keyword{datasets}

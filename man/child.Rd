@@ -27,10 +27,7 @@ Umeå University, Umeå, Sweden,
 \url{http://www.umu.se/en/centre-for-demographic-and-ageing-research/}.}
 
 \examples{
-fit <- coxreg(Surv(enter, exit, event) ~ sex + socBranch, data = child)
+fit <- coxreg(Surv(enter, exit, event) ~ sex + socBranch, data = child, coxph = TRUE)
 summary(fit)
-fit.w <- phreg(Surv(enter, exit, event) ~ sex + socBranch, data = child)
-summary(fit.w) ## Weibull proportional hazards model.
-check.dist(fit, fit.w) # Graphical check of Weibull assumption.
 }
 \keyword{datasets}
