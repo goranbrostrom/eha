@@ -1,14 +1,14 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.8.1.9941
-Date: 2020-08-11
+Version: 2.8.1.9950
+Date: 2020-09-08
 Title: Event History Analysis
-Description: Sampling of risk sets in Cox regression, selections in 
-        the Lexis diagram, bootstrapping. Parametric proportional 
-        hazards fitting with left truncation and right censoring for 
-        common families of distributions, piecewise constant hazards, 
-        and discrete models. Parametric accelerated failure time models 
-        for left truncated and right censored data.
+Description:  Parametric proportional hazards fitting with left truncation and 
+        right censoring for common families of distributions, piecewise constant 
+        hazards, and discrete models. Parametric accelerated failure time models 
+        for left truncated and right censored data. Proportional hazards
+        models for tabular and register data. Sampling of risk sets in Cox 
+        regression, selections in the Lexis diagram, bootstrapping.
 BugReports: https://github.com/goranbrostrom/eha/issues
 License: GPL (>= 2)
 LazyData: yes
