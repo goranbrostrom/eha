@@ -15,7 +15,7 @@
   col,
   lty,
   printLegend = TRUE,
-  new.data = NULL,
+  score = 1,
   fig = TRUE,
   ...
 )
@@ -43,8 +43,7 @@
 "topright" or "bottomright"); if \code{TRUE} or character, a legend is added
 to the plot if the number of strata is two or more.}
 
-\item{new.data}{Now deprecated; reference hazard is given by the fit; 
-zero for all covariates, and  the reference category for factors.}
+\item{score}{Multiplication factor for the hazard function.}
 
 \item{fig}{logical, should the graph be drawn? If FALSE, data is returned.}
 
@@ -57,6 +56,10 @@ hazards function (coordinates), given \code{fn = "cum"}.
 \description{
 Plot(s) of the hazard, density, cumulative hazards, and/or the survivor
 function(s) for each stratum.
+}
+\note{
+Reference hazard is given by the fit; 
+zero for all covariates, and  the reference category for factors.
 }
 \examples{
 

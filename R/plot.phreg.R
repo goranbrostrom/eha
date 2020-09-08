@@ -16,12 +16,13 @@
 #' @param printLegend Logical, or character ("topleft", "bottomleft",
 #' "topright" or "bottomright"); if \code{TRUE} or character, a legend is added
 #' to the plot if the number of strata is two or more.
-#' @param new.data Now deprecated; reference hazard is given by the fit; 
-#' zero for all covariates, and  the reference category for factors.
+#' @param score Multiplication factor for the hazard function.
 #' @param fig logical, should the graph be drawn? If FALSE, data is returned.
 #' @param \dots Extra parameters passed to 'plot' and 'lines'.
 #' @return No return value if fig = TRUE, otherwise the cumulative 
 #' hazards function (coordinates), given \code{fn = "cum"}.
+#' @note Reference hazard is given by the fit; 
+#' zero for all covariates, and  the reference category for factors.
 #' @author Göran Broström
 #' @seealso \code{\link{phreg}}
 #' @keywords dplot survival
@@ -44,12 +45,12 @@ plot.phreg <- function(x,
                        lty,   ## New 6 Feb 2013
                        printLegend = TRUE,
                        ##legend = printLegend,
-                       new.data = NULL,
+                       score = 1,
                        fig = TRUE,
                        ...){
 
     if (!inherits(x, "phreg")) stop("Works only with 'phreg' objects.")
-    if (!is.null(new.data)) warning("argument 'newdata' is not used any more")
+
     if (missing(col)) col <- rep(1, x$n.strata) ## New 2013-12-05
     if (missing(lty)) lty <- 1:x$n.strata # No. of strata
 
@@ -85,12 +86,6 @@ plot.phreg <- function(x,
         scale <- exp(x$coefficients[ncov + (1:ns) * 2 - 1])
     }
 
-    if (FALSE){ # x$center deprecated, fix newdata later...
-    ##if (ncov && x$center){# New in 2.4-0:
-        score <- exp(sum(x$means * x$coefficients[1:ncov]))
-    }else{
-        score <- 1
-    }
 
     ##if (ncov){ # THIS IS for aftplot!!
     ##    uppe <- exp(-sum(new.data[1:ncov] * x$coefficients[1:ncov]) / p)
