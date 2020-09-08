@@ -205,10 +205,12 @@ coxreg.fit <- function(X, Y, rs, weights, t.offset = NULL,
                   PACKAGE = "eha")
 
     if (FALSE){ ## NO!!!! 20110105; # YES!!! 20110103. Not for the moment...
+        ## 
         score.means <- exp(sum(means * fit$beta[1:ncov]))
         haz.mean <- 1 - (1 - fit$hazard)^score.means
-    }else{
-        haz.mean <- fit$hazard
+    }else{ ## Changed 20200907: Needs a follow-up!
+        score.means <- exp(sum(means * fit$beta[1:ncov]))
+        haz.mean <- fit$hazard / score.means
     }
     hazards <- list()
     stopp <- cumsum(rs$antrs)

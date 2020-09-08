@@ -9,7 +9,7 @@ subset, t.offset, na.action = getOption("na.action"), init = NULL, method =
 c("efron", "breslow", "mppl", "ml"), control = list(eps = 1e-08, maxiter =
 25, trace = FALSE), singular.ok = TRUE, model = FALSE, center = NULL, x =
 FALSE, y = TRUE, hazards = NULL, boot = FALSE, efrac = 0, geometric = FALSE,
-rs = NULL, frailty = NULL, max.survs = NULL, coxph = FALSE)
+rs = NULL, frailty = NULL, max.survs = NULL, coxph = TRUE)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~
@@ -68,7 +68,7 @@ probability. Default is FALSE.}
 \item{max.survs}{Sampling of risk sets? If given, it should be (the upper
 limit of) the number of survivors in each risk set.}
 
-\item{coxph}{Logical, defaults to \code{FALSE}. Determines if standard work
+\item{coxph}{Logical, defaults to \code{TRUE}. Determines if standard work
 should be passed to \code{\link[survival]{coxph}} via entry points.}
 }
 \value{

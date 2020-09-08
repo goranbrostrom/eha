@@ -13,7 +13,7 @@
 #' c("efron", "breslow", "mppl", "ml"), control = list(eps = 1e-08, maxiter =
 #' 25, trace = FALSE), singular.ok = TRUE, model = FALSE, center = NULL, x =
 #' FALSE, y = TRUE, hazards = NULL, boot = FALSE, efrac = 0, geometric = FALSE,
-#' rs = NULL, frailty = NULL, max.survs = NULL, coxph = FALSE)
+#' rs = NULL, frailty = NULL, max.survs = NULL, coxph = TRUE)
 #'
 #' @param formula a formula object, with the response on the left of a ~
 #' operator, and the terms on the right. The response must be a survival object
@@ -50,7 +50,7 @@
 #' @param frailty Grouping variable for frailty analysis. Not in use (yet).
 #' @param max.survs Sampling of risk sets? If given, it should be (the upper
 #' limit of) the number of survivors in each risk set.
-#' @param coxph Logical, defaults to \code{FALSE}. Determines if standard work
+#' @param coxph Logical, defaults to \code{TRUE}. Determines if standard work
 #' should be passed to \code{\link[survival]{coxph}} via entry points. 
 #' @return A list of class \code{c("coxreg", "coxph")} with components
 #' \item{coefficients}{Fitted parameter estimates.}
@@ -139,7 +139,7 @@ coxreg <- function (formula = formula(data),
                     rs = NULL,
                     frailty = NULL,
                     max.survs = NULL,
-                    coxph = FALSE)
+                    coxph = TRUE)
 {
 
     if (!missing(center)){
@@ -607,6 +607,9 @@ coxreg <- function (formula = formula(data),
     fit$method <- method
     fit$n <- NROW(Y)
     fit$df <- length(fit$coefficients)
+    fit$lin.pred <- fit$linear.predictors # Just for error check ...
+    fit$linear.predictors <- offset + X %*% fit$coefficients
+    
     class(fit) <- c("coxreg", "coxph") # Not Removed "coxph"; cox.zph!
     ##class(fit) <- "coxreg"
     fit
