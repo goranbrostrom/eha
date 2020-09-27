@@ -1,3 +1,6 @@
+2.8.1.9960 (Sep 21, 2020)
+    * summary: Failed for null models with tpchreg, pchreg, now fixed.
+    
 2.8.1.9950 (Sep 08, 2020)
     * coxreg: Default value for argument 'coxph' changed to TRUE.
     * plot.phreg: Argument 'new.data' removed, 'score' added.
