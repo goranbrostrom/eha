@@ -118,7 +118,9 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
             for (j in 1:ns){
                 indx <- (strata == j) & (ivl == i)
                 D <- sum(count[indx])
-                alpha[j, i] <- D / sum(tezb[indx])
+                if (D > 0){
+                    alpha[j, i] <- D / sum(tezb[indx])
+                }
             }
         }
     alpha

@@ -1,3 +1,6 @@
+2.8.1.9961 (Sep 27, 2020)
+    * tpchreg: Failed for cases with zero exposure, fixed.
+    
 2.8.1.9960 (Sep 21, 2020)
     * summary: Failed for null models with tpchreg, pchreg, now fixed.
     
