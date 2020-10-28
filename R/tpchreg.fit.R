@@ -33,6 +33,7 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
 #########
     loglik0 <- function(){
         alpha <- matrix(0, nrow = ns, ncol = n.ivl)
+        alpha_sd <- matrix(0, nrow = ns, ncol = n.ivl)
         res <- -Dtot
         for (i in seq_len(n.ivl)){
             for (j in 1:ns){
@@ -45,7 +46,8 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
                 ##cat("D = ", D, "\n")
                 if (D > 0){
                     sumT <- sum(exposure[indx])
-                    alpha[j, i] <- D / sumT 
+                    alpha[j, i] <- D / sumT
+                    alpha_sd[j, i] <- 1 / sqrt(D)
                     res <- res + D * (log(D) - log(sumT))
                 }
             }
@@ -54,7 +56,7 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
         ##
 
         cbind(strata, ivl, count)
-        list(loglik = res, hazards = alpha)
+        list(loglik0 = res, hazards0 = alpha, hazards0_sd = alpha_sd)
     }
 #########
    loglik <- function(beta){
@@ -114,17 +116,22 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
         ## Note: f = (alpha * exp(zb)^d * exp(-t * alpha * exp(zb))
         tezb <- exposure * exp(X %*% beta)
         alpha <- matrix(0, nrow = ns, ncol = n.ivl)
+        sd_alpha <- matrix(0, nrow = ns, ncol = n.ivl)
         for (i in seq_len(n.ivl)){
             for (j in 1:ns){
                 indx <- (strata == j) & (ivl == i)
                 D <- sum(count[indx])
-                alpha[j, i] <- D / sum(tezb[indx])
+                if (D > 0){
+                    alpha[j, i] <- D / sum(tezb[indx])
+                    sd_alpha[j, i] <- 1 / sqrt(D)
+                }
             }
         }
-    alpha
+    list(hazards = alpha, sd_hazards = sd_alpha)
     } # end getAlpha
 ############
-     fit <- loglik0()
+
+    fit <- loglik0()
     
     if (ncov){
         ##means <- colMeans(X)
@@ -139,17 +146,21 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
         beta <- res$par
         fit$gradient <- dloglik(beta)
         ##cat("score = ", deriv, " at solution\n")
-        fit$loglik <- c(fit$loglik, res$value)
+        fit$loglik <- c(fit$loglik0, res$value)
         fit$coefficients <- beta
         names(fit$coefficients) <- colnames(X)
         fit$var <- solve(-res$hessian)
-        fit$hazards <- getAlpha(beta)
+        xx <- getAlpha(beta)
+        fit$hazards_sd <- xx$hazards_sd
+        fit$hazards <- xx$hazards
         fit$hazards <- fit$hazards * exp(-drop(means %*% fit$coefficients))
         colnames(fit$var) <- rownames(fit$var) <- colnames(X)
         fit$nullModel <- FALSE
         ##fit$w.means <- means ## MUST be fixed: This is WRONG!!
     }else{# No covariates
-        fit$loglik <- rep(fit$loglik, 2)
+        fit$loglik <- rep(fit$loglik0, 2)
+        fit$hazards <- fit$hazards0
+        fit$hazards_sd <- fit$hazards0_sd
         fit$coefficients <- NULL
         fit$nullModel <- TRUE
     }

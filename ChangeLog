@@ -1,3 +1,12 @@
+2.8.1.9971 (Oct 19, 2020)
+    * toTime: Change result from 'timediff' to 'numeric'.
+
+2.8.1.9970 (0ct 11, 2020)
+	* tpchreg.fit: Bug fixes.
+
+2.8.1.9965 (Oct 07, 2020)
+    * tpchreg: Estimates of sd of hazards introduced. Not completed.
+    
 2.8.1.9960 (Sep 21, 2020)
     * summary: Failed for null models with tpchreg, pchreg, now fixed.
     

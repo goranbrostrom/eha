@@ -15,12 +15,12 @@
 #' ##-- ==>  Define data, use random,
 #' ##--	or do  help(data=index)  for the standard data sets.
 #' 
-#' ## The function is currently defined as
+#' 
 #' toTime(c("1897-05-16", "1901-11-21"))
 #' 
 #' @export toTime
 toTime <- function(dates){
     if (is.numeric(dates)) return(dates)
     dates <- as.character(dates)
-    c(as.Date(dates) - as.Date("0000-01-01") ) / 365.2425
+    as.numeric(c(as.Date(dates) - as.Date("0000-01-01") ) / 365.2425)
   }

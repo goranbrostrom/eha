@@ -22,7 +22,7 @@ Given a vector of dates, the output is a vector of durations in years since
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
+
 toTime(c("1897-05-16", "1901-11-21"))
 
 }
