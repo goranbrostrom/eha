@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2.8.1.9971 (Oct 19, 2020)
     * toTime: Change result from 'timediff' to 'numeric'.
 
@@ -6,6 +7,10 @@
 
 2.8.1.9965 (Oct 07, 2020)
     * tpchreg: Estimates of sd of hazards introduced. Not completed.
+=======
+2.8.1.9961 (Sep 27, 2020)
+    * tpchreg: Failed for cases with zero exposure, fixed.
+>>>>>>> a416fcd91bf1343ba88190d72ed7333fe9881175
     
 2.8.1.9960 (Sep 21, 2020)
     * summary: Failed for null models with tpchreg, pchreg, now fixed.

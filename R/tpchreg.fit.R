@@ -123,7 +123,10 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
                 D <- sum(count[indx])
                 if (D > 0){
                     alpha[j, i] <- D / sum(tezb[indx])
+<<<<<<< HEAD
                     sd_alpha[j, i] <- 1 / sqrt(D)
+=======
+>>>>>>> a416fcd91bf1343ba88190d72ed7333fe9881175
                 }
             }
         }
