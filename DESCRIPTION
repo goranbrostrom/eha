@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.8.1.9971
-Date: 2020-10-19
+Version: 2.8.1.9980
+Date: 2020-01-01
 Title: Event History Analysis
 Description:  Parametric proportional hazards fitting with left truncation and 
         right censoring for common families of distributions, piecewise constant 
@@ -17,8 +17,8 @@ URL: http://ehar.se/r/eha/
 Authors@R: c(person("Göran", "Broström", role = c("aut", "cre"),
                     email = "goran.brostrom@umu.se"),
 	     person("Jianming", "Jin", role = "ctb"))
-Depends: R (>= 3.5.0), survival (>= 2.42-5)
-Imports: stats, graphics
+Depends: R (>= 3.5.0)
+Imports: stats, graphics, survival (>= 3.0)
 NeedsCompilation: yes
 Maintainer: Göran Broström <goran.brostrom@umu.se>
 RoxygenNote: 7.1.1

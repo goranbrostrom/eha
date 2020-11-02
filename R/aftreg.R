@@ -149,7 +149,7 @@ aftreg <- function (formula = formula(data),
     dropx <- NULL
     
     if (length(strats)) {
-        temp <- untangle.specials(Terms, "strata", 1)
+        temp <- survival::untangle.specials(Terms, "strata", 1)
         dropx <- c(dropx, temp$terms)
         if (length(temp$vars) == 1)
             strata.keep <- m[[temp$vars]]

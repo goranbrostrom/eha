@@ -72,11 +72,11 @@ tpchreg <- function(formula,
     strats <- attr(Terms, "specials")$strata
     dropx <- NULL
     if (length(strats)) {
-        temp <- untangle.specials(Terms, "strata", 1)
+        temp <- survival::untangle.specials(Terms, "strata", 1)
         dropx <- c(dropx, temp$terms)
         if (length(temp$vars) == 1) 
             strata.keep <- m[[temp$vars]]
-        else strata.keep <- strata(m[, temp$vars], shortlabel = TRUE)
+        else strata.keep <- survival::strata(m[, temp$vars], shortlabel = TRUE)
         strats <- as.numeric(strata.keep)
     }
     if (length(dropx)) 

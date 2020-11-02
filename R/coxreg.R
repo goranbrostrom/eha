@@ -161,7 +161,7 @@ coxreg <- function (formula = formula(data),
                        (!geometric))
         if (!cox.ph) warning("'coxph is not called despite 'coxph = TRUE'")
     }else{
-        cox.ph <- coxph # == FALSE
+        cox.ph <- coxph # == TRUE
     }
     if (FALSE){  ############################## NOTE!!!!###########
     ##if (cox.ph){
@@ -217,7 +217,7 @@ coxreg <- function (formula = formula(data),
     dropx <- NULL
         
     if (length(strats)) {
-        temp <- untangle.specials(Terms, "strata", 1)
+        temp <- survival::untangle.specials(Terms, "strata", 1)
         dropx <- c(dropx, temp$terms)
         if (length(temp$vars) == 1)
             strata.keep <- m[[temp$vars]]

@@ -10,7 +10,8 @@
 #' @references 
 #' Broström, G. (2012). \emph{Event History Analysis with R}, Chapman and Hall/CRC 
 #' Press, Boca Raton, FL.
-#' @import survival
+#' @importFrom survival Surv strata attrassign untangle.specials
+#' @export Surv strata
 #' @import stats
 #' @import graphics
 #' @useDynLib eha

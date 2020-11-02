@@ -73,7 +73,7 @@ been allowed to take over most of the stuff that was (and still is) found in the
 
 Regarding *Cox regression*, the **eha** package can be seen as a complement to 
 the recommended package **survival**: 
-In fact, **eha** *depends* on **survival**, and for *standard Cox regression*, 
+In fact, **eha** *imports* some functions from **survival**, and for *standard Cox regression*, 
 `eha::coxreg()` simply calls `survival::agreg.fit()` or `survival::coxph.fit()`,
 functions *exported* by **survival**. The simple reason for this is that the
 underlying code in these **survival** functions is very fast and efficient.
@@ -96,7 +96,8 @@ Consider the following standard way of performing a Cox regression and reporting
 the result.
 
 ```{r coxph}
-fit <- coxph(Surv(enter, exit, event) ~ sex + civ + imr.birth, data = oldmort)
+fit <- survival::coxph(Surv(enter, exit, event) ~ sex + civ + imr.birth, 
+                       data = oldmort)
 summary(fit)
 ```
 
@@ -225,8 +226,8 @@ vignette.
 ## The Gompertz distribution
 
 The *Gompertz* distribution has long been part of the possible distributions in 
-the `phreg` and `aftreg` functions, but it is now placed with a function of its 
-own, `gompreg`, see the separate vignette on this topiv.
+the `phreg` and `aftreg` functions, but it will be placed in a function of its 
+own, `gompreg`, see the separate vignette on this topic.
 
 # Utilities
 

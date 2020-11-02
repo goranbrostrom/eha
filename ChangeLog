@@ -1,3 +1,8 @@
+2.8.1.9975 (Oct 30, 2020)
+    * 'survival' moved from Depends to Imports.
+    * No import of functions 'frailty' and 'cluster' from survival. 
+    (Not used by eha, but by some innocent users of eha. Want to stop that.) 
+
 2.8.1.9971 (Oct 19, 2020)
     * toTime: Change result from 'timediff' to 'numeric'.
 
