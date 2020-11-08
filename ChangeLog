@@ -1,3 +1,10 @@
+2.18..9986 (Nov 08, 2020)
+    * logrank: 'hazards' is a new output component.
+    * plot.logrank: New function (plot method).
+
+2.8.1.9985 (Nov 07, 2020)
+    * logrank: New function with a print method (the log-rank test).
+    
 2.8.1.9975 (Oct 30, 2020)
     * 'survival' moved from Depends to Imports.
     * No import of functions 'frailty' and 'cluster' from survival. 

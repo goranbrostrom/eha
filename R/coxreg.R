@@ -61,7 +61,7 @@
 #' \item{score}{The score test statistic (at the initial value).}
 #' \item{linear.predictors}{The estimated linear predictors.}
 #' \item{residuals}{The martingale residuals.}
-#' \item{hazard}{The estimated baseline hazard, calculated at the value zero of
+#' \item{hazards}{The estimated baseline hazards, calculated at the value zero of
 #' the covariates (rather, columns of the design matrix). Is a list,
 #' with one component per stratum. Each
 #' component is a matrix with two columns, the first contains risk times, the

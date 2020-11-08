@@ -117,7 +117,11 @@ plot.hazdata <- function(x, strata = NULL,
     
     yVal <- function(x){
         if (fn == "cum") return(cumsum(x))
-        if (fn %in% c("log", "loglog")) return(log(cumsum(x)))
+        if (fn %in% c("log", "loglog")){
+            y <- cumsum(x)
+            y[y <= 0] <- NA
+            return(y)
+        } ##return(log(cumsum(x)))
         n <- length(x)
         s <- numeric(n)
         s[1] <- 1 - x[1]
@@ -145,8 +149,8 @@ plot.hazdata <- function(x, strata = NULL,
     min.y <- 0
     for (i in 1:n.strata){
         x[[i]][, 2] <- yVal(x[[i]][, 2])
-        max.y <- max(c(max.y, x[[i]][, 2]))
-        min.y <- min(c(min.y, x[[i]][, 2]))
+        max.y <- max(c(max.y, x[[i]][, 2]), na.rm = TRUE)
+        min.y <- min(c(min.y, x[[i]][, 2]), na.rm = TRUE)
         if (fn == "loglog") x[[i]][, 1] <- log(x[[i]][, 1])
         max.x <- max(c(max.x, x[[i]][, 1]))
         min.x <- min(c(min.x, x[[i]][, 1]))
@@ -175,8 +179,17 @@ plot.hazdata <- function(x, strata = NULL,
         }
     }
     if (fig){
-        plot(x[[1]][, 1], x[[1]][, 2], type = "s",
-             xlim = xlim, ylim = ylim, col = col[1],
+        if (fn == "log") {
+            loga <- "y"
+        }else if (fn == "loglog"){
+            loga <- "xy"
+        }else{
+            loga <- ""
+        }
+        
+        plot(x[[1]][, 1], x[[1]][, 2], type = "s", log = loga,
+             ##xlim = xlim, ylim = ylim, 
+             col = col[1],
              xlab = xlab, ylab = ylab, main = main, lty = lty[1], ...)
         if (n.strata > 1){
             for (i in 2:n.strata){
