@@ -31,7 +31,8 @@ logrank <- function(Y, group, data = parent.frame()){
     mf <- eval(mf, data)
     group <- as.factor(mf[["(group)"]])
     Y <- mf$"(Y)"
-    X <- model.matrix(~ group)[, -1]
+    X <- model.matrix(~ group)[, -1, drop = FALSE]
+    ##
     fit <- coxreg.fit(X, Y, max.survs = NROW(Y))
     tval <- fit$score
     df <- fit$df

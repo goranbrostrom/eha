@@ -72,8 +72,8 @@ coxreg.fit <- function(X, Y, rs, weights, t.offset = NULL,
     if (is.matrix(X)){
         ncov <- NCOL(X)
     }else{
-        if (length(X)) NCOL <- 1
-        else NCOL <- 0
+        if (length(X)) ncov <- 1
+        else ncov <- 0
     }
 
     if (missing(strats) || is.null(strats))

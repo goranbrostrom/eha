@@ -5,7 +5,7 @@
 #' 
 #' 
 #' @param x A \code{tpchreg} object
-#' @param fn Which functions shoud be plotted! Default is the hazard function.
+#' @param fn Which functions should be plotted? Default is the hazard function.
 #' @param log character, "" (default), "y", or "xy".
 #' @param main Header for the plot
 #' @param xlim x limits

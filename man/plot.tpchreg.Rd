@@ -22,7 +22,7 @@
 \arguments{
 \item{x}{A \code{tpchreg} object}
 
-\item{fn}{Which functions shoud be plotted! Default is the hazard function.}
+\item{fn}{Which functions should be plotted? Default is the hazard function.}
 
 \item{log}{character, "" (default), "y", or "xy".}
 

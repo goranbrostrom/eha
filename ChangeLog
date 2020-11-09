@@ -1,3 +1,7 @@
+2.18.1.9988 (Nov 09, 2020)
+    * coxreg.fit: Bug fix (when one covariate).
+    * plot.logrank: New plot method for logrank objects.
+
 2.18.1.9987 (Nov 09, 2020)
     * coxreg: fix stratum names when no covariates.
 

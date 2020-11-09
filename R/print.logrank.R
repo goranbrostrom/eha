@@ -17,9 +17,13 @@ print.logrank <- function(x, digits=max(options()$digits - 4, 6), ...){
     savedig <- options(digits = digits)
     on.exit(options(savedig))
 
-    cat("\n     The log-rank test\n")    
-    cat("\nCall: ", x$call, "\n")
-    cat(", X-squared = ", x$test.statistic, ", df = ", x$df,
+    cat("\n     The log-rank test\n") 
+    if (!is.null(cl <- x$call)){
+        cat("\nCall:\n")
+        dput(cl)
+        cat("\n")
+    }
+    cat(" X-squared = ", x$test.statistic, ", df = ", x$df,
         ", p-value = ", format.pval(x$p.value, digits = digits), "\n")
     invisible(x)
 }

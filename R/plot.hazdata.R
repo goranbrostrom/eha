@@ -67,7 +67,7 @@ plot.hazdata <- function(x, strata = NULL,
     if (!inherits(x, "hazdata")) stop("Only for 'hazdata' objects.")
     where <- "topleft"
     if (is.logical(printLegend) && printLegend){
-        if (fn[1] == "surv"){
+        if (fn[1] %in% c("surv", "sur")){
             where <- "bottomleft"
         }else{
             where <- "topleft"
@@ -136,22 +136,13 @@ plot.hazdata <- function(x, strata = NULL,
     max.x <- max(x[[1]][, 1])
     min.x <- min(x[[1]][, 1])
 
-    if (fn == "loglog"){
-        max.x <- log(max.x)
-        if (min.x > 0){
-            min.x <- log(min.x)
-        }else{
-            lin.x <- log(min.x + 0.001)
-        }
-    }
-
-    max.y <- -1000 # What else :-)
-    min.y <- 0
+    max.y <- max(x[[1]][, 2]) # What else :-)
+    min.y <- min(x[[1]][, 2])
     for (i in 1:n.strata){
         x[[i]][, 2] <- yVal(x[[i]][, 2])
         max.y <- max(c(max.y, x[[i]][, 2]), na.rm = TRUE)
         min.y <- min(c(min.y, x[[i]][, 2]), na.rm = TRUE)
-        if (fn == "loglog") x[[i]][, 1] <- log(x[[i]][, 1])
+
         max.x <- max(c(max.x, x[[i]][, 1]))
         min.x <- min(c(min.x, x[[i]][, 1]))
     }
@@ -173,7 +164,7 @@ plot.hazdata <- function(x, strata = NULL,
             if (fn == "surv"){
                 x[[i]] <- rbind(c(x[[i]][1, 1], 1), x[[i]])
             }else{
-                x[[i]] <- rbind(c(x[[i]][1, 1], 0), x[[i]])
+                ##x[[i]] <- rbind(c(x[[i]][1, 1], 0), x[[i]])
             }
             ##x[[i]][, 1] <- c(x[[i]][1, 1], x[[i]][, 1])
         }
@@ -207,4 +198,3 @@ plot.hazdata <- function(x, strata = NULL,
     }
     invisible(list(x = x, fn = fn))
 }
-
