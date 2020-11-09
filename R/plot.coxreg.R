@@ -38,8 +38,8 @@ plot.coxreg <- function(x,
                         lty = 1, 
                         printLegend = TRUE,
                         ...){
-   if (!inherits(x, c("coxreg", "coxph"))){
-      stop("Works only with 'coxreg' and 'coxph' objects")
+   if (!inherits(x, c("coxreg"))){
+      stop("Works only with 'coxreg' objects")
    }
    ##if (x$method %in% c("ml", "mppl")){
    if (is.null(x$hazards)){

@@ -334,8 +334,11 @@ coxreg <- function (formula = formula(data),
 
     ## Fixed now? if (FALSE){      ## This has to be fixed in the future!!
     if (NCOL(X) == 0){ # No covariates; special treatment!
-        if (is.null(strats)) stratum <- rep(1, NROW(Y))
-        else stratum <- strats
+        if (is.null(strats)){
+            stratum <- rep(1, NROW(Y))
+        }else{
+            stratum <- strata.keep
+        }
         type <- attr(Y, "type")
         control$iter.max <- 0
         control$toler.chol <- .Machine$double.eps^0.75
@@ -343,6 +346,7 @@ coxreg <- function (formula = formula(data),
         control$outer.max <- 10
         X <- matrix(0, nrow = NROW(Y), ncol = 1)
         init <- 0
+        if (FALSE){
         if (type == "counting"){
             fit <- survival::agreg.fit(X, Y, stratum, offset, init,
                                         control, weights = weights,
@@ -352,7 +356,9 @@ coxreg <- function (formula = formula(data),
                                         control, weights = weights,
                                         method = method, row.names(m))
         }
+        } # End if (FALSE)
         fit$nullModel <- TRUE
+
         ##if (hazards){
         scores <- exp(offset)
         hazards <- getHaz(Y, stratum, scores) ## Make this fast with C?
