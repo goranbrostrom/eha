@@ -7,12 +7,11 @@
 logrank(formula, data = parent.frame())
 }
 \arguments{
-\item{formula}{formula a formula object, with the response on the left of a ~
-operator, and the terms on the right. The response must be a survival object
-as returned by the Surv function.}
+\item{Y}{a survival object as returned by the Surv function.}
 
-\item{data}{a data.frame in which to interpret the variables named in the
-formula.}
+\item{group}{defines the groups to be compared. Coerced to a factor.}
+
+\item{data}{a data.frame in which to interpret the variables.}
 }
 \value{
 A list of class \code{logrank} with components
@@ -21,6 +20,7 @@ A list of class \code{logrank} with components
 \item{p.value}{The p value of the test.}
 \item{hazards}{A list of two-column matrices, describing event times and 
 corresponding hazard atoms in each stratum (class 'hazdata').}
+\item{call}{The call}
 }
 \description{
 Performs the log-rank test on survival data, possibly stratified.
@@ -28,10 +28,10 @@ Performs the log-rank test on survival data, possibly stratified.
 \note{
 The test is performed by fitting a Cox regression model and reporting
 its \code{score test}. With tied data, this might be slightly different from
-the true logrank test, but the difference is unimprtant in practice.
+the true logrank test, but the difference is unimportant in practice.
 }
 \examples{
-fit <- logrank(Surv(enter, exit, event) ~ sex, data = oldmort)
+fit <- logrank(Y = Surv(enter, exit, event), group = civ, data = oldmort)
 fit
 }
 \seealso{

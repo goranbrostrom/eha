@@ -18,7 +18,7 @@ print.logrank <- function(x, digits=max(options()$digits - 4, 6), ...){
     on.exit(options(savedig))
 
     cat("\n     The log-rank test\n")    
-    cat("\ndata: ", deparse(substitute(x)))
+    cat("\nCall: ", x$call, "\n")
     cat(", X-squared = ", x$test.statistic, ", df = ", x$df,
         ", p-value = ", format.pval(x$p.value, digits = digits), "\n")
     invisible(x)

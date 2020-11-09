@@ -1,4 +1,7 @@
-2.18..9986 (Nov 08, 2020)
+2.18.1.9987 (Nov 09, 2020)
+    * coxreg: fix stratum names when no covariates.
+
+2.18.1.9986 (Nov 08, 2020)
     * logrank: 'hazards' is a new output component.
     * plot.logrank: New function (plot method).
 
