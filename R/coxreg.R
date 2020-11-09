@@ -329,7 +329,7 @@ coxreg <- function (formula = formula(data),
             ## 'stratum' to be out of the way for 'strata' in survfit!
         }
         return(fit)
-    }
+    } # End if(FALSE)
     ##########################################
 
     ## Fixed now? if (FALSE){      ## This has to be fixed in the future!!
@@ -357,6 +357,7 @@ coxreg <- function (formula = formula(data),
                                         method = method, row.names(m))
         }
         } # End if (FALSE)
+        fit <- list()
         fit$nullModel <- TRUE
 
         ##if (hazards){
