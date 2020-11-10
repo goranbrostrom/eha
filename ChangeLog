@@ -1,3 +1,6 @@
+2.8.1.9989 (Nov 10, 2020)
+    * logrank: Fix error in evaluation of arguments.
+
 2.18.1.9988 (Nov 09, 2020)
     * coxreg.fit: Bug fix (when one covariate).
     * plot.logrank: New plot method for logrank objects.

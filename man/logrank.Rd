@@ -4,10 +4,10 @@
 \alias{logrank}
 \title{The Log-rank test}
 \usage{
-logrank(formula, data = parent.frame())
+logrank(Y, group, data = parent.frame())
 }
 \arguments{
-\item{Y}{a survival object as returned by the Surv function.}
+\item{Y}{a survival object as returned by the \code{\link{Surv}} function.}
 
 \item{group}{defines the groups to be compared. Coerced to a factor.}
 

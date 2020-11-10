@@ -2,9 +2,9 @@
 #' 
 #' Performs the log-rank test on survival data, possibly stratified.
 #' 
-#' @usage logrank(formula, data = parent.frame())
+#' @usage logrank(Y, group, data = parent.frame())
 #' 
-#' @param Y a survival object as returned by the Surv function.
+#' @param Y a survival object as returned by the \code{\link{Surv}} function.
 #' @param group defines the groups to be compared. Coerced to a factor.
 #' @param data a data.frame in which to interpret the variables.
 #' @return A list of class \code{logrank} with components
@@ -26,18 +26,15 @@
 #' @export    
 logrank <- function(Y, group, data = parent.frame()){
     cl <- match.call()
-    mf <- match.call(expand.dots = FALSE)
-    mf[[1]] <- as.name("model.frame")
-    mf <- eval(mf, data)
-    group <- as.factor(mf[["(group)"]])
-    Y <- mf$"(Y)"
-    X <- model.matrix(~ group)[, -1, drop = FALSE]
-    ##
-    fit <- coxreg.fit(X, Y, max.survs = NROW(Y))
+    Y1 <- eval(substitute(Y), data)
+    g1 <- eval(substitute(group), data)
+    X <- model.matrix(~ g1)[, -1, drop = FALSE]
+    fit <- coxreg.fit(X, Y1, max.survs = NROW(Y1))
+
     tval <- fit$score
     df <- fit$df
     pval <-pchisq(tval, df, lower.tail = FALSE)
-    hazards <- getHaz(Y, strats = group)
+    hazards <- getHaz(Y1, strats = g1)
     fit <- list(test.statistic = tval, df = df, p.value = pval,
                 hazards = hazards, call = cl)
     class(fit) <- "logrank"
