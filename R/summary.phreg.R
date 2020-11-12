@@ -41,7 +41,7 @@ summary.phreg <- function(object, ...){
         zval <- coefficients[, 1] / coefficients[, 3]
         pval <- pchisq(zval^2, df = 1, lower.tail = FALSE )
         coefficients <- cbind(coefficients, zval, pval)
-        colnames(coefficients) <- c("coef", "exp(coef)", "se(coef)", "z", "Pr(>|z|)")
+        colnames(coefficients) <- c("coef", "exp(coef)", "se(coef)", "z", "Wald p")
         rownames(coefficients) <- rawnames
         object$coefficients <- coefficients
     }
