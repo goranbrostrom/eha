@@ -171,15 +171,17 @@ plot.hazdata <- function(x, strata = NULL,
     }
     if (fig){
         if (fn == "log") {
+            ##ylim <- NULL
             loga <- "y"
         }else if (fn == "loglog"){
             loga <- "xy"
+            ##ylim <- NULL
         }else{
             loga <- ""
         }
         
         plot(x[[1]][, 1], x[[1]][, 2], type = "s", log = loga,
-             ##xlim = xlim, ylim = ylim, 
+             xlim = xlim, ylim = ylim, 
              col = col[1],
              xlab = xlab, ylab = ylab, main = main, lty = lty[1], ...)
         if (n.strata > 1){
