@@ -4,13 +4,15 @@
 \alias{print.summary.coxreg}
 \title{Prints summary.coxreg objects}
 \usage{
-\method{print}{summary.coxreg}(x, digits = 3, ...)
+\method{print}{summary.coxreg}(x, digits = 3, short = FALSE, ...)
 }
 \arguments{
 \item{x}{A \code{summary.coxreg} object, typically the result of running
 \code{summary.coxreg}, summary on a coxreg object.}
 
 \item{digits}{Output format.}
+
+\item{short}{Logical, short or long (default) output?}
 
 \item{\dots}{Other arguments.}
 }
