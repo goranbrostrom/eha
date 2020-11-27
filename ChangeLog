@@ -1,3 +1,28 @@
+2.8.1.997  (Nov 27, 2020)
+    * coxfun0: New function, loglihood for null coxreg model.
+    * ltx, print: Add and modify methods for printing regression fits.
+
+2.8.1.9996 (Nov 22, 2020)
+    * coxreg: Removed warning concerning not using option 'coxph'.
+    
+2.8.1.9995 (Nov 20, 2020)
+    * hazards: New function, that calculates the baseline hazards from a 
+    coxreg fit.
+
+2.8.1.9994 (Nov 19, 2020)
+    * coxreg: Add log likelihood and df to null models.
+    
+2.8.1.9993 (Nov 18, 2020)
+    * child: The data set is expanded with info about mother.
+
+2.8.1.9992 (Nov 16, 2020)
+    * coxreg, phreg, aftreg: Fixed bug in calculating weighted means, which
+    affects dates as covariates.
+    
+2.8.1.9991 (Nov 15, 2020)
+    * print.summary.coxreg: New argument 'short' added.
+    * plot.hazdata: Fix y limits.
+    
 2.8.1.9990 (Nov 12, 2020)
     * summary.[aft,cox,ph,tpch]reg: Change p-value label tp 'Wald p'.
 
