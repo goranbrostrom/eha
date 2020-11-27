@@ -18,8 +18,9 @@ print.summary.tpchreg <- function(x,
     if (x$n.strata == 1){
         cat("\nRestricted mean survival: ", x$rmean, "in", ivl, "\n")
     }else{
-        cat("\nRestricted mean survival: \n")
         names(x$rmean) <- x$strata
+        cat("\nRestricted mean survival in", ivl, ": \n")
         print(x$rmean)
+        cat("\n")
     }
 }

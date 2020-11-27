@@ -2,6 +2,10 @@
 ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL, 
           digits=max(options()$digits - 4, 3), ...)
     {
+    
+    if (!inherits(x, "coxreg")){
+        stop("only for coxreg objects")
+    }
     if (!is.null(cl<- x$call)) {
 	##cat("Call:\n")
 	##dput(cl)
@@ -208,6 +212,19 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     cat("\\hline \n")
     cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
     cat("Max. Log Likelihood & ", x$loglik[2], "\\\\ \\hline \n")
+### New 2020-11-26:    
+    if (inherits(x, "summary.tpchreg")){
+        ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
+        if (x$n.strata == 1){
+            cat("\nRestricted mean survival: ", x$rmean, "in", ivl, "\n")
+        }else{
+            names(x$rmean) <- x$strata
+            cat("\nRestricted mean survival in", ivl, ": \n")
+            print(x$rmean)
+            cat("\n")
+        }
+    }
+### End New 2020-11-26.    
     cat("\\hline \n")
 
     cat("\\end{tabular}\n")

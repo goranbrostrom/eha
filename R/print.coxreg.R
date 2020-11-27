@@ -50,7 +50,7 @@ print.coxreg <-
     if(is.null(coef) | is.null(se))
         stop("Input is not valid")
 #####################################
-    cat("Covariate           Mean       Coef     Rel.Risk   S.E.    Wald p\n")
+    cat("Covariate             Mean       Coef     Rel.Risk   S.E.    Wald p\n")
     e.coef <- formatC(exp(coef), width = 9, digits = 3, format = "f")
     coef <- formatC(coef, width = 9, digits = 3, format = "f")
     se <- formatC(se, width = 9, digits = 3, format = "f")
@@ -97,7 +97,7 @@ print.coxreg <-
                     substring(x$levels[[covar.no]], 1, 16)
                 cat(formatC(x$levels[[covar.no]][1], width = 16, flag = "+"),
                     formatC(x$w.means[[covar.no]][1],
-                            width = 8, digits = 3, format = "f"),
+                            width = 10, digits = 3, format = "f"),
                     noll,
                     ett,
                     "(reference)\n")
@@ -107,7 +107,7 @@ print.coxreg <-
                     cat(formatC(x$levels[[covar.no]][lev], width = 16,
                                 flag = "+"),
                         formatC(x$w.means[[covar.no]][lev],
-                                width = 8, digits = 3, format = "f"),
+                                width = 10, digits = 3, format = "f"),
                         coef[index],
                         e.coef[index],
                          se[index],
@@ -121,10 +121,16 @@ print.coxreg <-
                 }
             }else{ ## Covariates:
                 index <- index + 1
+                xxx <- x$w.means[[covar.no]]
+                if (inherits(xxx, "Date")){
+                    xxx <- as.character(xxx)
+                }else{
+                    xxx <- formatC(x$w.means[[covar.no]],
+                                   width = 10, digits = 3, format = "f")
+                }
                 cat(formatC(substr(covar.names[covar.no], 1, 16),
                             width = 16, flag = "-"),
-                    formatC(x$w.means[[covar.no]],
-                            width = 8, digits = 3, format = "f"),
+                    xxx,
                     coef[index],
                     e.coef[index],
                                         #exp(coef[index]),

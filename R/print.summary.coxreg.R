@@ -3,13 +3,14 @@
 #' @param x A \code{summary.coxreg} object, typically the result of running
 #' \code{summary.coxreg}, summary on a coxreg object.
 #' @param digits Output format.
+#' @param short Logical, short or long (default) output?
 #' @param \dots Other arguments.
 #' @return No value is returned.
 #' @author Göran Broström
 #' @seealso \code{\link{coxreg}}, \code{\link{summary.coxreg}}
 #' @keywords survival
 #' @export
-print.summary.coxreg <- function(x, digits = 3, ...){
+print.summary.coxreg <- function(x, digits = 3, short = FALSE, ...){
 
     if (!("summary.coxreg" %in% class(x))){
         stop("Only for 'summary.coxreg' ojects.")
@@ -64,9 +65,9 @@ print.summary.coxreg <- function(x, digits = 3, ...){
     
 #####################################
     if (lp){
-        cat("Covariate           Mean       Coef     Rel.Risk   S.E.    LR p\n")        
+        cat("Covariate             Mean       Coef     Rel.Risk   S.E.    LR p\n")        
     }else{
-        cat("Covariate           Mean       Coef     Rel.Risk   S.E.    Wald p\n")
+        cat("Covariate             Mean       Coef     Rel.Risk   S.E.    Wald p\n")
     }
     e.coef <- formatC(exp(coef), width = 9, digits = 3, format = "f")
     coef <- formatC(coef, width = 9, digits = 3, format = "f")
@@ -111,7 +112,7 @@ print.summary.coxreg <- function(x, digits = 3, ...){
             if (isF[covar.no]){ ## Factors:
                 if (lp){
                     lpindx <- lpindx + 1
-                    outp <- formatC(covar.names[covar.no], width = 54, 
+                    outp <- formatC(covar.names[covar.no], width = 56, 
                                     flag = "-")
                     cat(outp, lpval[lpindx], "\n")
                 }else{
@@ -123,7 +124,7 @@ print.summary.coxreg <- function(x, digits = 3, ...){
                     substring(x$levels[[covar.no]], 1, 16)
                 cat(formatC(x$levels[[covar.no]][1], width = 16, flag = "+"),
                     formatC(x$w.means[[covar.no]][1],
-                            width = 8, digits = 3, format = "f"),
+                            width = 10, digits = 3, format = "f"),
                     noll,
                     ett,
                     "(reference)\n")
@@ -133,7 +134,7 @@ print.summary.coxreg <- function(x, digits = 3, ...){
                     cat(formatC(x$levels[[covar.no]][lev], width = 16,
                                 flag = "+"),
                         formatC(x$w.means[[covar.no]][lev],
-                                width = 8, digits = 3, format = "f"),
+                                width = 10, digits = 3, format = "f"),
                         coef[index],
                         e.coef[index],
                         se[index])
@@ -151,10 +152,16 @@ print.summary.coxreg <- function(x, digits = 3, ...){
                 }
             }else{ ## Covariates:
                 index <- index + 1
+                xxx <- x$w.means[[covar.no]]
+                if (inherits(xxx, "Date")){
+                    xxx <- as.character(xxx)
+                }else{
+                    xxx <- formatC(xxx,
+                                   width = 10, digits = 3, format = "f")
+                }
                 cat(formatC(substr(covar.names[covar.no], 1, 16),
                             width = 16, flag = "-"),
-                    formatC(x$w.means[[covar.no]],
-                            width = 8, digits = 3, format = "f"),
+                    xxx,
                     coef[index],
                     e.coef[index],
                                         #exp(coef[index]),
@@ -230,21 +237,23 @@ print.summary.coxreg <- function(x, digits = 3, ...){
     }else{
         df <- round(sum(x$df),2)
     }
-    cat("\n")
-    cat(formatC("Events", width = 25, flag = "-"), x$n.events, "\n")
-    cat(formatC("Total time at risk", width = 25, flag = "-"),
-        formatC(x$ttr, digits = 5, format = "fg"), "\n")
-    cat(formatC("Max. log. likelihood", width = 25, flag = "-"),
-        formatC(x$loglik[2], digits = 5, format = "fg"), "\n")
-    cat(formatC("LR test statistic", width = 25, flag = "-"),
-        format(round(logtest, 2), nsmall = 2), "\n")
-    cat(formatC("Degrees of freedom", width = 25, flag = "-"),
-        formatC(df, digits = 0, format = "f"), "\n")
-    cat(formatC("Overall p-value", width = 25, flag = "-"),
-        format.pval(1 - pchisq(logtest, df), digits = 6, "\n"))
-    cat("\n")
-    if (length(x$icc))
-	cat("   number of clusters=", x$icc[1],
-	    "    ICC=", format(x$icc[2:3]), "\n")
+    if (!short){
+        cat("\n")
+        cat(formatC("Events", width = 25, flag = "-"), x$n.events, "\n")
+        cat(formatC("Total time at risk", width = 25, flag = "-"),
+            formatC(x$ttr, digits = 5, format = "fg"), "\n")
+        cat(formatC("Max. log. likelihood", width = 25, flag = "-"),
+            formatC(x$loglik[2], digits = 5, format = "fg"), "\n")
+        cat(formatC("LR test statistic", width = 25, flag = "-"),
+            format(round(logtest, 2), nsmall = 2), "\n")
+        cat(formatC("Degrees of freedom", width = 25, flag = "-"),
+            formatC(df, digits = 0, format = "f"), "\n")
+        cat(formatC("Overall p-value", width = 25, flag = "-"),
+            format.pval(1 - pchisq(logtest, df), digits = 6, "\n"))
+        cat("\n")
+        if (length(x$icc))
+            cat("   number of clusters=", x$icc[1],
+                "    ICC=", format(x$icc[2:3]), "\n")
+    }
     invisible(x)
 }
