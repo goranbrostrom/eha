@@ -159,7 +159,7 @@ coxreg <- function (formula = formula(data),
                        (efrac == 0) &&
                        is.null(frailty) &&
                        (!geometric))
-        if (!cox.ph) warning("'coxph is not called despite 'coxph = TRUE'")
+        ##if (!cox.ph) warning("'coxph is not called despite 'coxph = TRUE'")
     }else{
         cox.ph <- coxph # == TRUE
     }
@@ -359,6 +359,8 @@ coxreg <- function (formula = formula(data),
         } # End if (FALSE)
         fit <- list()
         fit$nullModel <- TRUE
+        fit$df <- 0
+        fit$loglik <- coxfun0(Y, strata = stratum, method = method)
 
         ##if (hazards){
         scores <- exp(offset)
@@ -643,7 +645,8 @@ wMeans <- function(fit, Y, m, isF){
                         sum( s.wght[who] ) / fit$ttr ## * 100, if in per cent
                 }
             }else{
-                fit$w.means[[i]] <- sum(s.wght * m[, col.m]) / fit$ttr
+                ##fit$w.means[[i]] <- sum(s.wght * m[, col.m]) / fit$ttr
+                fit$w.means[[i]] <- weighted.mean(m[, col.m], s.wght)
             }
         }
     }

@@ -460,7 +460,8 @@ phreg <- function (formula = formula(data),
                       sum( s.wght[who] ) / fit$ttr ## * 100, if in per cent
                 }
             }else{
-                fit$w.means[[i]] <- sum(s.wght * m[, col.m]) / fit$ttr
+                ##fit$w.means[[i]] <- sum(s.wght * m[, col.m]) / fit$ttr
+                fit$w.means[[i]] <- weighted.mean(m[, col.m], s.wght)
             }
         }
     }
