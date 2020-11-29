@@ -21,6 +21,13 @@
 #' This is intentional.
 #' 
 #' @seealso \code{\link{oe}}.
+#' @keywords survival regression table
+#' @examples 
+#' 
+#' sw <- swepop
+#' sw$deaths <- swedeaths$deaths
+#' fit <- tpchreg(oe(deaths, pop) ~ strata(sex) + I(year - 1990), time = age, last = 101, data = sw)
+#' summary(fit)
 #' 
 #' @export
 tpchreg <- function(formula,

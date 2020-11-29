@@ -44,6 +44,7 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
 #####################################
     cat("\\begin{table}[ht] \n")
     cat("\\begin{center} \n")
+    cat("\\footnotesize \n") # NOTE!!
     cat("\\begin{tabular}{lrrrrr} \n")
     cat("\\hline \n")
     if (lp){
@@ -216,12 +217,18 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     if (inherits(x, "summary.tpchreg")){
         ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
         if (x$n.strata == 1){
-            cat("\nRestricted mean survival: ", x$rmean, "in", ivl, "\n")
+            cat("Restricted mean survival: & ", x$rmean, " & in", ivl, "\\\\ \n")
         }else{
             names(x$rmean) <- x$strata
-            cat("\nRestricted mean survival in", ivl, ": \n")
-            print(x$rmean)
-            cat("\n")
+            cat("Restricted mean survival in & ", ivl, ": \\\\ \n")
+            for (ll in 1:(x$n.strata - 1)){
+                cat(" & ", formatC(x$strata[ll], format = "g", flag = "#"))
+            }
+            cat(" & ", x$strata[x$n.strata], "\\\\ \n")
+            for (ll in 1:(x$n.strata - 1)){
+                cat(" & ", formatC(x$rmean[ll], format = "g", flag = "#"))
+            }
+            cat(" & ", formatC(x$rmean[x$n.strata], format = "g", flag = "#"), "\\\\ \n")
         }
     }
 ### End New 2020-11-26.    
@@ -236,7 +243,7 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     if (!is.null(label)){
         cat("\\label{", label, "} \n", sep = "")
     }
-
+    cat("\\normalsize \n")
     cat("\\end{center} \n")
     cat("\\end{table} \n\n\n")
     cat(" \n\n")

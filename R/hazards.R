@@ -8,6 +8,6 @@
 hazards <- function(x){
     ## x is output from 'coxreg'.
     haz <- getHaz(x$y, strats = x$stratum, score = exp(x$linear.predictors))
-    names(haz) <- fit$strata
+    names(haz) <- x$strata
     haz
 }

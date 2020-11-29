@@ -39,6 +39,17 @@ data.
 The interpretation of cuts is different from that in \code{link{hpch}}.
 This is intentional.
 }
+\examples{
+
+sw <- swepop
+sw$deaths <- swedeaths$deaths
+fit <- tpchreg(oe(deaths, pop) ~ strata(sex) + I(year - 1990), time = age, last = 101, data = sw)
+summary(fit)
+
+}
 \seealso{
 \code{\link{oe}}.
 }
+\keyword{regression}
+\keyword{survival}
+\keyword{table}

@@ -1,3 +1,11 @@
+2.8.1.9999 (Nov 29, 2020)
+    * tpchreg: fix error in example.
+    * hazards: fix bug.
+
+2.8.1.9998 (Nov 28, 2020)
+    * Fix bug in ltx.coxreg.
+    * Add example to tpchreg help page.
+
 2.8.1.9997 (Nov 27, 2020)
     * coxfun0: New function, loglihood for null coxreg model.
     * ltx, print: Add and modify methods for printing regression fits.
