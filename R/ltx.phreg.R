@@ -51,6 +51,7 @@ ltx.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
 #####################################
     cat("\\begin{table}[ht] \n")
     cat("\\begin{center} \n")
+    cat("\\footnotesize \n")
     cat("\\begin{tabular}{lrrrrr} \n")
     cat("\\hline \n")
     if (lp){
