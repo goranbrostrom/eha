@@ -2,12 +2,16 @@
 % Please edit documentation in R/hazards.R
 \name{hazards}
 \alias{hazards}
-\title{Get baseline hazards atoms from a \code{coxreg} fit}
+\title{Get baseline hazards atoms from fits from}
 \usage{
-hazards(x)
+hazards(x, cum = TRUE, ...)
 }
 \arguments{
-\item{x}{A \code{coxreg} object.}
+\item{x}{A \code{reg} object.}
+
+\item{cum}{Logical: Should the cumulative hazards be returned?}
+
+\item{...}{Additional arguments for various methods.}
 }
 \value{
 A list where each component is a two-column matrix representing
@@ -15,5 +19,5 @@ hazard atoms from one stratum. The first column is event time, and the
 second column is the corresponding hazard atom.
 }
 \description{
-Get baseline hazards atoms from a \code{coxreg} fit
+Get baseline hazards atoms from fits from
 }
