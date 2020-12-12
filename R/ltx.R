@@ -8,7 +8,7 @@
 #' The result is a printout which is (much) nicer than the standard printed
 #' output from \code{glm} and friends,
 #' 
-#' @param x The output from a call to \code{coxreg}, \code{coxreg}, or
+#' @param x The output from a call to \code{coxreg}, \code{tpchreg}, or
 #' \code{aftreg}
 #' @param caption A suitable caption for the table.
 #' @param label A label used in the LaTeX code.
@@ -42,8 +42,7 @@ ltx <- function(x,
 
 #' @export
 ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL, 
-          digits=max(options()$digits - 4, 3), ...)
-    {
+          digits=max(options()$digits - 4, 3), ...){
     
     if (!inherits(x, "coxreg")){
         stop("only for coxreg objects")
@@ -69,6 +68,217 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     savedig <- options(digits = digits)
     on.exit(options(savedig))
 
+    ltxCoef(x, digits, dr) # Print regression coefficients
+### New 2020-11-26:    
+    if (inherits(x, "summary.tpchreg")){
+        ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
+        if (x$n.strata == 1){
+            cat("Restricted mean survival: & ", x$rmean, " & in", ivl, "\\\\ \n")
+        }else{
+            names(x$rmean) <- x$strata
+            cat("Restricted mean survival in & ", ivl, ": \\\\ \n")
+            for (ll in 1:(x$n.strata - 1)){
+                cat(" & ", formatC(x$strata[ll], format = "g", flag = "#"))
+            }
+            cat(" & ", x$strata[x$n.strata], "\\\\ \n")
+            for (ll in 1:(x$n.strata - 1)){
+                cat(" & ", formatC(x$rmean[ll], format = "g", flag = "#"))
+            }
+            cat(" & ", formatC(x$rmean[x$n.strata], format = "g", flag = "#"), "\\\\ \n")
+        }
+    }
+### End New 2020-11-26.    
+    cat("\\hline \n")
+
+    cat("\\end{tabular}\n")
+
+    if (!is.null(caption)){
+        cat("\\caption{", caption, "} \n", sep = "")
+    }
+    
+    if (!is.null(label)){
+        cat("\\label{", label, "} \n", sep = "")
+    }
+    cat("\\normalsize \n")
+    cat("\\end{center} \n")
+    cat("\\end{table} \n\n\n")
+    cat(" \n\n")
+#####################################
+    if(FALSE){
+        tmp <- cbind(coef, exp(coef), se,
+                     signif(1 - pchisq((coef/ se)^2, 1), digits - 1))
+        dimnames(tmp) <- list(names(coef), c("coef", "rel. risk",
+                                             "se(coef)", "p"))
+        
+        cat("\n")
+        prmatrix(tmp)
+    }
+
+    if (!is.null(x$frailty)){
+        cat("\nFrailty standard deviation = ", x$sigma, "\n")
+        cat("                      S.E. = ", x$sigma.sd, "\n\n")
+    }
+    if (FALSE){
+        logtest <- -2 * (x$loglik[1] - x$loglik[2])
+        if (is.null(x$df)) df <- sum(!is.na(coef))
+        else  df <- round(sum(x$df),2)
+        cat("\n")
+        cat(formatC("Events", width = 25, flag = "-"), x$events, "\n")
+        cat(formatC("Total time at risk", width = 25, flag = "-"),
+            formatC(x$ttr, digits = 5, format = "fg"), "\n")
+        cat(formatC("Max. log. likelihood", width = 25, flag = "-"),
+            formatC(x$loglik[2], digits = 5, format = "fg"), "\n")
+        cat(formatC("LR test statistic", width = 25, flag = "-"),
+            format(round(logtest, 2)), "\n")
+        cat(formatC("Degrees of freedom", width = 25, flag = "-"),
+            formatC(df, digits = 0, format = "f"), "\n")
+        cat(formatC("Overall p-value", width = 25, flag = "-"),
+            format.pval(1 - pchisq(logtest, df), digits = 6, "\n"))
+        cat("\n")
+        if (length(x$icc))
+            cat("   number of clusters=", x$icc[1],
+                "    ICC=", format(x$icc[2:3]), "\n")
+        invisible(x)
+    }
+}
+
+#' @export
+ltx.phreg <- function(x, caption = NULL, label = NULL, dr = NULL, 
+          digits=max(options()$digits - 4, 3), ...){
+    
+    if (!("phreg" %in% class(x))) stop("Only for 'phreg' output")
+
+    if (!is.null(cl<- x$call)) {
+	##cat("Call:\n")
+	##dput(cl)
+	##cat("\n")
+	}
+
+    if (!is.null(x$fail)) {
+        if (x$fail != 0){
+            cat(" phreg failed with: ")
+            stop(x$fail)
+        }
+    }
+
+    if (!length(x$coefficients)){
+        cat("Null log likelihood = ", x$loglik[2], "\n")
+        return()
+    }
+
+    if (x$pfixed){
+
+        n.slsh <- 1
+
+    }else{
+        n.slsh <- 2 * x$n.strata
+
+    }
+
+    savedig <- options(digits = digits)
+    on.exit(options(savedig))
+
+    ltxCoef(x, digits, dr) # Print regression coefficients.
+
+    if (FALSE){
+    cat("Baseline parameters \\\\\n")
+        for (i in 1:n.slsh){
+        jup <- length(x$coef)
+        ss.names <- names(x$coef[(jup - n.slsh + 1):jup])
+        index <- index + 1
+        ## covar.no <- covar.no + 1
+        cat(formatC(ss.names[i], width = 16, flag = "-"),
+            formatC(" & & ",
+                    width = 8, digits = 3, format = "c"),
+            coef[index], " & ",
+            e.coef[index], " & ",
+                                        #exp(coef[index]),
+            se[index], " & ",
+            #formatC(" ", width = 1),
+            formatC(wald.p[index],
+                    digits = 3,
+                    width = digits + 2,
+                    format = "f"), " \\\\ ", 
+            ##signif(1 - pchisq((coef/ se)^2, 1), digits - 1),
+            "\n")
+        }
+    }
+    ##cat("index = ", index, "\n")
+    ##cat("e.coef[index - 1] = ", e.coef[index - 1], "\n")
+    ##cat("e.coef[index] = ", e.coef[index], "\n")
+
+### The following about 'mean' is a hack!!! only for 'gompertz'!
+    ## Later to be moved to 'aftreg.fit'
+    ##if (x$param == "default"){
+    ##    shapen <- exp(x$coef[index])
+    ##}else{
+    ##    shapen <- exp(-x$coef[index])
+    ##}
+    ##medel <- integrate(pgompertz, 0, Inf, lower.tail = FALSE,
+    ##                   scale = exp(x$coef[index - 1]),
+    ##                   shape = shapen)$value
+    ##cat("Baseline mean: ", medel, 
+    ##    "\\\\", "\\hline", "\n")
+### End hack!
+    
+    cat("\\hline \n")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
+    cat("Max. Log Likelihood & ", x$loglik[2], "\\\\ \\hline \n")
+    cat("\\hline \n")
+
+    cat("\\end{tabular}\n")
+
+    if (!is.null(caption)){
+        cat("\\caption{", caption, "} \n", sep = "")
+    }
+    
+    if (!is.null(label)){
+        cat("\\label{", label, "} \n", sep = "")
+    }
+
+    cat("\\end{center} \n")
+    cat("\\end{table} \n\n\n")
+    cat(" \n\n")
+#####################################
+    if(FALSE){
+        tmp <- cbind(coef, exp(coef), se,
+                     signif(1 - pchisq((coef/ se)^2, 1), digits - 1))
+        dimnames(tmp) <- list(names(coef), c("coef", "rel. risk",
+                                             "se(coef)", "p"))
+        
+        cat("\n")
+        prmatrix(tmp)
+    }
+
+    if (!is.null(x$frailty)){
+        cat("\nFrailty standard deviation = ", x$sigma, "\n")
+        cat("                      S.E. = ", x$sigma.sd, "\n\n")
+    }
+    if (FALSE){
+        logtest <- -2 * (x$loglik[1] - x$loglik[2])
+        if (is.null(x$df)) df <- sum(!is.na(coef))
+        else  df <- round(sum(x$df),2)
+        cat("\n")
+        cat(formatC("Events", width = 25, flag = "-"), x$events, "\n")
+        cat(formatC("Total time at risk", width = 25, flag = "-"),
+            formatC(x$ttr, digits = 5, format = "fg"), "\n")
+        cat(formatC("Max. log. likelihood", width = 25, flag = "-"),
+            formatC(x$loglik[2], digits = 5, format = "fg"), "\n")
+        cat(formatC("LR test statistic", width = 25, flag = "-"),
+            format(round(logtest, 2)), "\n")
+        cat(formatC("Degrees of freedom", width = 25, flag = "-"),
+            formatC(df, digits = 0, format = "f"), "\n")
+        cat(formatC("Overall p-value", width = 25, flag = "-"),
+            format.pval(1 - pchisq(logtest, df), digits = 6, "\n"))
+        cat("\n")
+        if (length(x$icc))
+            cat("   number of clusters=", x$icc[1],
+                "    ICC=", format(x$icc[2:3]), "\n")
+        invisible(x)
+    }
+}
+
+ltxCoef <- function(x, digits, dr){
     coef <- x$coef
 
     se <- sqrt(diag(x$var))
@@ -255,75 +465,4 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     cat("\\hline \n")
     cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
     cat("Max. Log Likelihood & ", x$loglik[2], "\\\\ \\hline \n")
-### New 2020-11-26:    
-    if (inherits(x, "summary.tpchreg")){
-        ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
-        if (x$n.strata == 1){
-            cat("Restricted mean survival: & ", x$rmean, " & in", ivl, "\\\\ \n")
-        }else{
-            names(x$rmean) <- x$strata
-            cat("Restricted mean survival in & ", ivl, ": \\\\ \n")
-            for (ll in 1:(x$n.strata - 1)){
-                cat(" & ", formatC(x$strata[ll], format = "g", flag = "#"))
-            }
-            cat(" & ", x$strata[x$n.strata], "\\\\ \n")
-            for (ll in 1:(x$n.strata - 1)){
-                cat(" & ", formatC(x$rmean[ll], format = "g", flag = "#"))
-            }
-            cat(" & ", formatC(x$rmean[x$n.strata], format = "g", flag = "#"), "\\\\ \n")
-        }
-    }
-### End New 2020-11-26.    
-    cat("\\hline \n")
-
-    cat("\\end{tabular}\n")
-
-    if (!is.null(caption)){
-        cat("\\caption{", caption, "} \n", sep = "")
-    }
-    
-    if (!is.null(label)){
-        cat("\\label{", label, "} \n", sep = "")
-    }
-    cat("\\normalsize \n")
-    cat("\\end{center} \n")
-    cat("\\end{table} \n\n\n")
-    cat(" \n\n")
-#####################################
-    if(FALSE){
-        tmp <- cbind(coef, exp(coef), se,
-                     signif(1 - pchisq((coef/ se)^2, 1), digits - 1))
-        dimnames(tmp) <- list(names(coef), c("coef", "rel. risk",
-                                             "se(coef)", "p"))
-        
-        cat("\n")
-        prmatrix(tmp)
-    }
-
-    if (!is.null(x$frailty)){
-        cat("\nFrailty standard deviation = ", x$sigma, "\n")
-        cat("                      S.E. = ", x$sigma.sd, "\n\n")
-    }
-    if (FALSE){
-        logtest <- -2 * (x$loglik[1] - x$loglik[2])
-        if (is.null(x$df)) df <- sum(!is.na(coef))
-        else  df <- round(sum(x$df),2)
-        cat("\n")
-        cat(formatC("Events", width = 25, flag = "-"), x$events, "\n")
-        cat(formatC("Total time at risk", width = 25, flag = "-"),
-            formatC(x$ttr, digits = 5, format = "fg"), "\n")
-        cat(formatC("Max. log. likelihood", width = 25, flag = "-"),
-            formatC(x$loglik[2], digits = 5, format = "fg"), "\n")
-        cat(formatC("LR test statistic", width = 25, flag = "-"),
-            format(round(logtest, 2)), "\n")
-        cat(formatC("Degrees of freedom", width = 25, flag = "-"),
-            formatC(df, digits = 0, format = "f"), "\n")
-        cat(formatC("Overall p-value", width = 25, flag = "-"),
-            format.pval(1 - pchisq(logtest, df), digits = 6, "\n"))
-        cat("\n")
-        if (length(x$icc))
-            cat("   number of clusters=", x$icc[1],
-                "    ICC=", format(x$icc[2:3]), "\n")
-        invisible(x)
-    }
 }

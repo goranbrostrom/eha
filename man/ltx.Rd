@@ -14,7 +14,7 @@ ltx(
 )
 }
 \arguments{
-\item{x}{The output from a call to \code{coxreg}, \code{coxreg}, or
+\item{x}{The output from a call to \code{coxreg}, \code{tpchreg}, or
 \code{aftreg}}
 
 \item{caption}{A suitable caption for the table.}
