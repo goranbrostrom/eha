@@ -56,39 +56,179 @@ We assume here that $\psi$ is *constant*, not varying with $t$.
 
 ## Available distributions
 
-The *Weibull* distribution is one of the distributions that are available in
-the `phreg` function. Its hazard function is available in **eha** under
-the name `hweibull`, and it is defined as
+The parametric distribution functions that naturally can be used as the baseline
+distribution in the function `phreg` are the *Weibull*,
+*Piecewise constant hazard* (`pch`), 
+*Extreme value* and the 
+*Gompertz* distributions. The *lognormal* and *loglogistic* distributions are 
+also included as possible choices and allow for hazard functions that are 
+first increasing to a maximum and then
+decreasing, while the other distributions all have monotone hazard
+functions. However, since these families are not closed under proportional 
+hazards without artificially adding a third, "proportionality",  parameter,
+they are not discussed here (regard these possibilities as experimental).
+It is better to combine the lognormal and the 
+loglogistic distributions with the accelerated failure time modeling, where they 
+naturally fit in. 
 
-\begin{equation}
-h_0\bigl(t; (p, \lambda)\bigr) = \frac{p}{\lambda}\biggl(\frac{t}{\lambda}\biggr)^{p - 1},
-\quad t, p, \lambda > 0.
-\end{equation}
-Here $p$ is a *shape* parameter and $\lambda$ is a *scale* parameter, and it is
-easy to see that if we keep $p$ fixed and vary $\lambda$, the result is a family 
-of proportional hazards Weibull distributions, or, in other words, the Weibull
-distribution is *closed under proportional hazards*. 
+See Figure \@ref(fig:6hazs) for Weibull and Gompertz hazard functions with different
+parameter values.
 
-The PH regression model looks like this:
-\begin{equation}
-h(t; (p, \lambda, \beta)) = e^{\beta z} h_0\bigl(t; (p, \lambda)\bigr),
-\quad t, p, \lambda > 0.
-\end{equation}
-where $\beta$ is the (vector of) regression coefficient(s). The Weibull 
-hazard function is *monotone*, that is, either increasing ($p > 1$) or 
-decreasing ($p < 1$). When $p = 1$, the hazard function is constant over time
-and this special case is called the *exponential distribution*. 
+```{r 6hazs,fig.cap = "Selected hazard functions.", echo=FALSE,fig.height=5,message=FALSE}
+library(eha)
+oldpar <- par(mfrow = c(2, 2))
+x <- seq(0.001, 10.001, length = 1000)
+y <- hweibull(x, shape = 3, scale = 6)
+plot(x, y, main = "Weibull, shape = 3", type = "l", 
+     ylab = "", xlab = "Time", lwd = 2, ylim = c(0, 1.5), las = 1)
+abline(h = 0, v = 0)
+y <- hweibull(x, shape = 1/2, scale = 2)
+plot(x, y, main = "Weibull, shape = 1/3", type = "l",
+     ylab = "", xlab = "Time", ylim = c(0, 1.5), lwd = 2, las = 1)
+abline(h = 0, v = 0)
+y <- hgompertz(x, shape = 1/6, rate = 0.2, param = "rate")
+plot(x, y, main = "Gompertz, rate = 2", type = "l",
+     ylab = "", xlab = "Time", ylim = c(0, 1.5), lwd = 2, las = 1)
+abline(h = 0, v = 0)
+y <- hgompertz(x, shape = 1.5, rate = -0.2, param = "rate")
+plot(x, y, main = "Gompertz, rate = -2", type = "l",
+     ylab = "", xlab = "Time", ylim = c(0, 1.5), lwd = 2, las = 1)
+abline(h = 0, v = 0)
+par(oldpar)
+```
 
-In demographic applications, the Weibull distribution has been used to describe 
-mortality in early ages, say 0--10 years of age. The  
+We note in passing that the fourth case, the Gompertz model with negative rate parameter,
+does not represent a true survival distribution, because the hazard function decreases
+too fast: There will be a positive probability of eternal life.
 
+## An example, old age mortality
 
+The data set **oldmort** in the **R** package **eha** contains
+life histories of people followed from their 60th birthday to their 100th, or 
+until death. They are all born between June 28, 1765 and December 31, 1820
+in Skellefteå.
 
+We fit a *Gompertz* model:
 
+```{r gowecof8, echo = TRUE}
+fit.g <- phreg(Surv(enter - 60, exit - 60, event) ~ sex + civ + region, 
+             dist = "gompertz", data = oldmort)
+summary(fit.g)	     
+```
 
+Then we fit a Cox regression model.
 
+```{r coxold8, echo = TRUE}
+fit.c <- coxreg(Surv(enter - 60, exit - 60, event) ~ sex + civ + region, data = oldmort)
+summary(fit.c)
+```
 
+And we compare the estimated baseline hazards.
+
+```{r check, echo = TRUE}
+check.dist(fit.c, fit.g)
+```
+
+The fit of the Gompertz baseline function is very close to the non-parametric one, indicating that
+old age mortality is exponentially increasing with age. However, in the last ten years or so (ages 90+),
+the increase seems to slow down.
 
 # The accelerated failure time model
 
-Here it is more natural to 
+
+The accelerated failure time (AFT) model is best described through relations
+between survivor functions. For instance, 
+comparing two groups:
+
+   * **Group 0:** $P(T \ge t) = S_0(t)$  (control group)
+   * **Group 1:** $P(T \ge t) = S_0(\phi t)$ (treatment group)
+  
+The model says that treatment *accelerates} failure time by the factor $\phi$.
+If $\phi < 1$, treatment is good (prolongs life), otherwise bad.
+Another interpretation is that the *median* life length is
+  *multiplied* by $1/\phi$ by treatment.
+
+In Figure \@ref(fig:aftph6) the difference between the accelerated failure
+time  and the 
+proportional hazards models concerning the hazard functions is illustrated.
+
+```{r aftph6,fig.cap="Proportional hazards (left) and accelerated failure time model (right). The baseline distribution is Loglogistic with shape 5 (dashed).",echo=FALSE}
+op <- par(las = 1)
+x <- seq(0, 3, length = 1000)
+par(mfrow = c(1, 2))
+plot(x, 2 * hllogis(x, shape = 5), type = "l", ylab = "", main = "PH", xlab = "Time")
+lines(x, hllogis(x, shape = 5), lty = 2)
+plot(x, 2 * hllogis(2 * x, shape = 5), type = "l", ylab = "", main = "AFT", xlab = "Time")
+lines(x, hllogis(x, shape = 5), lty = 2)
+par(op)
+```
+
+The AFT hazard is not only multiplied by 2, it is also shifted to the left;
+the process is accelerated. Note how the hazards in the AFT case converges
+as time increases. This is usually a sign of the suitability of an AFT model. 
+
+
+
+If $T$ has survivor function $S(t)$ and $T_c = T/c$,  then $T_c$ has
+survivor function $S(ct)$.
+Then, if $Y = \log(T)$ and $Y_c = \log(T_c)$, the
+following relation holds:
+
+\begin{equation*}
+Y_c = Y - log(c).
+\end{equation*}
+
+With $Y = \epsilon$, $Y_c = Y$, and $\log(c) = -\boldsymbol{\beta} \mathbf{x}$ this can be written in
+familiar form:
+
+\begin{equation*}
+Y = \boldsymbol{\beta} \mathbf{x} + \epsilon,
+\end{equation*}
+
+That is, an ordinary linear regression model for the log survival times. In
+the absence of right censoring and left truncation, this model can be
+estimated by least squares. However, the presence of these forms of
+incomplete data makes it necessary to rely on maximum likelihood
+methods. In **R**, there is the functions `aftreg` in the package 
+  **eha** and the function `survreg` in the package **survival** that
+perform the task of fitting AFT models.
+
+Besides differing parametrizations, the main difference between
+  `aftreg` and `survreg` is that the latter does not allow for left
+truncated data. One reason for this is that left truncation is a much
+harder problem to deal with in AFT models than in proportional hazards models.
+
+## Available distributions
+
+In **aftreg** the available baseline distributions are the *Gompertz*, *Weibull*, 
+*Extreme value*, *Lognormal*, and *Loglogistic* distributions.
+
+## The oldmort data
+
+We repeat the analysis of the old age mortality data, but with an accelerated failure
+time model.
+
+```{r oldmort6.aft}
+fit.g1 <- aftreg(Surv(enter - 60, exit - 60, event) ~ sex + civ + region, data = oldmort, dist = "gompertz")
+summary(fit.g1)
+```
+
+# Proportional hazards or AFT model?
+
+The problem of choosing between a proportional hazards and an accelerated
+failure time model (everything else equal) can be solved by comparing the
+AIC\index{AIC} of the models. Since the numbers of parameters are equal in
+the two 
+cases, this amounts to comparing the maximized likelihoods. For instance,
+in the case with *old age mortality*:
+
+Comparing the corresponding result for the proportional hazards and the AFT
+models with the Gompertz distribution,
+we find that the maximized log likelihood in the latter case is
+`r round(fit.g1$loglik[2], 3)`, compared to
+`r round(fit.g$loglik[2], 3)` for the former. This indicates that the
+proportional hazards model
+  fit is better. Note however that we cannot formally test the proportional
+  hazards hypothesis; the two models are not nested.
+  
+
