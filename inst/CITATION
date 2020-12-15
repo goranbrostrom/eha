@@ -1,0 +1,29 @@
+citHeader("To cite eha in publications use:")
+
+citEntry(entry = "Manual",
+   title = "eha: Event History Analysis",
+   author = personList(as.person("Göran Broström")),
+   year = "2020",
+   note = "R package version 2.8.3",
+   url = "https://cran.r-project.org/package=eha",
+   
+   textVersion = 
+   paste("Göran Broström (2020).",
+   "eha: Event History Analysis.",
+   "R package version 2.8.3.",
+   "URL https://cran.r-project.org/package=eha")
+   )
+   
+citEntry(entry = "Book",
+   title = "Event History Analysis with R",
+   author = personList(as.person("Göran Broström")),
+   year = "2012",
+   publisher = "Chapman and Hall/CRC",
+   address = "Boca Raton",
+   doi = "10.1201/9781315373942",
+   
+   textVersion = 
+   paste("Göran Broström (2012).",
+   "Event History Analysis with R.",
+   "Chapman and Hall, Boca Raton.")
+   )
