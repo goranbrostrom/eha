@@ -1,14 +1,15 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.8.1.99993
-Date: 2020-12-08
+Version: 2.8.4
+Date: 2020-12-15
 Title: Event History Analysis
-Description:  Parametric proportional hazards fitting with left truncation and 
+Description:  Parametric proportional hazards fitting with left truncation and
         right censoring for common families of distributions, piecewise constant 
-        hazards, and discrete models. Parametric accelerated failure time models 
+        hazards, and discrete models. Parametric accelerated failure time models
         for left truncated and right censored data. Proportional hazards
         models for tabular and register data. Sampling of risk sets in Cox 
-        regression, selections in the Lexis diagram, bootstrapping.
+        regression, selections in the Lexis diagram, bootstrapping. 
+        Broström (2012) <doi:10.1201/9781315373942>.
 BugReports: https://github.com/goranbrostrom/eha/issues
 License: GPL (>= 2)
 LazyData: yes
@@ -22,5 +23,5 @@ Imports: stats, graphics, survival (>= 3.0)
 NeedsCompilation: yes
 Maintainer: Göran Broström <goran.brostrom@umu.se>
 RoxygenNote: 7.1.1
-Suggests: BiocStyle, knitr, rmarkdown
-VignetteBuilder: knitr
+Suggests: knitr, rmarkdown, bookdown
+VignetteBuilder: knitr, utils

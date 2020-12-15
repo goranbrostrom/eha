@@ -1,8 +1,18 @@
+2.8.4 (Dec 15, 2020)
+    * Fixed error in doi field in inst/CITATION, resubmitted.
+
+2.8.3 (Dec 14, 2020)
+    * Vignette problems fixed.
+    * check.dist: Bug fixed.
+
+2.8.2 (Dec 13, 2020)
+    * CRAN Release.
+
 2.8.1.99993 (Dec 8, 2020)
-    hazards: made generic with methods for regression outputs. 
+    * hazards: made generic with methods for regression outputs. 
     
 2.8.1.99991 (Dec 2, 2020)
-    ltx: Introduce "\footnotesize" in latex table printing.
+    * ltx: Introduce "\footnotesize" in latex table printing.
     
 2.8.1.9999 (Nov 29, 2020)
     * tpchreg: fix error in example.
@@ -38,7 +48,7 @@
     * plot.hazdata: Fix y limits.
     
 2.8.1.9990 (Nov 12, 2020)
-    * summary.[aft,cox,ph,tpch]reg: Change p-value label tp 'Wald p'.
+    * summary.[aft,cox,ph,tpch]reg: Change p-value label to 'Wald p'.
 
 2.8.1.9989 (Nov 10, 2020)
     * logrank: Fix error in evaluation of arguments.

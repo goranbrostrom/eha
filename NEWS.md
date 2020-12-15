@@ -1,3 +1,72 @@
+# eha 2.8.4
+
+## New features
+
+*   *ltx*: Introduce \footnotesize for tables.
+
+*   *hazards*: New generic function calculating baseline hazards from fits.
+    Methods for regression outputs.
+	
+*   *logrank*: New function performing a log-rank test. A plot method comes
+    with it. 
+
+*   *coxfunk*: New function for calculating partial likelihood with
+    derivatives. **Warning:** Under development, do not trust results yet! 
+
+*   *summary* method to *tpchreg* with a *print* method.
+
+*   Two new data sets, *swepop* and *swedeaths*: Tabular statistics, Sweden
+    1968-2019.
+	
+*   The data set *swepop07* removed, replaced by swepop and swedeaths.
+
+*   *coxreg*: Add log likelihood and df to null models.
+
+*   The data set *child* is expanded with info about mother.
+
+*   *print.summary.coxreg*: New argument 'short' added.
+
+*   *plot.phreg*: Argument 'new.data' removed, 'score' added.
+
+*    *Gompertz*: Argument 'rate' added to all functions.
+
+*    *risksets*: New argument 'collate_sets', a logical. Defaults to FALSE,
+    which conserves old behaviour. If TRUE, output is a list of lists, where 
+    each level 2 list describes one risk set.
+
+*    *coxreg*: New argument 'coxph' (logical) is introduced. If TRUE, 
+    survival::agreg.fit (or survival::coxph.fit) is called for in the 
+    optimization. If FALSE, 'own' optimization is called for, can be slow 
+    for (even moderately) large data sets (many distinct event time points).
+    Default value is TRUE.
+
+*    *coxreg*: Arguments 'hazards' and 'center' deprecated.
+
+*    *phreg*: Argument 'center' deprecated.
+
+
+## Bug fixes and inner, non-visible changes
+ 
+*   *coxreg, phreg, aftreg*: Fixed bug in calculating weighted means, which
+    affects dates as covariates.
+
+*   *plot.hazdata*: Fix y limits.
+
+*   *coxreg*: Add stratum names when no covariates.
+
+*    *survival* moved from Depends to Imports.
+
+*    *summary*: Failed for null models with tpchreg, pchreg, now fixed.
+
+*    *summary.phreg*: Bug fixed. It was introduced by differences between the
+    distribution 'pch' and the other distributions. The piecewise constant 
+    hazards regression will eventually break out of phreg and form a separate
+    function, named 'pchreg'. Have the same thoughts about the Gompertz 
+    distribution, to be put in 'gompreg'. We'll see... Main reason is that 
+    these guys need special treatment in the programming.
+
+*   *phreg*: Fix issue with 'shape = ' something positive.
+
 # eha 2.8.1
 
 * *gompstartRate*: Simpler starting values introduced (internal).
