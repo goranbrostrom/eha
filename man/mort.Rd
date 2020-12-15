@@ -35,7 +35,7 @@
   Data is coming from The Demographic Data Base, Umea University, Umeå, Sweden.
 }
 \references{
-\url{http://www.cedar.umu.se}  
+\url{https://www.umu.se/enheten-for-demografi-och-aldrandeforskning/}  
 }
 \examples{
 data(mort)

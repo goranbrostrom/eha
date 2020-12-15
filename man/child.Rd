@@ -26,7 +26,7 @@ fifteen years or until death or out-migration.}
 \source{
 Data originate from the Centre for Demographic and Ageing Research, 
 Umeå University, Umeå, Sweden,
-\url{http://www.umu.se/en/centre-for-demographic-and-ageing-research/}.}
+\url{https://www.umu.se/en/centre-for-demographic-and-ageing-research/}.}
 
 \examples{
 fit <- coxreg(Surv(enter, exit, event) ~ sex + socBranch, data = child, coxph = TRUE)

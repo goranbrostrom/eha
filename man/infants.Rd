@@ -38,7 +38,7 @@ each of them, two controls were selected by matching on the given covariates.
 } 
 \source{
 Data originate from The Demographic Data Base, Umeå University, Umeå, Sweden,
-\url{http://www.cedar.umu.se}.}
+\url{https://www.umu.se/enheten-for-demografi-och-aldrandeforskning/}.}
 \references{
 Broström, G. (1987). The influence of mother's death on infant
 mortality: A case study in matched data survival analysis. Scandinavian
