@@ -52,12 +52,15 @@ plot.coxreg <- function(x,
          names(x$hazards) <- x$strata 
       }
    }
-   res <- plot.hazdata(x$hazards, fn = fn, fig = fig, xlim = xlim, ylim = ylim, 
-                  main = main, xlab = xlab, ylab = ylab, col = col, 
-                   lty = lty, printLegend = printLegend)
-   return(invisible(res))
-
-   if (FALSE){
+   op <- par(las = 1)
+   if (!conf.int){
+      res <- plot.hazdata(x$hazards, fn = fn, fig = fig, xlim = xlim, ylim = ylim, 
+                     main = main, xlab = xlab, ylab = ylab, col = col, 
+                      lty = lty, printLegend = printLegend)
+      par(op)
+      return(invisible(res))
+   }
+   if (conf.int){ # Old stuff kept as backup...
       x$means <- numeric(length(x$coefficients))
       class(x) <- "coxph"
       fn <- fn[1]
@@ -88,13 +91,14 @@ plot.coxreg <- function(x,
          }
          
       }else{
-         plot(survival::survfit(x), fun = fn, xlab = xlab,
+         res <- survival::survfit(x)
+         plot(res, fun = fn, xlab = xlab,
               ylab = ylab, main = main, xlim = xlim, col = col, lty = lty,
               conf.int = conf.int)
          if (printLegend && length(x$stratum) >= 2){
             legend("bottom", legend = x$stratum, lty = lty, col = col)
          } 
       }
-   }
-   ##invisible(y)
+   } # End if (FALSE) "old stuff"
+   invisible(res)
 }

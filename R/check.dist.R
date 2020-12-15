@@ -72,8 +72,9 @@ check.dist <- function(sp, pp, main = NULL, col = 1:2,
     ##x.max <- max(pp$y[, 2])
     plot.coxreg(sp, fn = "cum", main = main, col = col[1], lty = lty[1])
     
-    x <- plot(pp, fn = "cum", fig = FALSE)
-    lines(x$xx, x$Haz, col = col[2], lty = lty[2])
+    ##x <- plot(pp, fn = "cum", fig = FALSE) # Gives error with gompertz
+    oo <- hazards(pp)
+    lines(oo$x, oo$y, col = col[2], lty = lty[2])
     
     if (printLegend){
         legend(x = "topleft", legend = c("Non-parametric", "Parametric"),

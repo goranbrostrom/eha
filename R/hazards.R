@@ -47,7 +47,7 @@ hazards.phreg <- function(x, cum = TRUE, ivl, n.points = 300, ...){
     }
     xp <- seq(ivl[1], ivl[2], length = n.points)
     if (x$dist == "pch"){
-        ns <- nrow(fit$hazards)
+        ns <- nrow(x$hazards)
         yp <- matrix(0, nrow = ns, ncol = n.points)
         for (i in 1:ns){
             if (cum){
