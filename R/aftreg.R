@@ -161,7 +161,7 @@ aftreg <- function (formula = formula(data),
     else newTerms <- Terms
     X <- model.matrix(newTerms, m)
     ##return(X)
-    assign <- lapply(attrassign(X, newTerms)[-1], function(x) x - 1)
+    assign <- lapply(survival::attrassign(X, newTerms)[-1], function(x) x - 1)
     
     X <- X[, -1, drop = FALSE]  ##OBS!!!! No Intercept!
     

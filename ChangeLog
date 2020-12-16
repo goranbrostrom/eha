@@ -1,3 +1,9 @@
+2.8.4.9000 (Dec 16, 2020)
+   * plotHaz: New function for plotting two baseline cumulative 
+   hazards functions.
+   * attrassign and untangle.specials (survival package) removed from 
+   importFrom.
+
 2.8.4 (Dec 15, 2020)
     * Fixed error in doi field in inst/CITATION, resubmitted.
 

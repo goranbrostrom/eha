@@ -190,9 +190,9 @@ phreg <- function (formula = formula(data),
     X <- model.matrix(newTerms, m)
     ##return(X)
     if (!(dist %in% c("lognormal", "loglogistic"))){
-        assign <- lapply(attrassign(X, newTerms)[-1], function(x) x - 1)
+        assign <- lapply(survival::attrassign(X, newTerms)[-1], function(x) x - 1)
     }else{
-        assign <- lapply(attrassign(X, newTerms), function(x) x - 1)
+        assign <- lapply(survival::attrassign(X, newTerms), function(x) x - 1)
     }
     ## Lognormal & loglogistic need an intercept:
 

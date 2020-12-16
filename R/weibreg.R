@@ -143,7 +143,7 @@ weibreg <-
       newTerms <- Terms[-dropx]
     else newTerms <- Terms
     X <- model.matrix(newTerms, m)
-    assign <- lapply(attrassign(X, newTerms)[-1], function(x) x - 1)
+    assign <- lapply(survival::attrassign(X, newTerms)[-1], function(x) x - 1)
     X <- X[, -1, drop = FALSE]
     ncov <- NCOL(X)
     #########################################
