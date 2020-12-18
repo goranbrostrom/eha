@@ -9,6 +9,8 @@ plotHaz(
   pp,
   interval,
   main = NULL,
+  xlab = "Time",
+  ylab = "Cum. hazards",
   col = c("blue", "red"),
   lty = 1:2,
   printLegend = TRUE
@@ -25,6 +27,10 @@ plotHaz(
 
 \item{main}{Header for the plot. Default is distribution and "cumulative
 hazard function"}
+
+\item{xlab}{Label on x axis (default "Time")}
+
+\item{ylab}{Label on y axis (default "Cum. Hazards")}
 
 \item{col}{Line colors. should be \code{NULL} (black lines) or of length 2}
 

@@ -13,6 +13,8 @@
 #' @param interval Time interval for the plot, if missing, calculated from \code{sp}.
 #' @param main Header for the plot. Default is distribution and "cumulative
 #' hazard function"
+#' @param xlab Label on x axis (default "Time")
+#' @param ylab Label on y axis (default "Cum. Hazards")
 #' @param col Line colors. should be \code{NULL} (black lines) or of length 2
 #' @param lty line types.
 #' @param printLegend Should a legend be printed? Default is \code{TRUE}.
@@ -33,12 +35,12 @@
 #' par(op)
 #' 
 #' @export
-plotHaz <- function(sp, pp, interval, main = NULL, col = c("blue", "red"), 
-                    lty = 1:2, printLegend = TRUE){
+plotHaz <- function(sp, pp, interval, main = NULL, xlab = "Time", ylab = "Cum. hazards",
+                    col = c("blue", "red"), lty = 1:2, printLegend = TRUE){
    if (!(inherits(sp, "coxreg") | inherits(sp, "phreg"))){
       stop("Wrong first argument")
    }
-   if (!(inherits(pp, "coxreg") | inherits(sp, "phreg"))){
+   if (!(inherits(pp, "coxreg") | inherits(pp, "phreg"))){
       stop("Wrong second argument")
    }
    
@@ -85,11 +87,11 @@ plotHaz <- function(sp, pp, interval, main = NULL, col = c("blue", "red"),
    
    interval <- c(min(x1, x2), max(x1, x2))
    yint <- c(0, max(y1, y2))
-   plot(x1, y1, type = "l", col = col[1], lty = lty[1], xlim = interval, ylim = yint, lwd = 1.5)
+   plot(x1, y1, type = "l", col = col[1], lty = lty[1], xlim = interval, ylim = yint, 
+        xlab = xlab, ylab = ylab, lwd = 1.5)
    lines(x2, y2, col = col[2], lty = lty[2], lwd = 1.5)
    abline(h = 0)
    if (printLegend){
-      
       legend(x = "topleft", legend = c(name1, name2),
              col = col, lty = lty)
    }
