@@ -1,3 +1,8 @@
+# eha 2.8.5
+
+*   Fix internal bug in 'init.c'.
+*   No CRAN release yet.
+
 # eha 2.8.4
 
 ## New features
