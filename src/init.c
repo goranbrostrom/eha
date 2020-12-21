@@ -129,7 +129,7 @@ extern void weibsup(int *iter, double *eps, int *printlevel,
 extern void breslow_rs2(int *what, /* RiskSet *risk, */
 			int *antevents,
 			int *size,
-			int *riskset,
+			/* int *riskset, */
 			double *weights,
 			double *x,
 			double *lin,
