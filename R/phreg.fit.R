@@ -14,8 +14,6 @@
 #' @param shape If positive, a fixed value of the shape parameter in the
 #' distribution. Otherwise, the shape is estimated.
 #' @param control Controls convergence and output.
-#' @param center Deprecated (not used). Kept for backward copability. Results
-#' are reported as is, no centering.
 #' @return \item{coefficients}{Estimated regression coefficients plus estimated
 #' scale and shape coefficients, sorted by strata, if present.}
 #' \item{var}{Variance-covariance matrix} \item{loglik}{Vector of length 2. The
@@ -37,8 +35,7 @@ phreg.fit <- function(X,
                       offset,
                       init,
                       shape,
-                      control,
-                      center = NULL){# This 'center' not used.
+                      control){
 
     if (dist == "weibull"){
         dis <- 0

@@ -17,6 +17,7 @@
 #' @param ylab Label on y axis (default "Cum. Hazards")
 #' @param col Line colors. should be \code{NULL} (black lines) or of length 2
 #' @param lty line types.
+#' @param ylim Y limits for the plot.
 #' @param printLegend Should a legend be printed? Default is \code{TRUE}.
 #' @return No return value.
 #' @author Göran Broström
@@ -36,11 +37,12 @@
 #' 
 #' @export
 plotHaz <- function(sp, pp, interval, main = NULL, xlab = "Time", ylab = "Cum. hazards",
-                    col = c("blue", "red"), lty = 1:2, printLegend = TRUE){
-   if (!(inherits(sp, "coxreg") | inherits(sp, "phreg"))){
+                    col = c("blue", "red"), lty = 1:2, ylim, printLegend = TRUE){
+   fpcl <- c("phreg", "pchreg", "tpchreg")
+   if (!(inherits(sp, "coxreg") | inherits(sp, fpcl))){
       stop("Wrong first argument")
    }
-   if (!(inherits(pp, "coxreg") | inherits(pp, "phreg"))){
+   if (!(inherits(pp, "coxreg") | inherits(pp, fpcl))){
       stop("Wrong second argument")
    }
    
@@ -58,6 +60,7 @@ plotHaz <- function(sp, pp, interval, main = NULL, xlab = "Time", ylab = "Cum. h
    }
    
    if (missing(interval)){
+
       Hsp <- hazards(sp)
       Hpp <- hazards(pp)
    }else{
@@ -84,9 +87,15 @@ plotHaz <- function(sp, pp, interval, main = NULL, xlab = "Time", ylab = "Cum. h
       name2 <- "nelson-aalen"
    }
    
+   if (missing(interval)){
+      interval <- c(min(x1, x2), max(x1, x2))   
+   }
    
-   interval <- c(min(x1, x2), max(x1, x2))
-   yint <- c(0, max(y1, y2))
+   if (missing(ylim)){
+       yint <- c(0, max(y1, y2))
+   }else{
+      yint <- ylim
+   }
    plot(x1, y1, type = "l", col = col[1], lty = lty[1], xlim = interval, ylim = yint, 
         xlab = xlab, ylab = ylab, lwd = 1.5)
    lines(x2, y2, col = col[2], lty = lty[2], lwd = 1.5)

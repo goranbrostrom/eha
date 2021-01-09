@@ -40,9 +40,14 @@ summary.tpchreg <- function(object, ...){
         names(psurv) <- names(rmean)
     }
     if (!object$nullModel){
+        if (is.null(object$var)){
+            sd <- rep(NA, length(object$coefficients))
+        }else{
+            sd <- sqrt(diag(object$var))
+        }
         coefficients <- cbind(object$coefficients, 
                               exp(object$coefficients),
-                              sqrt(diag(object$var)))
+                              sd)
         zval <- coefficients[, 1] / coefficients[, 3]
         pval <- pchisq(zval^2, df = 1, lower.tail = FALSE )
         coefficients <- cbind(coefficients, zval, pval)

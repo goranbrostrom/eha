@@ -1,10 +1,36 @@
-pchreg2 <- function(X, Y, cuts, offset, strata, init, control, center){
+pchreg.fit <- function(X, Y, cuts, offset, strata, init, control){
     ## Test of stratification of the pch-model ("piecewise constant")
     ## strata \in {1, ..., ns}
-
+    
+    if (NCOL(Y) == 2) Y <- cbind(rep(0, NROW(Y)), Y)
+    
+    splitSurv <- function(Y, cuts){
+        ## New way of cutting: Time is limited by min(cuts), max(cuts)
+        ## That is, pieces outside that interval are cut off.
+        ## Contrary to the eha::SurvSplit and survival::survSplit fcns!
+        
+        n <- length(cuts) - 1 # No. of intervals
+        if (n < 1) stop("Number of cuts must be at least 2.")
+        indat <- cbind(Y, 1:NROW(Y), rep(-1, NROW(Y)))
+        colnames(indat) <- c("enter", "exit", "event", "idx", "ivl")
+        cuts <- sort(cuts)
+        indat <- as.data.frame(indat)
+        out <- vector(mode = "list", length = n)
+        for (i in 1:n){
+            out[[i]] <- age.window(indat, cuts[i:(i+1)])
+            out[[i]]$ivl <- i
+        }
+        Y <- do.call(rbind, out)
+        colnames(Y) <- colnames(indat)
+        list(Y = Y[, 1:3],
+             ivl = Y[, 5],
+             idx = Y[, 4]
+        )
+    }
+    
     nn <- NROW(Y)
     if (!is.matrix(X)) X <- matrix(X, ncol = 1)
-    if (NROW(X) != nn) stop("[pchreg2]: error in X")
+    if (NROW(X) != nn) stop("[pchreg.fit]: error in X")
     if (missing(strata) || is.null(strata)){
         strata <- rep(1, nn)
         ns <- 1
@@ -18,15 +44,20 @@ pchreg2 <- function(X, Y, cuts, offset, strata, init, control, center){
     ns <- length(unique(strata))
     ncov <- NCOL(X) # Assume here that ncov >= 0!
     
-    n.ivl <- length(cuts) + 1
+    if (missing(cuts)){
+        cuts <- c(min(Y[, 1]), max(Y[, 2]))
+    }
+    
+    n.ivl <- length(cuts) - 1
+    if (n.ivl <= 0) stop("Need at least one interval (two or zero cut points).")
     ## Some sane checks .....
     ##cuts <- c(0, cuts, Inf)
     if (control$trace){
-        cat("[pchreg2]    ns = ", ns, "\n")
-        cat("[pchreg2] n.ivl = ", n.ivl, "\n")
+        cat("[pchreg.fit]    ns = ", ns, "\n")
+        cat("[pchreg.fit] n.ivl = ", n.ivl, "\n")
     }
     if (length(cuts)){
-        split <- SurvSplit(Y, cuts)
+        split <- splitSurv(Y, cuts)
         
         strat <- strata[split$idx]
         offset <- offset[split$idx]
@@ -42,6 +73,7 @@ pchreg2 <- function(X, Y, cuts, offset, strata, init, control, center){
     }
     
     Dtot <- sum(d)
+
 
     loglik0 <- function(){
         alpha <- matrix(0, nrow = ns, ncol = n.ivl)
@@ -144,6 +176,7 @@ pchreg2 <- function(X, Y, cuts, offset, strata, init, control, center){
         ##cat("score = ", deriv, " at solution\n")
         fit$loglik <- c(fit$loglik, res$value)
         fit$coefficients <- beta
+        names(fit$coefficients) <- colnames(X)
         fit$var <- solve(-res$hessian)
         fit$hazards <- getAlpha(beta)
         fit$hazards <- fit$hazards * exp(-drop(means %*% fit$coefficients))
@@ -158,13 +191,13 @@ pchreg2 <- function(X, Y, cuts, offset, strata, init, control, center){
     fit$fail <- FALSE # Optimism...
     cn <- character(n.ivl)
     if (n.ivl > 1){
-        cn[1] <- paste("(.., ", cuts[1], "]", sep = "")
-        cn[n.ivl] <- paste("(", cuts[n.ivl - 1], ", ...]", sep = "")
-        if (n.ivl > 2){
-            for (i in 2:(n.ivl - 1)){
-                cn[i] <- paste("(", cuts[i-1], ", ", cuts[i], "]", sep = "")
+        ##cn[1] <- paste("(.., ", cuts[1], "]", sep = "")
+        ##cn[n.ivl] <- paste("(", cuts[n.ivl - 1], ", ...]", sep = "")
+        ##if (n.ivl > 2){
+            for (i in 1:n.ivl){
+                cn[i] <- paste("(", cuts[i], ", ", cuts[i + 1], "]", sep = "")
             }
-        }
+        ##}
         colnames(fit$hazards) <- cn
     }
     

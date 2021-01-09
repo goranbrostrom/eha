@@ -1,7 +1,5 @@
 #' Prints aftreg objects
 #' 
-#' This is the same as \code{\link{print.aftreg}}
-#' 
 #' 
 #' @param object A \code{aftreg} object
 #' @param \dots Additional ...
