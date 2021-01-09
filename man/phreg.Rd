@@ -17,8 +17,7 @@ phreg(
   singular.ok = TRUE,
   model = FALSE,
   x = FALSE,
-  y = TRUE,
-  center = NULL
+  y = TRUE
 )
 }
 \arguments{
@@ -70,8 +69,6 @@ the other(s).}
 \item{x}{Return the design matrix in the model object?}
 
 \item{y}{Return the response in the model object?}
-
-\item{center}{Is now deprecated.}
 }
 \value{
 A list of class \code{c("phreg", "coxreg")} with components

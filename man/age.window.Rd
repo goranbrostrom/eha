@@ -16,7 +16,8 @@ in 'dat'.}
 }
 \value{
 A data frame of the same form as the input data frame, but 'cut' as
-desired. Intervals exceeding \code{window[2]} will be given \code{event = 0}
+desired. Intervals exceeding \code{window[2]} will be given \code{event = 0}.
+If the selection gives an empty result, \code{NULL} is returned, with no warning.
 }
 \description{
 For a given age interval, each spell is cut to fit into the given age

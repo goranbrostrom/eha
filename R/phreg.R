@@ -48,7 +48,6 @@
 #' @param model Not used.
 #' @param x Return the design matrix in the model object?
 #' @param y Return the response in the model object?
-#' @param center Is now deprecated. 
 #' @return A list of class \code{c("phreg", "coxreg")} with components
 #' \item{coefficients}{Fitted parameter estimates.} 
 #' \item{cuts}{Cut points for
@@ -126,17 +125,9 @@ phreg <- function (formula = formula(data),
                    singular.ok = TRUE,
                    model = FALSE,
                    x = FALSE,
-                   y = TRUE,
-                   center = NULL) # NOTE: Changed from 'NULL' in 1.4-1
-{                                 # NOTE: Changed back in 2.2-2!
-                                 ## NOTE: Changed again in 2.4-0; affects only 
-                                 ## plot and log(scale)
-                                 ## Finally (2.8.2) deprecated. 
-                                 ## Centering never a good idea!
-    if (!missing(center)){
-      warning("argument 'center' is deprecated: 
-              Reported results are not centered.", call. = FALSE)
-    }
+                   y = TRUE)
+{
+    if (dist == "pch") warning("Use the function pchreg instead. This will soon be deprecated.")
     param <- param[1]
     pfixed <- any(shape > 0) & dist %in% c("weibull", "ev") # Fixed 2020-07-26!
     call <- match.call()
@@ -276,13 +267,7 @@ phreg <- function (formula = formula(data),
             }
         }
     }
-    if (FALSE){
-    ##if (center){
-        X.means <- colMeans(X)
-        X.means[isI] <- 0
-    }else{
-        X.means <- 0
-    }
+    
     
 ##########################################
     type <- attr(Y, "type")
@@ -336,21 +321,13 @@ phreg <- function (formula = formula(data),
                 ##stop("'dist = pch' needs 'cuts' to be set")
                 cuts <- numeric(0) # Exponential distribution(s)
             }
-##        fit <- pchreg(X,
-  ##                    Y,
-    ##                  cuts,
-      ##                offset,
-        ##              init,
-          ##            control,
-            ##          center)
-            fit <- pchreg2(X,
+            fit <- pchreg.fit(X,
                            Y,
                            cuts,
                            offset,
                            strats,
                            init,
-                           control,
-                           center)
+                           control)
     }else{
         fit <- phreg.fit(X,
                          Y,
@@ -359,8 +336,7 @@ phreg <- function (formula = formula(data),
                          offset,
                          init,
                          shape,
-                         control,
-                         center = NULL)
+                         control)
     }
     
     if (fit$fail){
@@ -372,7 +348,6 @@ phreg <- function (formula = formula(data),
       ##cat("ncov = ", ncov, "\n")
       fit$linear.predictors <- offset + X %*%
         fit$coefficients[1:(ncov + intercept)]
-      ##fit$means <- X.means
     }else{
       fit$linear.predictors <- numeric(0)
       ##fit$means <- numeric(0)

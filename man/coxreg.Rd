@@ -110,6 +110,7 @@ whatever desirable with this sample.}
 \item{boot.sd}{The estimated standard errors of the bootstrap replicates.}
 \item{call}{The call.}
 \item{method}{The method.}
+\item{n.strata}{Number of strata.}
 \item{convergence}{Did the optimization converge?}
 \item{fail}{Did the optimization fail? (Is \code{NULL} if not).}
 }

@@ -1,5 +1,7 @@
-tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
+tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time,
+                        control){
     ## NOTE: 'time' must be a factor here.
+    trace <- control$trace
     
     if (!is.factor(time)){
         cat("time:", time[1:5], "\n")
@@ -15,7 +17,7 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
     ##cat("unique(time) = ", unique(time), "\n")
     nn <- length(count)
         if (!is.matrix(X)) X <- matrix(X, ncol = 1)
-    if (NROW(X) != nn) stop("[pchreg2]: error in X")
+    if (NROW(X) != nn) stop("[tpchreg.fit]: error in X")
     if (missing(strata) || is.null(strata)){
         strata <- rep(1, nn)
         ns <- 1
@@ -143,19 +145,44 @@ tpchreg.fit <- function(X, count, exposure, offset, weights, strata, time){
         res <- optim(beta, loglik, dloglik,
                      method = "BFGS", hessian = TRUE, 
                      control = list(fnscale = -1, reltol = 1e-10))
+        if (res$convergence > 0){
+            if (res$convergence == 1){
+                warning("Iteration limit", control$maxit, "reached")
+            }else{
+                warning("Unknown error in [optim]")
+            }
+        }
+        if (trace){
+            cat("[optim] convergence = ", res$convergence, "\n")
+        }
         beta <- res$par
         fit$gradient <- dloglik(beta)
         ##cat("score = ", deriv, " at solution\n")
         fit$loglik <- c(fit$loglik0, res$value)
         fit$coefficients <- beta
         names(fit$coefficients) <- colnames(X)
-        fit$var <- solve(-res$hessian)
+        if (trace){
+            cat("[optim] hessian = \n")
+            ##for (jj in 1:ncov){
+              ##  cat(res$hessian[jj, ], "\n")
+            ##}
+            print(res$hessian)
+        }
+        fit$var <- NULL
+        try(fit$var <- solve(-res$hessian), silent = TRUE)
+        if (trace){
+            cat("variance = \n")
+            print(fit$var)
+        }
         xx <- getAlpha(beta)
         fit$hazards_sd <- xx$hazards_sd
         fit$hazards <- xx$hazards
         fit$hazards <- fit$hazards * exp(-drop(means %*% fit$coefficients))
-        colnames(fit$var) <- rownames(fit$var) <- colnames(X)
+        if (!is.null(fit$var)){
+            colnames(fit$var) <- rownames(fit$var) <- colnames(X)
+        }
         fit$nullModel <- FALSE
+        fit$count <- res$count
         ##fit$w.means <- means ## MUST be fixed: This is WRONG!!
     }else{# No covariates
         fit$loglik <- rep(fit$loglik0, 2)

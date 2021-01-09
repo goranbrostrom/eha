@@ -13,6 +13,7 @@ plotHaz(
   ylab = "Cum. hazards",
   col = c("blue", "red"),
   lty = 1:2,
+  ylim,
   printLegend = TRUE
 )
 }
@@ -35,6 +36,8 @@ hazard function"}
 \item{col}{Line colors. should be \code{NULL} (black lines) or of length 2}
 
 \item{lty}{line types.}
+
+\item{ylim}{Y limits for the plot.}
 
 \item{printLegend}{Should a legend be printed? Default is \code{TRUE}.}
 }

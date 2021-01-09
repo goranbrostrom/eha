@@ -42,8 +42,12 @@ tpchreg <- function(formula,
                     control = list(epsilon = 1.e-8,
                                    maxit = 200, trace = FALSE)){
     if (missing(time)){
-        stop("Argument 'time' is missing with no default")
+        message("Argument 'time' is missing, indicating a constant baseline hazard.")
+        t_miss <- TRUE
+    }else{
+        t_miss <- FALSE
     }
+    
 
     if (is.list(control)) {
         if (is.null(control$epsilon))
@@ -116,7 +120,11 @@ tpchreg <- function(formula,
         ff
     }
     
-    time <- m$"(time)"
+    if (t_miss){
+        time <- rep("0-1", length(count))
+    }else{
+        time <- m$"(time)"
+    }
     weights <- m$"(weights)"
     if (is.null(weights)){
         weights <- rep(1, length(count))
@@ -129,7 +137,7 @@ tpchreg <- function(formula,
         strata <- levels(as.factor(strata.keep))
     }
 
-    ##if (is.null(time)) time <- rep(1, length(count))
+    ##if (is.null(time)) time <- rep("0-1", length(count))
     if (is.character(time)) {
         time <- as.factor(time)
     }else if (is.numeric(time)){ # Start points of intervals.
@@ -144,6 +152,7 @@ tpchreg <- function(formula,
         time <- factor(time, levels = cuts[-(n+1)], labels = tlev)
     }
 
+    
     if (!is.factor(time)){
         stop("Argument 'time' must be a character or factor variable")
     }
@@ -155,7 +164,8 @@ tpchreg <- function(formula,
     if (any(is.na(cuts))) stop("Bad values in the 'time' variable.")
     ##n.ivls <- length(unique(time)) # not used?
    ## Calling the work horse:
-    fit <- tpchreg.fit(X, count, exposure, offset, weights, stratum, time)
+    fit <- tpchreg.fit(X, count, exposure, offset, weights, stratum, time, 
+                       control)
     ##Terms
     fit$covars <- covars
     fit$terms <- Terms
@@ -184,13 +194,13 @@ tpchreg <- function(formula,
     }else{
         names(fit$hazards) <- levels(time)
     }
-    class(fit) <- c("tpchreg", "phreg")
+    class(fit) <- c("tpchreg", "pchreg", "phreg")
     fit
 }
 
 #' @export
 extractAIC.tpchreg <- function(fit, scale, k = 2, ...){
-    edf <- sum(fit$df)
+    edf <- sum(fit$df) + length(fit$hazards)
     loglik <- fit$loglik[length(fit$loglik)]
     c(edf, -2 * loglik + k * edf)
 }

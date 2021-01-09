@@ -4,7 +4,7 @@
 \alias{phreg.fit}
 \title{Parametric proportional hazards regression}
 \usage{
-phreg.fit(X, Y, dist, strata, offset, init, shape, control, center = NULL)
+phreg.fit(X, Y, dist, strata, offset, init, shape, control)
 }
 \arguments{
 \item{X}{The design (covariate) matrix.}
@@ -23,9 +23,6 @@ phreg.fit(X, Y, dist, strata, offset, init, shape, control, center = NULL)
 distribution. Otherwise, the shape is estimated.}
 
 \item{control}{Controls convergence and output.}
-
-\item{center}{Deprecated (not used). Kept for backward copability. Results
-are reported as is, no centering.}
 }
 \value{
 \item{coefficients}{Estimated regression coefficients plus estimated

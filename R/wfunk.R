@@ -76,7 +76,7 @@ wfunk <- function(beta = NULL, lambda, p, X = NULL, Y,
             bdim <- mb + 2
             b <- c(beta, -log(lambda), log(p))
         }
-        
+        cat("wfunc\n")
         fit <- .Fortran("wfunc", ## Returns -loglik, -score, +information
                         as.integer(ord),
                         as.integer(pfixed),
