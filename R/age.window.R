@@ -10,7 +10,8 @@
 #' @param surv Vector of length three giving the names of the central variables
 #' in 'dat'.
 #' @return A data frame of the same form as the input data frame, but 'cut' as
-#' desired. Intervals exceeding \code{window[2]} will be given \code{event = 0}
+#' desired. Intervals exceeding \code{window[2]} will be given \code{event = 0}.
+#' If the selection gives an empty result, \code{NULL} is returned, with no warning.
 #' @author Göran Broström
 #' @seealso \code{\link{cal.window}}, \code{\link{coxreg}},
 #' \code{\link{aftreg}}
@@ -56,8 +57,8 @@ age.window <- function(dat, window,
         dat[surv.indices[2]] <- exit
         dat[surv.indices[3]] <- event
     }else{ # Empty selection...
-        warning(paste("The age interval", window[1], "-", window[2],
-                      "is empty."))
+        ##warning(paste("The age interval", window[1], "-", window[2],
+          ##            "is empty."))
         dat <- NULL
     }
     dat

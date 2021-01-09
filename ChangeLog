@@ -1,3 +1,32 @@
+2.8.4.9300 (Jan 4, 2021)
+    * hazards: Added method for aftreg objects.
+    
+2.8.4.9250 (Dec 30, 2020)
+    * tpchreg: try for singular hessian, continue without error.
+    
+2.8.4.9240 (Dec 29, 2020)
+    * pchreg.fit: Put names on coefficients.
+
+2.8.4.9230 (Dec 28, 2020)
+    * ltx: Move caption to top of table.
+
+2.8.4.9220 (Dec 27, 2020)
+    * ltx.tpchreg: Bug fix.
+
+2.8.4.9210 (Dec 25, 2020)
+    * plotHaz: cut plot at 'interval', if given.
+
+2.8.4.9200 (Dec 23, 2020)
+    * compHaz: New function, comparing cumulative hazards functions for 
+    fitted models. See also 'check.dist'.
+
+2.8.4.9120 (Dec 22, 2020)
+    * age.window: No warning is given for an empty result (check for NULL).
+
+2.8.4.9100 (Dec 21, 2020)
+   * pchreg: New function for piecewise constant PH regression.
+   * phreg: 'dist = "pch"' deprecated. Use 'pchreg' instead.
+
 2.8.4.9020 (Dec 20, 2020)
    * Fix wrong description of C function 'breslow_rs2' in 'init.c'. Triggered by LTO.
    * CRAN release.

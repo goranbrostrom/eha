@@ -9,7 +9,7 @@ extractAIC.coxreg <- function(fit, scale, k = 2, ...)
 #' @export
 extractAIC.phreg <- function(fit, scale, k = 2, ...) 
 {
-    edf <- sum(fit$df)
+    edf <- length(fit$coefficients)
     loglik <- fit$loglik[length(fit$loglik)]
     c(edf, -2 * loglik + k * edf)
 }

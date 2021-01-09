@@ -27,13 +27,10 @@
 #' fit.w <- phreg(Surv(enter, exit, event) ~ ses, data = mort)
 #' fit.g <- phreg(Surv(enter, exit, event) ~ ses, data = mort,
 #' dist = "gompertz")
-#' fit.pch <- phreg(Surv(enter, exit, event) ~ ses, data = mort,
-#' dist = "pch", cuts = c(5, 10, 15))
 #' fit.ev <- phreg(Surv(enter, exit, event) ~ ses, data = mort,
 #' dist = "ev")
 #' check.dist(fit.cr, fit.w)
 #' check.dist(fit.cr, fit.g)
-#' check.dist(fit.cr, fit.pch)
 #' check.dist(fit.cr, fit.ev)
 #' par(oldpar)
 #' 
@@ -50,8 +47,8 @@ check.dist <- function(sp, pp, main = NULL, col = 1:2,
             stop ("Some argument must be of type 'coxreg'")
         }
     }
-    if (!inherits(pp, "phreg"))
-        stop ("Some argument must be of type 'phreg' or 'pchreg'")
+    if (!inherits(pp, c("phreg", "pchreg", "tpchreg")))
+        stop ("Some argument must be of type 'phreg' or 'pchreg' or 'tpchreg'.")
 
     if (length(col) == 1) col <- c(col, col)
     ##if (!sp$nullModel){ # NOTE: 'center' is deprecated in both!
@@ -77,7 +74,8 @@ check.dist <- function(sp, pp, main = NULL, col = 1:2,
     lines(oo$x, oo$y, col = col[2], lty = lty[2])
     
     if (printLegend){
-        legend(x = "topleft", legend = c("Non-parametric", "Parametric"),
+        legd <- c("Non-parametric", pp$dist)    
+        legend(x = "topleft", legend = legd,
                col = col, lty = lty)
     }
 }

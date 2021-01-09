@@ -90,6 +90,7 @@
 #' \item{boot.sd}{The estimated standard errors of the bootstrap replicates.}
 #' \item{call}{The call.}
 #' \item{method}{The method.}
+#' \item{n.strata}{Number of strata.}
 #' \item{convergence}{Did the optimization converge?}
 #' \item{fail}{Did the optimization fail? (Is \code{NULL} if not).}
 #' @note This function starts by creating risksets, if no riskset is supplied
@@ -505,18 +506,9 @@ coxreg <- function (formula = formula(data),
         }
         ## get hazards
         fit$nullModel <- FALSE
-        if (FALSE){ # 'center' is deprecated
-        ##if (center){
-            X.means <- colMeans(X)
-            for (i in seq_len(NCOL(X))){
-                if (isI[i]) X.means[i] <- 0
-            }
-            scores <- exp(offset + X %*% fit$coefficients -
-                          sum(X.means * fit$coefficients))
-        }else{
-            X.means <- numeric(NCOL(X))
-            scores <- exp(offset + X %*% fit$coefficients)
-        }
+        X.means <- numeric(NCOL(X))
+        scores <- exp(offset + X %*% fit$coefficients)
+        
         
         if (is.null(strats)){
             stratum <- rep(1, NROW(Y))
@@ -621,6 +613,7 @@ coxreg <- function (formula = formula(data),
     
     class(fit) <- c("coxreg", "coxph") # Not Removed "coxph"; cox.zph!
     ##class(fit) <- "coxreg"
+    fit$n.strata <- length(unique(stratum))
     fit
 }
 
@@ -650,5 +643,6 @@ wMeans <- function(fit, Y, m, isF){
             }
         }
     }
+
     fit
 }
