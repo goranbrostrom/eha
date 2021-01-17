@@ -11,9 +11,11 @@ plotHaz(
   main = NULL,
   xlab = "Time",
   ylab = "Cum. hazards",
+  leglab,
   col = c("blue", "red"),
   lty = 1:2,
   ylim,
+  log = "",
   printLegend = TRUE
 )
 }
@@ -33,11 +35,15 @@ hazard function"}
 
 \item{ylab}{Label on y axis (default "Cum. Hazards")}
 
+\item{leglab}{Labels in legend.}
+
 \item{col}{Line colors. should be \code{NULL} (black lines) or of length 2}
 
 \item{lty}{line types.}
 
 \item{ylim}{Y limits for the plot.}
+
+\item{log}{Argument sent to \code{plot}, defaults to "".}
 
 \item{printLegend}{Should a legend be printed? Default is \code{TRUE}.}
 }

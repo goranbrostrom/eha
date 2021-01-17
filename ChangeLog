@@ -1,9 +1,27 @@
+2.4.8.9050 (Jan 17, 2021)
+    * Vignettes updated and completed.
+
+2.8.4. 9010 (Jan 14, 2021)
+    * plotHaz: New arguments 'leglab' and 'log = ""'.
+
+2.8.5.9000 (Jan 13, 2021)
+    * hazards: Fix bug appearing when no covariates are present.
+    
+2.8.5 (Jan 11, 2021)
+    * Submission to CRAN.
+
+2.8.4.9450 (Jan 11, 2021)
+    * hazards: Fix bug with parametric model and fixed shape.
+
+2.8.4.9400 (Jan 9, 2021)
+    * print.summary.aftreg: Fix error in heading.
+
 2.8.4.9300 (Jan 4, 2021)
     * hazards: Added method for aftreg objects.
-    
+
 2.8.4.9250 (Dec 30, 2020)
     * tpchreg: try for singular hessian, continue without error.
-    
+
 2.8.4.9240 (Dec 29, 2020)
     * pchreg.fit: Put names on coefficients.
 
@@ -30,7 +48,7 @@
 2.8.4.9020 (Dec 20, 2020)
    * Fix wrong description of C function 'breslow_rs2' in 'init.c'. Triggered by LTO.
    * CRAN release.
-   
+
 2.8.4.9010 (Dec 19, 2020)
    * ltx.phreg: Remove double printout in the end.
 

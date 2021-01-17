@@ -59,14 +59,23 @@ hazards.phreg <- function(x, cum = TRUE, ivl, n.points = 300, ...){
     }else{
         ns <- x$n.strata
         yp <- matrix(0, nrow = ns, ncol = n.points)
-        scsh <- x$coefficients[-(1:x$df)] # Has length 2 * ns
+        if (x$df == 0){
+            scsh <- x$coefficients
+        }else{
+            scsh <- x$coefficients[-seq_len(x$df)] # Has length 2 * ns (pfixed = FALSE)
+        }
         sc <- numeric(ns)
         sh <- numeric(ns)
-        for (i in 1:ns){
-            sc[i] <- scsh[2 * i - 1]
+        if (x$pfixed){
+            sc <- scsh
+            sh <- rep(x$shape, ns)
+        }else{
+            for (i in 1:ns){
+                sc[i] <- scsh[2 * i - 1]
             
-            sh[i] <- exp(scsh[2 * i])
-            ##cat("i = ", sc[i], sh[i], "\n")
+                sh[i] <- exp(scsh[2 * i])
+                ##cat("i = ", sc[i], sh[i], "\n")
+            }
         }
         ##if (x$dist != "gompertz" |
           ##  (x$dist == "gompertz" & x$param != "rate")){
@@ -156,14 +165,23 @@ hazards.aftreg <- function(x, cum = TRUE, ivl, n.points = 300, ...){
     }else{
         ns <- x$n.strata
         yp <- matrix(0, nrow = ns, ncol = n.points)
-        scsh <- x$coefficients[-(1:x$df)] # Has length 2 * ns
+        if (x$df == 0){
+            scsh <- x$coefficients
+        }else{
+            scsh <- x$coefficients[-seq_len(x$df)] # Has length 2 * ns
+        }
         sc <- numeric(ns)
         sh <- numeric(ns)
-        for (i in 1:ns){
-            sc[i] <- scsh[2 * i - 1]
+        if (x$pfixed){
+            sc <- scsh
+            sh <- rep(x$shape, ns)
+        }else{
+            for (i in 1:ns){
+                sc[i] <- scsh[2 * i - 1]
             
-            sh[i] <- exp(scsh[2 * i])
+                sh[i] <- exp(scsh[2 * i])
             ##cat("i = ", sc[i], sh[i], "\n")
+            }
         }
         ##if (x$dist != "gompertz" |
         ##  (x$dist == "gompertz" & x$param != "rate")){

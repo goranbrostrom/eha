@@ -3,6 +3,7 @@
 #' @param x A \code{summary.aftreg} object, typically the result of running
 #' \code{summary.aftreg}, summary on a phreg object.
 #' @param digits Output format.
+#' @param short Logical: If TRUE, short output, only regression.
 #' @param \dots Other arguments.
 #' @return No value is returned.
 #' @author Göran Broström
@@ -11,7 +12,7 @@
 #' @export
 print.summary.aftreg <- function(x, 
                                   digits = max(getOption("digits") - 3, 3),
-                                  ...){
+                                  short = FALSE, ...){
     if (!("summary.aftreg" %in% class(x))){
         stop("Only for 'summary.aftreg' ojects.")
     }
@@ -65,9 +66,9 @@ print.summary.aftreg <- function(x,
     
 #####################################
     if (x$param == "lifeAcc"){
-        cat("Covariate             W.mean       Coef     Time-Accn   se(Coef)    LR p\n")        
+        cat("Covariate            W.mean      Coef Time-Accn  se(Coef)    LR p\n")        
     }else{
-        cat("Covariate             W.mean       Coef     Life-Expn   se(Coef)    LR p\n")
+        cat("Covariate            W.mean      Coef Life-Expn  se(Coef)    LR p\n")
     }
     e.coef <- formatC(exp(coef), width = 9, digits = 3, format = "f")
     coef <- formatC(coef, width = 9, digits = 3, format = "f")
@@ -127,7 +128,7 @@ print.summary.aftreg <- function(x,
                             width = 10, digits = 3, format = "f"),
                     noll,
                     ett,
-                    "(reference)\n")
+                    "  (reference)\n")
                 for (lev in 2:no.lev){
             ##cat("lev = ", lev, "\n")
                     index <- index + 1

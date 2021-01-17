@@ -1,7 +1,37 @@
 # eha 2.8.5
 
-*   Fix internal bug in 'init.c'.
-*   No CRAN release yet.
+## New features
+
+*   *regtable*: New function for creating simple regression output tables.
+
+*   *pchreg*: New function, to replace phreg(..., dist = "pch").
+
+*   *phreg*: 'dist = "pch"' deprecated.
+
+*   *age.window:* No warning for an empty result, returns NULL in that case.
+
+*   *compHaz:* New function, graphically comparing cumulative hazards.
+
+*   *plotHaz*: New argument 'interval'.
+
+*   *hazards*: Add method for aftreg objects.
+
+
+## Bug fixes
+
+*   *hazards*: Bug with 'pfixed = TRUE' fixed.
+
+*   *print.summary.aftreg*: Error in heading fixed.
+
+*   *tpchreg*: try for singular hessian, continue without error.
+
+*   *ltx*: Move caption to top of table (not really a bug fix).
+
+*   *ltx.tpchreg*: Bug fix (really!)
+
+*   *ltx.phreg*: Remove double printing of last few rows.
+
+*   *init.c*: Fix internal bug in 'breslow_rs2'.
 
 # eha 2.8.4
 

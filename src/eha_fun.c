@@ -194,11 +194,9 @@ static void eha_update(int level,
 /* But 'vmmin' doesn't allow it! Must do something about it. */
 
     *loglik += log(h);
-    if (isinf(*loglik) == -1) 
+    if (isinf(*loglik)) 
     {
-	warning("*loglik = -inf");
-    }else if (isinf(*loglik) == 1){
-	warning("*loglik = inf");
+	    warning("*loglik = inf");
     }
     if (level == 0) {
 	Free(pip);

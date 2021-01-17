@@ -12,7 +12,7 @@
 \item{\dots}{Additional ...}
 }
 \description{
-This is the same as \code{\link{print.aftreg}}
+Prints aftreg objects
 }
 \examples{
 

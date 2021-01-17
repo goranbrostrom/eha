@@ -15,9 +15,11 @@
 #' hazard function"
 #' @param xlab Label on x axis (default "Time")
 #' @param ylab Label on y axis (default "Cum. Hazards")
+#' @param leglab Labels in legend.
 #' @param col Line colors. should be \code{NULL} (black lines) or of length 2
 #' @param lty line types.
 #' @param ylim Y limits for the plot.
+#' @param log Argument sent to \code{plot}, defaults to "".
 #' @param printLegend Should a legend be printed? Default is \code{TRUE}.
 #' @return No return value.
 #' @author Göran Broström
@@ -36,8 +38,11 @@
 #' par(op)
 #' 
 #' @export
-plotHaz <- function(sp, pp, interval, main = NULL, xlab = "Time", ylab = "Cum. hazards",
-                    col = c("blue", "red"), lty = 1:2, ylim, printLegend = TRUE){
+plotHaz <- function(sp, pp, interval, main = NULL, 
+                    xlab = "Time", ylab = "Cum. hazards",
+                    leglab,
+                    col = c("blue", "red"), lty = 1:2, ylim, 
+                    log = "", printLegend = TRUE){
    fpcl <- c("phreg", "pchreg", "tpchreg")
    if (!(inherits(sp, "coxreg") | inherits(sp, fpcl))){
       stop("Wrong first argument")
@@ -96,11 +101,23 @@ plotHaz <- function(sp, pp, interval, main = NULL, xlab = "Time", ylab = "Cum. h
    }else{
       yint <- ylim
    }
-   plot(x1, y1, type = "l", col = col[1], lty = lty[1], xlim = interval, ylim = yint, 
-        xlab = xlab, ylab = ylab, lwd = 1.5)
-   lines(x2, y2, col = col[2], lty = lty[2], lwd = 1.5)
-   abline(h = 0)
+   if (log == ""){
+        plot(x1, y1, type = "l", col = col[1], lty = lty[1], xlim = interval, ylim = yint, 
+        xlab = xlab, ylab = ylab, lwd = 1.5, log = log)
+        lines(x2, y2, col = col[2], lty = lty[2], lwd = 1.5)
+        abline(h = 0)
+   }else{
+       keep <- x1 > 0
+       plot(x1[keep], y1[keep], type = "l", col = col[1], lty = lty[1],  
+            xlab = xlab, ylab = ylab, lwd = 1.5, log = log)
+       keep <- x2 > 0
+       lines(x2[keep], y2[keep], col = col[2], lty = lty[2], lwd = 1.5)
+   }
    if (printLegend){
+       if ((!missing(leglab)) && length(leglab) >= 2){
+           name1 <- leglab[1]
+           name2 <- leglab[2]
+       }
       legend(x = "topleft", legend = c(name1, name2),
              col = col, lty = lty)
    }

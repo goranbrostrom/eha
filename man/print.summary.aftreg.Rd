@@ -4,13 +4,15 @@
 \alias{print.summary.aftreg}
 \title{Prints summary.aftreg objects}
 \usage{
-\method{print}{summary.aftreg}(x, digits = max(getOption("digits") - 3, 3), ...)
+\method{print}{summary.aftreg}(x, digits = max(getOption("digits") - 3, 3), short = FALSE, ...)
 }
 \arguments{
 \item{x}{A \code{summary.aftreg} object, typically the result of running
 \code{summary.aftreg}, summary on a phreg object.}
 
 \item{digits}{Output format.}
+
+\item{short}{Logical: If TRUE, short output, only regression.}
 
 \item{\dots}{Other arguments.}
 }
