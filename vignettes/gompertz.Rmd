@@ -28,3 +28,102 @@ do something about it.
 
 Despite stated otherwise by some, the *Gompertz* distribution can be parameterized 
 both as a PH model *and* as an AFT one.
+
+The Gompertz families of distributions are defined in essentially two ways in the 
+**R** package `eha`: The *rate* and the *canonical* representations. The reason 
+for this is that the families need to be differently represented depending on 
+whether proportional hazards or accelerated failure time models are under consideration.
+
+In the *proportional hazards* case, the *rate* formulation is used, and it is
+characterized by an exponentially increasing hazard function with fixed rate `r`:
+
+\begin{equation}
+h(t; p, r) = p e^{r t}, \quad p, t > 0; -\infty < r < \infty.
+\end{equation}
+
+As noted earlier, when $r < 0$, the hazard function $h$ is decreasing "too fast" 
+to define a proper survival function, and $r = 0$ gives the
+*exponential distribution* as a special case. And for each fixed $r$, the family 
+of distributions indexed by $p > 0$ constitutes a proportional hazards family of 
+distributions, and the corresponding regression model is written as
+
+\begin{equation}
+h(t; x, p, r, \beta) = p e^{r t} e^{\beta x}, \quad t > 0.
+\end{equation}
+
+# Proportional hazards model
+
+
+In Figure \@ref(fig:gowecof8) a Gompertz fit is compared to ordinary Cox regression.
+```{r gowecof8, fig.cap = "Baseline cumulative hazards for Cox and Gompertz regressions."}
+fit.c <- coxreg(Surv(enter - 60, exit - 60, event) ~ sex + region,
+                data = oldmort)
+fit.g <- phreg(Surv(enter - 60, exit - 60, event) ~ sex + region, 
+             dist = "gompertz", param = "rate", data = oldmort)
+plot(fit.c, xlab = "Years above age 60.")
+haz.g <- hazards(fit.g, cum = TRUE)
+lines(haz.g$x, haz.g$y, lty = 2)
+legend("topleft", legend = c("Cox regression", "Gompertz regression"), lty = 1:2)
+```
+
+The Gompertz model fits the baseline hazard very well up until duration 30 (age 90),
+but after that the exponential growth slows down.
+
+The result of fitting the Gompertz model is shown here,
+
+```{r gocofph8}
+summary(fit.g)
+```
+
+to be compared to the Cox regression results.
+
+```{r cocofph8}
+summary(fit.c)
+```
+
+# Accelerated failure time model
+
+The *Gompertz* distribution is special in that it can be fit into both the AFT 
+and the PH framework. Of course, as we have seen, this also holds for the Weibull 
+distribution in a trivial way, the AFT and the PH models are the same, but for 
+the Gompertz distribution, the AFT and PH approaches yield different models.
+
+For the AFT framework to be in place in the Gompertz case, it needs to 
+be formulated with a rather unfamiliar parametrization, which is called 
+*the canonical parametrization* in the package `eha`. It works as follows.
+The standard definition of the Gompertz hazard function is
+
+\begin{equation*}
+h_r(t; (\alpha, \beta)) = \alpha \exp(\beta t), \quad t > 0; \; \alpha > 0, -\infty < \sigma < \infty.
+\end{equation*}
+
+and it is called the *rate* parametrization in `eha`
+As noted earlier, in order for $h_G$ to determine a proper survival distribution, it 
+must be required that $\beta \ge 0$. It was also noted that when $\beta = 0$, the
+resulting distribution is *exponential*.
+
+The *canonical* definition of the Gompertz hazard function is given by
+
+\begin{equation*}
+h_c(t; (\tau, \sigma)) = \frac{\tau}{\sigma} \exp\biggl(\frac{t}{\sigma}\biggr), \quad t > 0; \; \tau, \sigma > 0.
+\end{equation*}
+
+The transition from $h_r$ to $h_c$ is given by $\sigma = 1 / \beta, \, \tau = \alpha / \beta$, and 
+note that this implies that the rate in the canonical form must be strictly positive. Furthermore,
+the exponential special case now appears in the limit as $\sigma \rightarrow \infty$.
+In practice this means that when the baseline hazard is only weakly increasing, $\sigma$ is
+very large and numerical problems in the estimation process is likely to occur. 
+
+The conclusion of all this is that the AFT Gompertz model is suitable in situations where
+the intensity of an event is clearly increasing with time. A good example is adult mortality.
+
+We repeat the PH analysis but with the AFT model.
+
+```{r gocofaft8}
+fit.gaft <- aftreg(Surv(enter - 60, exit - 60, event) ~ sex + region, 
+                   id = id, param = "lifeExp", dist = "gompertz", 
+                   data = oldmort)
+summary(fit.gaft)
+```
+
+

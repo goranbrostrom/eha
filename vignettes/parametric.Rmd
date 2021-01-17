@@ -197,6 +197,16 @@ Besides differing parametrizations, the main difference between
   `aftreg` and `survreg` is that the latter does not allow for left
 truncated data. One reason for this is that left truncation is a much
 harder problem to deal with in AFT models than in proportional hazards models.
+The reason is that, with a time varying covariate $z(t), t \ge 0$, the AFT model is 
+
+\begin{equation*}
+S(t; z) = S_0\biggl(\int_0^t \exp\bigl(\beta z(s)\bigr)ds\biggr),
+\end{equation*}
+
+and it is required that $z(s)$ is known for all $s, 0 \le s \le t$. With a left 
+truncated observation at $t_0$, say, $z(s)$ is unknown for $0 \le s < t_0$. In `eha`,
+this is solved by assuming that $z(s) = z(t_0), 0 \le s < t_0$.
+
 
 ## Available distributions
 
@@ -208,10 +218,17 @@ In **aftreg** the available baseline distributions are the *Gompertz*, *Weibull*
 We repeat the analysis of the old age mortality data, but with an accelerated failure
 time model.
 
+```{r oldmort6.aftpre, echo = TRUE}
+fit.g1 <- aftreg(Surv(enter - 60, exit - 60, event) ~ sex + civ + region,
+                 data = oldmort, id = id, dist = "gompertz")
+```
+Note carefully the inclusion of the argument `id`, it is necessary when some 
+individuals are represented by more than one record in the data.
+
 ```{r oldmort6.aft}
-fit.g1 <- aftreg(Surv(enter - 60, exit - 60, event) ~ sex + civ + region, data = oldmort, dist = "gompertz")
 summary(fit.g1)
 ```
+
 
 # Proportional hazards or AFT model?
 
