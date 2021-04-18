@@ -2,11 +2,11 @@
 \alias{swepop}
 \docType{data}
 \title{
-Swedish population data, 1968-2019.
+Swedish population data, 1969-2020.
 }
 \description{
 A data frame containing data on the population size by sex, age and
-year, Sweden 1968-2019.
+year, Sweden 1969-2020.
 }
 \usage{data(swepop)}
 \format{

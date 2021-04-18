@@ -2,11 +2,11 @@
 \alias{swedeaths}
 \docType{data}
 \title{
-Swedish death data, 1968-2019.
+Swedish death data, 1969-2020.
 }
 \description{
 A data frame containing data on the number of deaths by sex, age and
-year, Sweden 1968-2019.}
+year, Sweden 1969-2020.}
 \usage{data(swedeaths)}
 \format{
   A data frame with 5 variables and 10504 observations.
@@ -25,11 +25,8 @@ Data are downloaded from Statistics Sweden in the form of a csv file and
 and in that process converted to a data frame. Variable names are
 translated from Swedish, 
 and some of them are coverted to factors. Each numeric column contains
-the average population by sex and age, calculated by taking the mean
-value of the population size at December 31 the previous year and
-December 31 the current year. The original data contain the sizes at the
-end of each year. The original data set is in wide form and then converted to 
-long format.
+the number of deaths by sex and age. The original data set is in wide
+form and then converted to long format.
 }
 \source{
 Statistics Sweden, \url{https://scb.se}.
