@@ -139,8 +139,6 @@ plot.tpchreg <- function(x,
             ylim0 <- ylim
             ylim0[2] <- max(ylim0[2], max(Haz))
         }
-        ##if (is.null(xlab))
-        xlab <- "Duration"
         ##if (is.null(ylab))
         ylab <- "Cumulative Hazard"
         if (is.null(main)){
@@ -177,10 +175,12 @@ plot.tpchreg <- function(x,
         ##if (is.null(ylim))
         ylim <- c(0, 1)
 
-        ##if (is.null(xlab))
-        xlab <- "Duration"
-        ##if (is.null(ylab))
-        ylab <- "Survival"
+        if (is.null(xlab)){
+            xlab <- "Duration"
+        }
+        if (is.null(ylab)){
+            ylab <- "Survival"
+        }
         if (is.null(main)){
             smain <- paste(dist, "survivor function")
         }else{

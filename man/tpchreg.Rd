@@ -36,7 +36,7 @@ Proportional hazards regression with piecewise constant hazards and tabular
 data.
 }
 \note{
-The interpretation of cuts is different from that in \code{link{hpch}}.
+The interpretation of cuts is different from that in \code{\link{hpch}}.
 This is intentional.
 }
 \examples{

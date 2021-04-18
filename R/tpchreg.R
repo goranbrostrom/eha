@@ -17,7 +17,7 @@
 #' @param start.coef For the moment equal to zero, not used.
 #' @param control list of control parameters for the optimization. 
 
-#' @note The interpretation of cuts is different from that in \code{link{hpch}}.
+#' @note The interpretation of cuts is different from that in \code{\link{hpch}}.
 #' This is intentional.
 #' 
 #' @seealso \code{\link{oe}}.
