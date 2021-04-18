@@ -1,7 +1,13 @@
-2.4.8.9050 (Jan 17, 2021)
+2.8.5.9070 (Apr 18, 2021)
+    * plot.tpchreg: Error with arguments 'xlab' and 'ylab' fixed.
+
+2.8.5.9060 (Feb 24, 2021)
+    * Data for the year 2020 included in swepop and swdeaths.
+
+2.8.5.9050 (Jan 17, 2021)
     * Vignettes updated and completed.
 
-2.8.4. 9010 (Jan 14, 2021)
+2.8.5. 9010 (Jan 14, 2021)
     * plotHaz: New arguments 'leglab' and 'log = ""'.
 
 2.8.5.9000 (Jan 13, 2021)
