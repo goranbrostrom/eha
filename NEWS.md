@@ -1,3 +1,19 @@
+# eha 2.9.0
+
+## New features
+
+*   *Vignettes* updated.
+
+*   *swepop, swedeaths*: Data for the year 2020 included.
+
+## Bug fixes
+
+*   *plot.tpchreg*: Error with arguments 'xlab' and 'ylab' fixed.
+
+*   *coxreg*: In case of request for bootstrap, 'boot.sd' is no longer
+calculated and returned: Caused too frequent errors due to ill balanced 
+bootstrap samples, and was not really helpful anyway. 
+
 # eha 2.8.5
 
 ## New features

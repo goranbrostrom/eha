@@ -363,21 +363,24 @@ aftreg <- function (formula = formula(data),
 
     class(fit) <- c("aftreg", "phreg")
     fit$param <- param # New in 2.1-1:
-    if (dist == "gompertz"){
-        baselineMean <- numeric(fit$n.strata)
-        for (j in 1:fit$n.strata){
-            scale <- exp(fit$coef[ncov + 2 * j - 1])
-            shape <- exp(fit$coef[ncov + 2 * j])
+    
+    baselineMean <- numeric(fit$n.strata)
+    for (j in 1:fit$n.strata){
+        scale <- exp(fit$coef[ncov + 2 * j - 1])
+        shape <- exp(fit$coef[ncov + 2 * j])
+        if (dist == "gompertz"){
             ## Simulation!
             baselineMean[j] <- mean(rgompertz(100000, param = "canonical",
                                               scale = scale, shape = shape))
+        }else if (dist == "weibull"){
+            baselineMean[j] <- scale * gamma(1 + 1 / shape)
+        }else{
+            baselineMean[j] <- NA
         }
-        fit$baselineMean <- baselineMean
-    }else{ # To be filled for other dists!
-        fit$baselineMean <- NULL
     }
+    fit$baselineMean <- baselineMean
     fit$nullModel <- nullModel # Added 2020-07-26.
-    ##
+    ##  
     fit$pfixed <- pfixed
     if (pfixed) fit$shape <- shape ## Added 2 Aug 2017.
     fit

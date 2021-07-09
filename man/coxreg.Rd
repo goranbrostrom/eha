@@ -107,7 +107,6 @@ with NA's).}
 \item{bootstrap}{The (matrix of) bootstrap replicates, if requested on
 input. It is up to the user to do
 whatever desirable with this sample.}
-\item{boot.sd}{The estimated standard errors of the bootstrap replicates.}
 \item{call}{The call.}
 \item{method}{The method.}
 \item{n.strata}{Number of strata.}

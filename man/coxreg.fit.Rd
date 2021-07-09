@@ -62,17 +62,20 @@ bootstrapping.}
 \item{center}{Deprecated. See \code{\link{coxreg}}.}
 }
 \value{
-A list with components \item{coefficients}{Estimated regression
-parameters.} \item{var}{Covariance matrix of estimated coefficients.}
+A list with components 
+\item{coefficients}{Estimated regression parameters.} 
+\item{var}{Covariance matrix of estimated coefficients.}
 \item{loglik}{First component is value at \code{init}, second at maximum.}
 \item{score}{Score test statistic, at initial value.}
-\item{linear.predictors}{Linear predictors.} \item{residuals}{Martingale
-residuals.} \item{hazard}{Estimated baseline hazard. At value zero of
-'design' variables.} \item{means}{Means of the columns of the design
-matrix.} \item{bootstrap}{The bootstrap replicates, if requested on input.}
-\item{conver}{\code{TRUE} if convergence.} \item{f.conver}{TRUE if variables
-converged.} \item{fail}{\code{TRUE} if failure.} \item{iter}{Number of
-performed iterations.}
+\item{linear.predictors}{Linear predictors.} 
+\item{residuals}{Martingale residuals.} 
+\item{hazard}{Estimated baseline hazard. At value zero of design variables.} 
+\item{means}{Means of the columns of the design matrix.} 
+\item{bootstrap}{The bootstrap replicates, if requested on input.}
+\item{conver}{\code{TRUE} if convergence.} 
+\item{f.conver}{TRUE if variables converged.} 
+\item{fail}{\code{TRUE} if failure.} 
+\item{iter}{Number of performed iterations.}
 }
 \description{
 Called by \code{\link{coxreg}}, but a user can call it directly.

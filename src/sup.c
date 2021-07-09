@@ -600,13 +600,15 @@ C     Note the consequences in calling function!!
 		&ll, dll, d2ll,
 		sctest, f_conver, conver, fail);	
 	
-	    
+/*	    
 	    inv_hess(d2ll, fail);
-
+*/
 	    F77_CALL(dcopy)(&p, b, &ione, (beta + (rep + 1) * p), &ione);
+/*	    
 	    for (j = 0; j < p; j++){
-		sd_beta[(rep + 1) * p + j] = sqrt(d2ll[(p + 1) * j]);
+    		sd_beta[(rep + 1) * p + j] = sqrt(d2ll[(p + 1) * j]);
 	    }
+*/
 	} /* End big loop */
 	for (j = 0; j < *totevent; j++) eventset[j] = save_eventset[j];
 	PutRNGstate();

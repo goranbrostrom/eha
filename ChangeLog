@@ -1,3 +1,15 @@
+2.9.0.9050 (June 30, 2021)
+    * coxreg: Checking calls to survival package.
+
+2.9.0.9000 (June 21, 2021)
+    * Adding math mode to the methods of ltx.
+
+2.9.0 (Apr 30, 2021)
+    * Submission to CRAN.
+    
+2.8.5.9100 (Apr 28, 2021)
+    * coxreg: Remove calculation of boot.sd (too freqent failures).
+
 2.8.5.9070 (Apr 18, 2021)
     * plot.tpchreg: Error with arguments 'xlab' and 'ylab' fixed.
 

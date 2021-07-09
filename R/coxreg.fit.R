@@ -25,17 +25,20 @@
 #' @param calc.hazards Deprecated. See \code{\link{coxreg}}.
 #' @param center Deprecated. See \code{\link{coxreg}}.
 #'  
-#' @return A list with components \item{coefficients}{Estimated regression
-#' parameters.} \item{var}{Covariance matrix of estimated coefficients.}
+#' @return A list with components 
+#' \item{coefficients}{Estimated regression parameters.} 
+#' \item{var}{Covariance matrix of estimated coefficients.}
 #' \item{loglik}{First component is value at \code{init}, second at maximum.}
 #' \item{score}{Score test statistic, at initial value.}
-#' \item{linear.predictors}{Linear predictors.} \item{residuals}{Martingale
-#' residuals.} \item{hazard}{Estimated baseline hazard. At value zero of
-#' 'design' variables.} \item{means}{Means of the columns of the design
-#' matrix.} \item{bootstrap}{The bootstrap replicates, if requested on input.}
-#' \item{conver}{\code{TRUE} if convergence.} \item{f.conver}{TRUE if variables
-#' converged.} \item{fail}{\code{TRUE} if failure.} \item{iter}{Number of
-#' performed iterations.}
+#' \item{linear.predictors}{Linear predictors.} 
+#' \item{residuals}{Martingale residuals.} 
+#' \item{hazard}{Estimated baseline hazard. At value zero of design variables.} 
+#' \item{means}{Means of the columns of the design matrix.} 
+#' \item{bootstrap}{The bootstrap replicates, if requested on input.}
+#' \item{conver}{\code{TRUE} if convergence.} 
+#' \item{f.conver}{TRUE if variables converged.} 
+#' \item{fail}{\code{TRUE} if failure.} 
+#' \item{iter}{Number of performed iterations.}
 #' @note It is the user's responsibility to check that indata is sane.
 #' @author Göran Broström
 #' @seealso \code{\link{coxreg}}, \code{\link{risksets}}
@@ -330,7 +333,7 @@ coxreg.fit <- function(X, Y, rs, weights, t.offset = NULL,
          hazards = hazards,
          means = means,
          bootstrap = bootstrap,
-         boot.sd = boot.sd,
+         ##boot.sd = boot.sd,
          conver = fit$conver,
          f.conver = fit$f.conver,
          fail = fit$fail,

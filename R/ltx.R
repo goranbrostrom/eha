@@ -61,7 +61,7 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     }
 
     if (!length(x$coefficients)){
-        cat("Null log likelihood = ", x$loglik[2], "\n")
+        cat("Null log likelihood = $", x$loglik[2], "$\n")
         return()
     }
 
@@ -73,10 +73,10 @@ ltx.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     if (inherits(x, "summary.tpchreg")){
         ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
         if (x$n.strata == 1){
-            cat("Restricted mean survival: & ", x$rmean, " & in", ivl, "\\\\ \n")
+            cat("Restr. mean survival: & ", x$rmean, " & in", ivl, "\\\\ \n")
         }else{
             names(x$rmean) <- x$strata
-            cat("Restricted mean survival in & ", ivl, ": \\\\ \n")
+            cat("Restr. mean survival in & ", ivl, ": \\\\ \n")
             for (ll in 1:(x$n.strata - 1)){
                 cat(" & ", formatC(x$strata[ll], format = "g", flag = "#"))
             }
@@ -303,22 +303,22 @@ ltxCoef <- function(x, digits, dr, caption){
     if (lp){
         if ("aftreg" %in% x$class){
             if (x$param == "default"){
-                cat("Covariate & Mean & Coef & Time accn. & S.E. &   L-R p \\\\ \\hline\n")
+                cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Time accn. & \\bf S.E. & \\bf  L-R p \\\\ \\hline\n")
             }else{
-                cat("Covariate & Mean & Coef & Life expn. & S.E. &   L-R p \\\\ \\hline\n")
+                cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Life expn. & \\bf S.E. &   \\bf L-R p \\\\ \\hline\n")
             }
         }else{
-            cat("Covariate & Mean & Coef & Rel.Risk & S.E. &   L-R p \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf H.R. & \\bf S.E. &   \\bf L-R p \\\\ \\hline\n")
         }
     }else{
         if ("aftreg" %in% x$class){
             if (x$param == "default"){
-                cat("Covariate & Mean & Coef & Time accn. & S.E. &  Wald p \\\\ \\hline\n")
+                cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Time accn. & \\bf S.E. &  \\bf Wald p \\\\ \\hline\n")
             }else{
-                cat("Covariate & Mean & Coef & Life expn.. & S.E. &  Wald p \\\\ \\hline\n")
+                cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Life expn. & \\bf S.E. &  \\bf Wald p \\\\ \\hline\n")
             }
         }else{
-            cat("Covariate & Mean & Coef & Rel.Risk & S.E. &   Wald p \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf H.R. & \\bf S.E. &   \\bf Wald p \\\\ \\hline\n")
         }
     }
     e.coef <- formatC(exp(coef), digits = digits, format = "f")
@@ -388,18 +388,18 @@ ltxCoef <- function(x, digits, dr, caption){
                     cat("\\multicolumn{1}{r}{", lb, "}",
                     ##cat(formatC(x$levels[[covar.no]][lev], width = 16,
                       ##          flag = "+"),
-                        " & ",
+                        " & $",
                         formatC(x$w.means[[covar.no]][lev],
-                                width = 8, digits = digits, format = "f"), " & ",
-                        coef[index], " & ",
-                        e.coef[index], " & ",
-                         se[index]) 
+                                width = 8, digits = digits, format = "f"), "$ & $",
+                        coef[index], "$ & $",
+                        e.coef[index], "$ & $",
+                         se[index], "$") 
                         ##formatC(" ", width = 9),
                     if (lp){
                         cat("\\\\ \n")
                     }else{
-                        cat(" & ", wald.p[index],
-                            "\\\\ \n", sep = "")
+                        cat(" & $ ", wald.p[index],
+                            "$ \\\\ \n", sep = "")
                     }
                 }
             }else{ ## Covariates:
@@ -407,24 +407,21 @@ ltxCoef <- function(x, digits, dr, caption){
                 cat(covar.names[covar.no], 
                 ##cat(formatC(substr(covar.names[covar.no], 1, 16),
                   ##          width = 16, flag = "-"),
-                    " & ",
+                    " & $ ",
                     formatC(x$w.means[[covar.no]],
                             width = 8, digits = digits, format = "f"),
-                    " & ",
-                    coef[index], " & ",
-                    e.coef[index], " & ",
+                    " $ & $ ",
+                    coef[index], " $ & $ ",
+                    e.coef[index], " $ & $ ",
                                         #exp(coef[index]),
-                    se[index], " & ")
+                    se[index], " $ & $ ")
                 if (lp){
                     lpindx <- lpindx + 1
                     ppv <- lpval[lpindx]
                 }else{
                     ppv <- wald.p[index]
                 }
-                    ##formatC(" ", width = 9),
-                cat(ppv,
-                    ##signif(1 - pchisq((coef/ se)^2, 1), digits - 1),
-                    "\\\\ \n")
+                cat(ppv, "$ \\\\ \n")
             }
         }else if (ord[term.no] > 1){ ## Interactions:
             cat(formatC(term.names[term.no], width = 16, flag = "-"), " \\\\ \n")
@@ -465,5 +462,5 @@ ltxCoef <- function(x, digits, dr, caption){
     }
     cat("\\hline \n")
     cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
-    cat("Max. Log Likelihood & ", x$loglik[2], "\\\\ \\hline \n")
+    cat("Max. logLik. & $ ", x$loglik[2], " $ \\\\ \\hline \n")
 }

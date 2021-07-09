@@ -87,7 +87,6 @@
 #' \item{bootstrap}{The (matrix of) bootstrap replicates, if requested on
 #' input. It is up to the user to do
 #' whatever desirable with this sample.}
-#' \item{boot.sd}{The estimated standard errors of the bootstrap replicates.}
 #' \item{call}{The call.}
 #' \item{method}{The method.}
 #' \item{n.strata}{Number of strata.}
@@ -349,10 +348,12 @@ coxreg <- function (formula = formula(data),
         init <- 0
         if (FALSE){
         if (type == "counting"){
+            if (control$trace) cat("Running survival::agreg.fit\n")
             fit <- survival::agreg.fit(X, Y, stratum, offset, init,
                                         control, weights = weights,
                                         method = method, row.names(m))
         }else{
+            if (control$trace) cat("Running survival::coxph.fit\n")
             fit <- survival::coxph.fit(X, Y, stratum, offset, init,
                                         control, weights = weights,
                                         method = method, row.names(m))
@@ -387,10 +388,12 @@ coxreg <- function (formula = formula(data),
         if (is.null(strats)) stratum <- rep(1, NROW(Y))
         else stratum <- strats
         if (type == "counting"){
+            if (control$trace) cat("Running survival::agreg.fit\n")
             fit <- survival::agreg.fit(X, Y, stratum, offset, init,
                                         control, weights = weights,
                                         method = method, row.names(m))
         }else{
+            if (control$trace) cat("Running survival::coxph.fit\n")
             fit <- survival::coxph.fit(X, Y, stratum, offset, init,
                                         control, weights = weights,
                                         method = method, row.names(m))

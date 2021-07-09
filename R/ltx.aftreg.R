@@ -51,20 +51,29 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     cat("\\begin{table}[ht] \n")
     cat("\\begin{center} \n")
     cat("\\footnotesize \n")
+    if (!is.null(caption)){
+        cat("\\caption{", caption, "} \n", sep = "")
+    }
+    
+    if (!is.null(label)){
+        cat("\\label{", label, "} \n", sep = "")
+    }
+    
     cat("\\begin{tabular}{lrrrrr} \n")
     cat("\\hline \n")
     if (lp){
-        ptxt <- "L-R $p$"
+        ptxt <- "\\bf L-R $p$"
     }else{
-        ptxt <- "Wald $p$"
+        ptxt <- "\\bf Wald $p$"
     }
     if(x$param == "lifeExp"){
-        etxt <- "Ext'd life"
+        etxt <- "\\bf Ext'd life"
     }else{
-        etxt <- "Acc'd time"
+        etxt <- "\\bf Acc'd time"
     }
     if (!is.null(x$covars)){
-        cat(paste("Covariate & Mean & Coef &", etxt, " & S.E. & ", ptxt,
+        cat(paste("\\bf Covariate & \\bf Mean & \\bf Coef &", 
+                  etxt, " & \\bf S.E. & ", ptxt,
                   " \\\\ \\hline\n"))
     }
 
@@ -146,9 +155,9 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
                     lb <- paste("\\em", x$levels[[covar.no]][1], sep = " ")
                     cat("\\multicolumn{1}{r}{", lb, "}",
                         ## cat(formatC(x$levels[[covar.no]][1], width = 16, flag = "+"),
-                        " & ",
+                        " & $ ",
                         formatC(x$w.means[[covar.no]][1],
-                                width = 8, digits = digits, format = "f"), " & ",
+                                width = 8, digits = digits, format = "f"), " $ & ",
                         noll, " & ",
                         ett, " & ",
                         "\\multicolumn{2}{c}{(reference)} \\\\ \n", sep = "")
@@ -159,18 +168,18 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
                         cat("\\multicolumn{1}{r}{", lb, "}",
                             ##cat(formatC(x$levels[[covar.no]][lev], width = 16,
                             ##          flag = "+"),
-                            " & ",
+                            " & $ ",
                             formatC(x$w.means[[covar.no]][lev],
-                                    width = 8, digits = digits, format = "f"), " & ",
-                            coef[index], " & ",
-                            e.coef[index], " & ",
+                                    width = 8, digits = digits, format = "f"), " $ & $ ",
+                            coef[index], " $ & $ ",
+                            e.coef[index], " $ & $ ",
                             se[index]) 
                         ##formatC(" ", width = 9),
                         if (lp){
-                            cat("\\\\ \n")
+                            cat(" $ \\\\ \n")
                         }else{
-                            cat(" & ", wald.p[index],
-                                "\\\\ \n", sep = "")
+                            cat(" $ & $ ", wald.p[index],
+                                " $ \\\\ \n", sep = "")
                         }
                     }
                 }else{ ## Covariates:
@@ -178,14 +187,14 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
                     cat(covar.names[covar.no], 
                         ##cat(formatC(substr(covar.names[covar.no], 1, 16),
                         ##          width = 16, flag = "-"),
-                        " & ",
+                        " & $ ",
                         formatC(x$w.means[[covar.no]],
                                 width = 8, digits = digits, format = "f"),
-                        " & ",
-                        coef[index], " & ",
-                        e.coef[index], " & ",
+                        " $ & $ ",
+                        coef[index], " $ & $ ",
+                        e.coef[index], " $ & $ ",
                                         #exp(coef[index]),
-                        se[index], " & ")
+                        se[index], " $ & $ ")
                     if (lp){
                         lpindx <- lpindx + 1
                         ppv <- lpval[lpindx]
@@ -195,7 +204,7 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
                     ##formatC(" ", width = 9),
                     cat(ppv,
                         ##signif(1 - pchisq((coef/ se)^2, 1), digits - 1),
-                        "\\\\ \n")
+                        " $ \\\\ \n")
                 }
             }else if (ord[term.no] > 1){ ## Interactions:
                 cat(formatC(term.names[term.no], width = 16, flag = "-"), " \\\\ \n")
@@ -237,31 +246,33 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     }## if (!is.null(x$covars)
     cat("\\hline \n")
     cat("Baseline parameters \\\\\n")
-    for (i in 1:n.slsh){
-        jup <- length(coef)
-        ss.names <- names(coef[(jup - n.slsh + 1):jup])
-        index <- index + 1
-        ## covar.no <- covar.no + 1
-        cat(formatC(ss.names[i], width = 16, flag = "-"),
-            formatC(" & & ",
-                    width = 8, digits = 3, format = "c"),
-            coef[index], " & ",
-            e.coef[index], " & ",
-                                        #exp(coef[index]),
-            se[index], " & ",
-            #formatC(" ", width = 1),
-            formatC(wald.p[index],
-                    digits = 3,
-                    width = digits + 2,
-                    format = "f"), " \\\\ ", 
-            ##signif(1 - pchisq((coef/ se)^2, 1), digits - 1),
-            "\n")
+    if (FALSE){ ## Skip scale/shape printing ...
+        for (i in 1:n.slsh){
+            jup <- length(coef)
+            ss.names <- names(coef[(jup - n.slsh + 1):jup])
+            index <- index + 1
+            ## covar.no <- covar.no + 1
+            cat(formatC(ss.names[i], width = 16, flag = "-"),
+                formatC(" & & ",
+                        width = 8, digits = 3, format = "c"),
+                coef[index], " & ",
+                e.coef[index], " & ",
+                #exp(coef[index]),
+                se[index], " & ",
+                #formatC(" ", width = 1),
+                formatC(wald.p[index],
+                        digits = 3,
+                        width = digits + 2,
+                        format = "f"), " \\\\ ", 
+                ##signif(1 - pchisq((coef/ se)^2, 1), digits - 1),
+                "\n")
+        }
     }
     if (x$n.strata == 1){
-        cat("Baseline expected life: & ", x$baselineMean, "\\\\", "\\hline", "\n")
+        cat("Baseline expectation: & ", x$baselineMean, "\\\\", "\\hline", "\n")
     }else{
         for (j in 1:x$n.strata){
-            cat("Baseline expected life", j, ": &", x$baselineMean[j], "\\\\", "\n")
+            cat("Baseline expectation", j, ": &", x$baselineMean[j], "\\\\", "\n")
         }
         cat("\\hline \n")
     }
@@ -275,19 +286,12 @@ ltx.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         pvale <- pchisq(logtest, df, lower.tail = FALSE)
         pvale <- round(pvale, digits = 6)
     }
-    cat("Max. Log Likelihood & ", x$loglik[2], " & $p$-value & ", pvale,
+    cat("Max. Log Likelihood & $ ", x$loglik[2], " $ & $p$-value & ", pvale,
         "\\\\ \\hline \n")
     cat("\\hline \n")
 
     cat("\\end{tabular}\n")
 
-    if (!is.null(caption)){
-        cat("\\caption{", caption, "} \n", sep = "")
-    }
-    
-    if (!is.null(label)){
-        cat("\\label{", label, "} \n", sep = "")
-    }
 
     cat("\\end{center} \n")
     cat("\\end{table} \n\n\n")
