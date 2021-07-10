@@ -1,3 +1,6 @@
+2.9.9100 (July 8, 2021)
+    * coxreg2: New function, copied from coxreg. Not modified yet.
+
 2.9.0.9050 (June 30, 2021)
     * coxreg: Checking calls to survival package.
 
