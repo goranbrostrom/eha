@@ -6,13 +6,7 @@
 \alias{eha-package}
 \title{eha: Event History Analysis}
 \description{
-Parametric proportional hazards fitting with left truncation and
-        right censoring for common families of distributions, piecewise constant 
-        hazards, and discrete models. Parametric accelerated failure time models
-        for left truncated and right censored data. Proportional hazards
-        models for tabular and register data. Sampling of risk sets in Cox 
-        regression, selections in the Lexis diagram, bootstrapping. 
-        Broström (2012) <doi:10.1201/9781315373942>.
+Parametric proportional hazards fitting with left truncation and right censoring for common families of distributions, piecewise constant hazards, and discrete models. Parametric accelerated failure time models for left truncated and right censored data. Proportional hazards models for tabular and register data. Sampling of risk sets in Cox regression, selections in the Lexis diagram, bootstrapping. Broström (2012) <doi:10.1201/9781315373942>.
 }
 \details{
 Eha enhances the recommended \pkg{survival} package in several ways, 

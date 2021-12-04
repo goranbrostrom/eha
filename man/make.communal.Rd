@@ -22,7 +22,7 @@ covariates, of which one must give a "birth date", the connection between
 duration and calendar time}
 
 \item{com.dat}{Data frame with communal covariates. They must have the same
-start year and periodicity, given by \code{com.ins}}
+start year and periodicity, given by \code{start} and \code{lag}.}
 
 \item{communal}{Boolean; if TRUE, then it is a true communal (default),
 otherwise a fixed. The first component is the first year (start date in
