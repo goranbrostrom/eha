@@ -25,6 +25,7 @@ hazards.coxreg <- function(x, cum = TRUE, ...){
     if (cum){
         for (i in 1:ns){
             haz[[i]][, 2] <- cumsum(haz[[i]][, 2])
+            haz[[i]] <- rbind(c(0, 0), haz[[i]]) # Added version 2.9.0.9200
         }
     }
     if (ns > 1){
