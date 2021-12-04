@@ -12,7 +12,7 @@
 #' covariates, of which one must give a "birth date", the connection between
 #' duration and calendar time
 #' @param com.dat Data frame with communal covariates. They must have the same
-#' start year and periodicity, given by \code{com.ins}
+#' start year and periodicity, given by \code{start} and \code{lag}.
 #' @param communal Boolean; if TRUE, then it is a true communal (default),
 #' otherwise a fixed. The first component is the first year (start date in
 #' decimal form), and the second component is the period length. The third is
@@ -69,8 +69,8 @@ make.communal <-
     nn <- nrow(dat)
     n.years <- nrow(com.dat)
     n.com <- NCOL(com.dat)
-    if (n.com > 1) 
-        stop("Only one communal covariate at a time!")
+    ##if (n.com > 1)      # Outcommented in 2.9.0.9200 
+      ##  stop("Only one communal covariate at a time!")
     cuts <- start + c(0, (1:n.years) * period) - lag
     beg.per <- cuts[1]
     end.per <- cuts[n.years + 1]
@@ -196,5 +196,11 @@ make.communal <-
         if (event.boolean) 
             yy[, 3] <- as.logical(yy[, 3])
     }
+    ## Addition in 2.9.0.9200:
+    adda <- yy[[surv[1]]] > yy[[surv[2]]] - tol & 
+        as.integer(yy[[surv[3]]]) == 1
+    yy[[surv[2]]][adda] <- yy[[surv[1]]][adda] + tol
+    yy <- yy[yy[[surv[2]]] >= yy[[surv[1]]] + tol / 2, ]
+    ## End addition. "No zero-length intervals!"
     yy
 }
