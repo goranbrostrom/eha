@@ -1,4 +1,9 @@
-2.9.9100 (July 8, 2021)
+2.9.0.9200 (Dec 4, 2021)
+    * hazards.coxreg: Add (0, 0) to cumhaz.
+    * make.communal: Deal with zero length interval output and allow 
+    input for 'com.dat' with more than one variable.
+
+2.9.0.9100 (July 8, 2021)
     * coxreg2: New function, copied from coxreg. Not modified yet.
 
 2.9.0.9050 (June 30, 2021)
