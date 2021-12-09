@@ -1,3 +1,6 @@
+2.9.0.9210 (Dec 5, 2021)
+    * plot.coxreg: Add (?, 0) to cumulative hazards plot.
+
 2.9.0.9200 (Dec 4, 2021)
     * hazards.coxreg: Add (0, 0) to cumhaz.
     * make.communal: Deal with zero length interval output and allow 
