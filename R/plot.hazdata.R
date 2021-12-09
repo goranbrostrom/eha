@@ -164,7 +164,8 @@ plot.hazdata <- function(x, strata = NULL,
             if (fn == "surv"){
                 x[[i]] <- rbind(c(x[[i]][1, 1], 1), x[[i]])
             }else{
-                ##x[[i]] <- rbind(c(x[[i]][1, 1], 0), x[[i]])
+                x[[i]] <- rbind(c(x[[i]][1, 1], 0), x[[i]]) # Not outcommented
+                                                            # 2.9.0.9200!
             }
             ##x[[i]][, 1] <- c(x[[i]][1, 1], x[[i]][, 1])
         }
