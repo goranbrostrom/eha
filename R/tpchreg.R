@@ -26,7 +26,8 @@
 #' 
 #' sw <- swepop
 #' sw$deaths <- swedeaths$deaths
-#' fit <- tpchreg(oe(deaths, pop) ~ strata(sex) + I(year - 1990), time = age, last = 101, data = sw)
+#' fit <- tpchreg(oe(deaths, pop) ~ strata(sex) + I(year - 2000), 
+#' time = age, last = 101, data = sw[sw$year >= 2000, ])
 #' summary(fit)
 #' 
 #' @export

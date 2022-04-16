@@ -1,3 +1,10 @@
+2.9.0.9450 (April 16, 2022)
+    * fix examples taking too long.
+    * add ltx2 with methods as alternatives to ltx.
+    
+2.9.0.9400 (April 15, 2022)
+    * drop1 method for coxreg added.
+    
 2.9.0.9300 (April 3, 2022)
     * Add logLik methods to coxreg and phreg.
 

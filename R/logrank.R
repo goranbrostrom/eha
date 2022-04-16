@@ -21,7 +21,8 @@
 #' @seealso \code{\link{coxreg}}, \code{\link{print.logrank}}.
 #' @keywords survival
 #' @examples 
-#' fit <- logrank(Y = Surv(enter, exit, event), group = civ, data = oldmort)
+#' fit <- logrank(Y = Surv(enter, exit, event), group = civ, 
+#' data = oldmort[oldmort$region == "town", ])
 #' fit
 #' @export    
 logrank <- function(Y, group, data = parent.frame()){

@@ -60,11 +60,15 @@
 #' @keywords survival regression
 #' @examples
 #' 
-#' fit <- pchreg(Surv(enter, exit, event) ~ ses.50 + sex, data = oldmort, 
-#' cuts = seq(60, 100, by = 5))
+#' \dontrun{
+#' dat <- age.window(oldmort, c(60, 80))
+#' fit <- pchreg(Surv(enter, exit, event) ~ ses.50 + sex, 
+#' data = dat, cuts = seq(60, 80, by = 4))
 #' summary(fit)
-#' fit.cr <- coxreg(Surv(enter, exit, event) ~ ses.50 + sex, data = oldmort)
-#' compHaz(fit.cr, fit)
+#' 
+#' fit.cr <- coxreg(Surv(enter, exit, event) ~ ses.50 + sex, data = dat)
+#' check.dist(fit.cr, fit, main = "Cumulative hazards")
+#' }
 #' 
 #' @export pchreg
 pchreg <- function (formula = formula(data),

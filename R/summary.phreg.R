@@ -10,7 +10,8 @@
 #' @keywords survival 
 #' @examples
 #' 
-#' fit <- phreg(Surv(enter, exit, event) ~ sex + civ, data = oldmort)
+#' fit <- phreg(Surv(enter, exit, event) ~ sex + civ, 
+#' data = oldmort[oldmort$region == "town", ])
 #' summary(fit)
 #'  
 #' @export

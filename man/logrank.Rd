@@ -31,7 +31,8 @@ its \code{score test}. With tied data, this might be slightly different from
 the true logrank test, but the difference is unimportant in practice.
 }
 \examples{
-fit <- logrank(Y = Surv(enter, exit, event), group = civ, data = oldmort)
+fit <- logrank(Y = Surv(enter, exit, event), group = civ, 
+data = oldmort[oldmort$region == "town", ])
 fit
 }
 \seealso{

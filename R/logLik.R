@@ -1,6 +1,8 @@
 ##
 #        logLik methods
 ##
+
+#' @export
 logLik.coxreg <- function(object, ...){
     if (object$nullModel){
         out <- object$loglik[1]
@@ -14,6 +16,7 @@ logLik.coxreg <- function(object, ...){
     out
 }
 
+#' @export
 logLik.phreg <- function(object, ...){
     out <- object$loglik[2]
     dd <- diag(object$var)

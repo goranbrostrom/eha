@@ -67,7 +67,7 @@ given that it contains a component of type "hazdata".
 }
 \examples{
 
-fit <- logrank(Surv(enter, exit, event), group = civ, data = oldmort)
+fit <- logrank(Surv(enter, exit, event), group = civ, data = oldmort[oldmort$region == "town", ])
 plot(fit)
 
 }
