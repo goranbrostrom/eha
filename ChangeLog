@@ -1,3 +1,9 @@
+2.10.0 (April 17, 2022)
+    * Submission to CRAN.
+    
+2.9.0.9500 (April 17, 2022)
+    * fix error in drop1.coxreg
+
 2.9.0.9450 (April 16, 2022)
     * fix examples taking too long.
     * add ltx2 with methods as alternatives to ltx.

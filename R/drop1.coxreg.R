@@ -29,6 +29,10 @@ drop1.coxreg <- function (object, scope, scale = 0,
     ans[1, ] <- extractAIC(object, scale, k = k)
     n0 <- nobs(object, use.fallback = TRUE)
     env <- environment(formula(object))
+    if (ns == 1){
+        ans[2, 1] <- 0
+        ans[2, 2] <- -2 * object$loglik[1]
+    }else{
     for (i in seq_len(ns)) {
         tt <- scope[i]
         if (trace > 1) {
@@ -52,11 +56,12 @@ drop1.coxreg <- function (object, scope, scale = 0,
 
 ###        ans[i + 1, ] <- extractAIC(z, scale, k = k, ...)
         ans[i + 1, 1] <- length(z$coefficients)
-        ans[i + 1, 2] <- -2 * z$loglik[2]
+        ans[i + 1, 2] <- -2 * z$loglik[2] + k * ans[i + 1, 1] ## Added k*n.
         ##nnew <- nobs(z, use.fallback = TRUE)
         ##if (all(is.finite(c(n0, nnew))) && nnew != n0) 
           ##  stop("number of rows in use has changed: remove missing values?")
     }
+    } 
     dfs <- ans[1L, 1L] - ans[, 1L]
     dfs[1L] <- NA
     aod <- data.frame(Df = dfs, AIC = ans[, 2])

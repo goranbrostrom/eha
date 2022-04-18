@@ -18,10 +18,9 @@
 #' @return LaTeX code version of the results from a run with
 #' \code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{phreg}}, 
 #' or \code{\link{aftreg}}.
-#' @note There is no method in \code{xtable} for \code{coxreg} and
-#' friends.
+#' @note For printing confidence limits, use \code{\link{ltx2}}.
 #' @author Göran Broström.
-#' @seealso \code{xtable}, \code{\link{coxreg}}, \code{\link{phreg}}, 
+#' @seealso \code{\link{ltx2}}, \code{\link{coxreg}}, \code{\link{phreg}}, 
 #' \code{\link{phreg}}, and \code{\link{aftreg}}.
 #' @keywords printing
 #' @examples

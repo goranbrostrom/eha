@@ -1,3 +1,21 @@
+# eha 2.10.0
+
+## New features
+
+*   Add *logLik* methods to *coxreg* and *phreg*.
+
+*   *coxreg*: *drop1* method added, handles missing values.
+
+*   *ltx2*: New generic function. Similar to ltx, but prints confidence limits
+instead of standard errors. Prints LRT p-values, automatic use of drop1.
+
+## Bug fixes
+
+*   *hazards.coxreg*: Add start at zero to cumulative hazards plotting.
+
+*   *make.communal*: Deal with zero length interval output and allow 
+input for 'com.dat' with more than one variable.
+
 # eha 2.9.0
 
 ## New features

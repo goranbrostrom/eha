@@ -1,12 +1,8 @@
-#' LaTeX atrenative printing of regression results.
+#' LaTeX alternative printing of regression results.
 #' 
 #' This (generic) function prints the LaTeX code of the results of a fit from
 #' \code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{tpchreg}}, 
-#' or \code{\link{aftreg}}, similar
-#' to what \code{xtable} does for fits from other functions.
-#' 
-#' The result is a printout which is (much) nicer than the standard printed
-#' output from \code{glm} and friends,
+#' or \code{\link{aftreg}}.
 #' 
 #' @param x The output from a call to \code{coxreg}, \code{tpchreg}, or
 #' \code{aftreg}
@@ -20,8 +16,8 @@
 #' @return LaTeX code version of the results from a run with
 #' \code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{phreg}}, 
 #' \code{\link{aftreg}}.
-#' @note There is no method in \code{xtable} for \code{coxreg} and
-#' friends.
+#' @note Resulting tables contain estimated hazard ratios and confidence limits
+#' instead of regression coefficients and standard errors as in \code{\link{ltx}}.
 #' @author Göran Broström.
 #' @seealso \code{xtable}, \code{\link{coxreg}}, \code{\link{phreg}}, 
 #' \code{\link{phreg}}, \code{\link{aftreg}}, and \code{\link{ltx}}.
