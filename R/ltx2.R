@@ -88,7 +88,13 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         if (!is.null(dr)){
             ##print(dr)
             ##cat("\n")
-            cat("\\multicolumn{6}{l}{", attr(dr, "heading"), "}\\\\\n")
+            cat("\\multicolumn{6}{l}{", "Single term deletions", "}\\\\\n")
+            cat("\\hline\n")
+            for (j in 1:3){
+                cat(colnames(dr)[j], " & ")
+            }
+            cat(colnames(dr)[4], "\\\\\n")
+            cat("\\hline\n")
             for (i in 1:NROW(dr)){
                 cat(rownames(dr)[i], " & ")
                 for (j in 1:3){
@@ -96,12 +102,13 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
                 }
                 cat(dr[i, 4], "\\\\\n") 
             }
-            cat("\\hline\n")
+            cat("\\hline\n\n")
         }
-    }
+        lp <- FALSE
+    }else lp <- TRUE
     ####
     
-    ltxCoef3(x, dr, conf, keep, digits, caption) # Print regression coefficients
+    ltxCoef3(x, dr, conf, keep, digits, lp) # Print regression coefficients
 ### New 2020-11-26:    
     if (inherits(x, "summary.tpchreg")){
         ivl <- paste("(", min(x$cuts), ", ", max(x$cuts), "]", sep = "")
@@ -234,7 +241,7 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     ####
     
 
-    ltxCoef3(x, dr, conf, keep, digits, caption) # Print regression coefficients.
+    ltxCoef3(x, dr, conf, keep, digits, lp) # Print regression coefficients.
 
 
     cat("\\end{tabular}\n")
@@ -255,7 +262,7 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
 
 }
 
-ltxCoef3 <- function(x, dr, conf, keep, digits, caption){
+ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
     coef <- x$coef
 
     se <- sqrt(diag(x$var))
@@ -266,13 +273,12 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, caption){
     if(is.null(coef) | is.null(se))
         stop("Input is not valid")
     ## Check for dr:
-    lp <- TRUE
-    if (is.null(dr)) {
-        dr <- drop1(x, test = "Chisq")
-    }
     if (lp){
+        if (is.null(dr)) {
+            dr <- drop1(x, test = "Chisq")
+        }
         lpval <- formatC(dr[-1, 4], digits = digits, format = "f")
-    }
+    }else lpval <- character(length(coef))
     
     qn <- qnorm(1 - (1 - conf) / 2)
     lower <- exp(coef - qn * se)
@@ -298,7 +304,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, caption){
                 cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Life expn. & \\bf S.E. &  \\bf Wald p \\\\ \\hline\n")
             }
         }else{
-            cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf H.R. & \\bf S.E. &   \\bf Wald p \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf H.R. & \\bf S.E. \\\\ \\hline\n")
         }
     }
     e.coef <- formatC(exp(coef), digits = digits, format = "f")
@@ -403,7 +409,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, caption){
                 if (lp){
                     lpindx <- lpindx + 1
                     ppv <- lpval[lpindx]
-                }
+                } else ppv <- ""
                 cat(ppv, "$ \\\\ \n")
             }
         }else if (ord[term.no] > 1){ ## Interactions:
