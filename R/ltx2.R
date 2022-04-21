@@ -70,7 +70,37 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
 
     savedig <- options(digits = digits)
     on.exit(options(savedig))
-
+    ord <- attr(x$terms, "order")
+    ## New, 2020-07-26:
+    cat("\\begin{table}[ht] \n")
+    if (!is.null(caption)){
+        cat("\\caption{", caption, "} \n", sep = "")
+    }
+    
+    
+    cat("\\begin{center} \n")
+    cat("\\footnotesize \n") # NOTE!!
+    cat("\\begin{tabular}{lrrrrr} \n")
+    cat("\\hline \n")
+    if (any(ord > 1)){
+        lp <- FALSE
+        ##cat("\\begin{tabular}{l|rrr} \n")
+        if (!is.null(dr)){
+            ##print(dr)
+            ##cat("\n")
+            cat("\\multicolumn{6}{l}{", attr(dr, "heading"), "}\\\\\n")
+            for (i in 1:NROW(dr)){
+                cat(rownames(dr)[i], " & ")
+                for (j in 1:3){
+                    cat(dr[i, j], " & ")
+                }
+                cat(dr[i, 4], "\\\\\n") 
+            }
+            cat("\\hline\n")
+        }
+    }
+    ####
+    
     ltxCoef3(x, dr, conf, keep, digits, caption) # Print regression coefficients
 ### New 2020-11-26:    
     if (inherits(x, "summary.tpchreg")){
@@ -181,6 +211,28 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
 
     savedig <- options(digits = digits)
     on.exit(options(savedig))
+    
+    ord <- attr(x$terms, "order")
+    ## New, 2020-07-26:
+    if (any(ord > 1)){
+        lp <- FALSE
+        cat("\\begin{tabular}{l|rrr} \n")
+        if (!is.null(dr)){
+            ##print(dr)
+            cat("\n")
+            cat(attr(dr, "heading"), "\\\\\n")
+            for (i in 1:NROW(dr)){
+                cat(rownames(dr)[i], " & ")
+                for (j in 1:3){
+                   cat(dr[i, j], " & ")
+                   cat(dr[i, 4], "\\\\\n") 
+                } 
+            }
+            cat("\\end{tabular}\n")
+        }
+    }
+    ####
+    
 
     ltxCoef3(x, dr, conf, keep, digits, caption) # Print regression coefficients.
 
@@ -208,9 +260,9 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, caption){
 
     se <- sqrt(diag(x$var))
 
-##    wald.p <- formatC(1 - pchisq((coef/ se)^2, 1),
-##                      digits = digits,
-##                      format = "f")
+    wald.p <- formatC(1 - pchisq((coef/ se)^2, 1), # Put back!
+                      digits = digits,
+                      format = "f")
     if(is.null(coef) | is.null(se))
         stop("Input is not valid")
     ## Check for dr:
@@ -227,16 +279,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, caption){
     upper <- exp(coef + qn * se)
     
 #####################################
-    cat("\\begin{table}[ht] \n")
-    if (!is.null(caption)){
-        cat("\\caption{", caption, "} \n", sep = "")
-    }
-    
-    
-    cat("\\begin{center} \n")
-    cat("\\footnotesize \n") # NOTE!!
-    cat("\\begin{tabular}{lrrrrr} \n")
-    cat("\\hline \n")
+  
     if (lp){
         if ("aftreg" %in% x$class){
             if (x$param == "default"){

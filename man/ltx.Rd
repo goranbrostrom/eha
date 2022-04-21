@@ -43,8 +43,7 @@ The result is a printout which is (much) nicer than the standard printed
 output from \code{glm} and friends,
 }
 \note{
-There is no method in \code{xtable} for \code{coxreg} and
-friends.
+For printing confidence limits, use \code{\link{ltx2}}.
 }
 \examples{
 
@@ -55,7 +54,7 @@ ltx(fit, dr = dr, caption = "A test example.", label = "tab:test1")
 
 }
 \seealso{
-\code{xtable}, \code{\link{coxreg}}, \code{\link{phreg}}, 
+\code{\link{ltx2}}, \code{\link{coxreg}}, \code{\link{phreg}}, 
 \code{\link{phreg}}, and \code{\link{aftreg}}.
 }
 \author{

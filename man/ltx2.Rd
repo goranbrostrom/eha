@@ -2,7 +2,7 @@
 % Please edit documentation in R/ltx2.R
 \name{ltx2}
 \alias{ltx2}
-\title{LaTeX atrenative printing of regression results.}
+\title{LaTeX alternative printing of regression results.}
 \usage{
 ltx2(
   x,
@@ -41,16 +41,11 @@ LaTeX code version of the results from a run with
 \description{
 This (generic) function prints the LaTeX code of the results of a fit from
 \code{\link{coxreg}}, \code{\link{phreg}}, \code{\link{tpchreg}}, 
-or \code{\link{aftreg}}, similar
-to what \code{xtable} does for fits from other functions.
-}
-\details{
-The result is a printout which is (much) nicer than the standard printed
-output from \code{glm} and friends,
+or \code{\link{aftreg}}.
 }
 \note{
-There is no method in \code{xtable} for \code{coxreg} and
-friends.
+Resulting tables contain estimated hazard ratios and confidence limits
+instead of regression coefficients and standard errors as in \code{\link{ltx}}.
 }
 \examples{
 

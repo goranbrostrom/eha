@@ -1,3 +1,9 @@
+2.10.0.9050 (April 20, 2022)
+    * Fix new bug (when interactions present) in ltx2.
+
+2.10.0.9000 (April 20, 2022)
+    * Fix bug (when interactions present) in ltx2.
+    
 2.10.0 (April 17, 2022)
     * Submission to CRAN.
     
