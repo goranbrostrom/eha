@@ -312,8 +312,8 @@ coxreg2 <- function (formula = formula(data),
     n.events <- sum(Y[, NCOL(Y)] != 0)
     if (n.events == 0) stop("No events; no sense in continuing!")
     
-    if (FALSE){   ########################## NOTE!!!! ################### 
-    ##if (cox.ph){  ## NEW ++++
+    ##if (FALSE){   ########################## NOTE!!!! ################### 
+    if (cox.ph){  ## NEW ++++
         fit$df <- length(fit$coefficients)
         fit$isF <- isF
         fit$isI <- isI
@@ -323,13 +323,14 @@ coxreg2 <- function (formula = formula(data),
         fit$levels <- levels
         fit$n.events <- n.events
         fit <- wMeans(fit, Y, m, isF)
-        class(fit) <- "coxreg"
+        class(fit) <- c("coxph", "coxreg")
         if (length(strats)){
             fit$stratum <- levels(as.factor(strata.keep)) ## New
             ## 'stratum' to be out of the way for 'strata' in survfit!
         }
         return(fit)
-    } # End if(FALSE)
+    } # End if (cox.ph)
+    ##} # End if (FALSE)
     ##########################################
 
     ## Fixed now? if (FALSE){      ## This has to be fixed in the future!!
