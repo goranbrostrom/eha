@@ -90,10 +90,10 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
             ##cat("\n")
             cat("\\multicolumn{6}{l}{", "Single term deletions", "}\\\\\n")
             cat("\\hline\n")
-            for (j in 1:3){
-                cat(colnames(dr)[j], " & ")
+            for (j in 1:4){
+                cat(" & ", colnames(dr)[j])
             }
-            cat(colnames(dr)[4], "\\\\\n")
+            cat("\\\\\n")
             cat("\\hline\n")
             for (i in 1:NROW(dr)){
                 cat(rownames(dr)[i], " & ")
@@ -102,7 +102,8 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
                 }
                 cat(dr[i, 4], "\\\\\n") 
             }
-            cat("\\hline\n\n")
+            cat("\\hline\n")
+            cat("\\\\\n")
         }
     }else lp <- TRUE
     ####
@@ -449,7 +450,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
                 cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Life expn. & \\bf S.E. &  \\bf Wald p \\\\ \\hline\n")
             }
         }else{
-            cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf H.R. & \\bf S.E. \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf H.R. & \\bf lowCI & \\bf highCI \\\\ \\hline\n")
         }
     }
     e.coef <- formatC(exp(coef), digits = digits, format = "f")
