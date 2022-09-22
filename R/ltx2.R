@@ -104,7 +104,6 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
             }
             cat("\\hline\n\n")
         }
-        lp <- FALSE
     }else lp <- TRUE
     ####
     
@@ -182,7 +181,7 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
 
 #' @export
 ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL, 
-          digits=max(options()$digits - 4, 3), conf, keep = NULL, ...){
+          digits=max(options()$digits - 4, 3), conf = 0.95, keep = NULL, ...){
     
     if (!("phreg" %in% class(x))) stop("Only for 'phreg' output")
     if (is.null(dr)){
@@ -221,6 +220,17 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     
     ord <- attr(x$terms, "order")
     ## New, 2020-07-26:
+        cat("\\begin{table}[ht] \n")
+    if (!is.null(caption)){
+        cat("\\caption{", caption, "} \n", sep = "")
+    }
+    
+    
+    cat("\\begin{center} \n")
+    cat("\\footnotesize \n") # NOTE!!
+    cat("\\begin{tabular}{lrrrrr} \n")
+    cat("\\hline \n")
+
     if (any(ord > 1)){
         lp <- FALSE
         cat("\\begin{tabular}{l|rrr} \n")
@@ -237,11 +247,146 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
             }
             cat("\\end{tabular}\n")
         }
-    }
+    } else lp <- TRUE
     ####
     
 
     ltxCoef3(x, dr, conf, keep, digits, lp) # Print regression coefficients.
+    if (x$n.strata == 1){
+        cat("Baseline expectation: & ", x$baselineMean, "\\\\", "\\hline", "\n")
+    }else{
+        for (j in 1:x$n.strata){
+            cat("Baseline expectation", j, ": &", x$baselineMean[j], "\\\\", "\n")
+        }
+        cat("\\hline \n")
+    }
+    cat("\\hline \n")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
+    logtest <- -2 * (x$loglik[1] - x$loglik[2])
+    df <- x$df
+    if (is.null(df)){
+        pvale <- 1
+    }else{
+        pvale <- pchisq(logtest, df, lower.tail = FALSE)
+        pvale <- round(pvale, digits = 6)
+    }
+    cat("Max. Log Likelihood & $ ", x$loglik[2], " $ & $p$-value & ", pvale,
+        "\\\\ \\hline \n")
+    cat("\\hline \n")
+
+
+    cat("\\end{tabular}\n")
+
+    if (!is.null(label)){
+        cat("\\label{", label, "} \n", sep = "")
+    }
+
+    cat("\\end{center} \n")
+    cat("\\end{table} \n\n\n")
+    cat(" \n\n")
+#####################################
+
+    if (!is.null(x$frailty)){
+        cat("\nFrailty standard deviation = ", x$sigma, "\n")
+        cat("                      S.E. = ", x$sigma.sd, "\n\n")
+    }
+
+}
+
+#' @export
+ltx2.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL, 
+          digits=max(options()$digits - 4, 3), conf = 0.95, keep = NULL, ...){
+    
+    if (!("aftreg" %in% class(x))) stop("Only for 'aftreg' output")
+    if (is.null(dr)){
+        dr <- drop1(x, test = "Chisq")
+    }
+
+    if (!is.null(cl<- x$call)) {
+	##cat("Call:\n")
+	##dput(cl)
+	##cat("\n")
+	}
+
+    if (!is.null(x$fail)) {
+        if (x$fail != 0){
+            cat(" aftreg failed with: ")
+            stop(x$fail)
+        }
+    }
+
+    if (!length(x$coefficients)){
+        cat("Null log likelihood = ", x$loglik[2], "\n")
+        return()
+    }
+
+    if (x$pfixed){
+
+        n.slsh <- 1
+
+    }else{
+        n.slsh <- 2 * x$n.strata
+
+    }
+
+    savedig <- options(digits = digits)
+    on.exit(options(savedig))
+    
+    ord <- attr(x$terms, "order")
+    ## New, 2020-07-26:
+        cat("\\begin{table}[ht] \n")
+    if (!is.null(caption)){
+        cat("\\caption{", caption, "} \n", sep = "")
+    }
+    
+    
+    cat("\\begin{center} \n")
+    cat("\\footnotesize \n") # NOTE!!
+    cat("\\begin{tabular}{lrrrrr} \n")
+    cat("\\hline \n")
+
+    if (any(ord > 1)){
+        lp <- FALSE
+        cat("\\begin{tabular}{l|rrr} \n")
+        if (!is.null(dr)){
+            ##print(dr)
+            cat("\n")
+            cat(attr(dr, "heading"), "\\\\\n")
+            for (i in 1:NROW(dr)){
+                cat(rownames(dr)[i], " & ")
+                for (j in 1:3){
+                   cat(dr[i, j], " & ")
+                   cat(dr[i, 4], "\\\\\n") 
+                } 
+            }
+            cat("\\end{tabular}\n")
+        }
+    } else lp <- TRUE
+    ####
+    
+
+    ltxCoef3(x, dr, conf, keep, digits, lp) # Print regression coefficients.
+    if (x$n.strata == 1){
+        cat("Baseline expectation: & ", x$baselineMean, "\\\\", "\\hline", "\n")
+    }else{
+        for (j in 1:x$n.strata){
+            cat("Baseline expectation", j, ": &", x$baselineMean[j], "\\\\", "\n")
+        }
+        cat("\\hline \n")
+    }
+    cat("\\hline \n")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
+    logtest <- -2 * (x$loglik[1] - x$loglik[2])
+    df <- x$df
+    if (is.null(df)){
+        pvale <- 1
+    }else{
+        pvale <- pchisq(logtest, df, lower.tail = FALSE)
+        pvale <- round(pvale, digits = 6)
+    }
+    cat("Max. Log Likelihood & $ ", x$loglik[2], " $ & $p$-value & ", pvale,
+        "\\\\ \\hline \n")
+    cat("\\hline \n")
 
 
     cat("\\end{tabular}\n")
@@ -289,12 +434,12 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
     if (lp){
         if ("aftreg" %in% x$class){
             if (x$param == "default"){
-                cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Time accn. & \\bf S.E. & \\bf  L-R p \\\\ \\hline\n")
+                cat("\\bf Covariate & \\bf Mean & \\bf Time accn. & \\bf lowCI & \\bf highCI & \\bf  L-R p \\\\ \\hline\n")
             }else{
-                cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Life expn. & \\bf S.E. &   \\bf L-R p \\\\ \\hline\n")
+                cat("\\bf Covariate & \\bf Mean & \\bf Life expn. & \\bf lowCI & \\bf highCI &   \\bf L-R p \\\\ \\hline\n")
             }
         }else{
-            cat("\\bf Covariate & \\bf Mean & \\bf H.R. & \\bf lowCI &  \\bf highCI & \\bf L-R p \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf Life expn. & \\bf lowCI &  \\bf highCI & \\bf L-R p \\\\ \\hline\n")
         }
     }else{
         if ("aftreg" %in% x$class){

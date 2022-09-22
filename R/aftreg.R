@@ -50,7 +50,7 @@
 #' @param model Not used.
 #' @param x Return the design matrix in the model object?
 #' @param y Return the response in the model object?
-#' @return A list of class \code{c("aftreg", "coxreg")} with components
+#' @return A list of class \code{"aftreg"} with components
 #' \item{coefficients}{Fitted parameter estimates.} \item{var}{Covariance
 #' matrix of the estimates.} \item{loglik}{Vector of length two; first
 #' component is the value at the initial parameter values, the second componet
@@ -361,7 +361,8 @@ aftreg <- function (formula = formula(data),
     fit$dist <- dist
     fit$n.events <- n.events
 
-    class(fit) <- c("aftreg", "phreg")
+    ##class(fit) <- c("aftreg", "phreg")
+    class(fit) <- c("aftreg") # Try 21 sep 2022
     fit$param <- param # New in 2.1-1:
     
     baselineMean <- numeric(fit$n.strata)

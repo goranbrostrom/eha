@@ -13,7 +13,8 @@
 #' @export
 print.logrank <- function(x, digits=max(options()$digits - 4, 6), ...){
   
-    if (class(x) != "logrank") stop("Not a 'logrank' object.")
+    ## if (class(x) != "logrank") stop("Not a 'logrank' object.")
+    if (!inherits(x, "logrank")) stop("Not a 'logrank' object.")
     savedig <- options(digits = digits)
     on.exit(options(savedig))
 

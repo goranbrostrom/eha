@@ -18,7 +18,8 @@
 #' 
 #' @export
 print.risksets <- function(x, ...){
-    if (class(x) != "risksets") stop("Only for class 'risksets'")
+##    if (class(x) != "risksets") stop("Only for class 'risksets'")
+    if (!inherits(x, "risksets")) stop("Only for class 'risksets'")
     cat("No of strata: ", x$ns, "\n")
     if (x$ns > 1){
         for (i in 1:x$ns){
