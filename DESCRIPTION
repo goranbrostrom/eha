@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.10.0.9050
-Date: 2022-04-20
+Version: 2.10.0.9300
+Date: 2022-10-05
 Title: Event History Analysis
 Description: Parametric proportional hazards fitting with left truncation and
         right censoring for common families of distributions, piecewise constant 
@@ -22,6 +22,6 @@ Depends: R (>= 3.5.0)
 Imports: stats, graphics, survival (>= 3.0)
 NeedsCompilation: yes
 Maintainer: Göran Broström <goran.brostrom@umu.se>
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests: knitr, rmarkdown, bookdown
 VignetteBuilder: knitr, utils

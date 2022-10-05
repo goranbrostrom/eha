@@ -1,4 +1,13 @@
-2.10.9150 (September 21, 2022)
+2.10.0.9300 (October 5, 2022)
+    * ltx2: Add number of observations to output.
+
+2.10.0.9250 (September 26, 2022)
+    * More bugs in ltx2 fixed.
+
+2.10.0.9200 (September 24, 2022)
+    * Fix bug in output in ltx2.
+    
+2.10.0.9150 (September 21, 2022)
     * Remove class "phreg" from aftreg objects.
 
 2.10.0.9100 (September 21, 2022)

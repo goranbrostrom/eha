@@ -74,7 +74,7 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     ## New, 2020-07-26:
     cat("\\begin{table}[ht] \n")
     if (!is.null(caption)){
-        cat("\\caption{", caption, "} \n", sep = "")
+        cat(paste("\\caption{", caption, "} \n", sep = ""))
     }
     
     
@@ -134,7 +134,7 @@ ltx2.coxreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     cat("\\end{tabular}\n")
 
     if (!is.null(label)){
-        cat("\\label{", label, "} \n", sep = "")
+        cat(paste("\\label{", label, "} \n", sep = ""))
     }
     cat("\\normalsize \n")
     cat("\\end{center} \n")
@@ -223,7 +223,7 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     ## New, 2020-07-26:
         cat("\\begin{table}[ht] \n")
     if (!is.null(caption)){
-        cat("\\caption{", caption, "} \n", sep = "")
+        cat(paste("\\caption{", caption, "} \n", sep = ""))
     }
     
     
@@ -262,7 +262,7 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         cat("\\hline \n")
     }
     cat("\\hline \n")
-    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
+    cat("Events & ", x$n.events,"(",x$n,")", " & TTR & ", x$ttr, "\\\\ \n", sep = "")
     logtest <- -2 * (x$loglik[1] - x$loglik[2])
     df <- x$df
     if (is.null(df)){
@@ -279,7 +279,7 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     cat("\\end{tabular}\n")
 
     if (!is.null(label)){
-        cat("\\label{", label, "} \n", sep = "")
+        cat(paste("\\label{", label, "} \n", sep = ""))
     }
 
     cat("\\end{center} \n")
@@ -337,7 +337,7 @@ ltx2.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     ## New, 2020-07-26:
         cat("\\begin{table}[ht] \n")
     if (!is.null(caption)){
-        cat("\\caption{", caption, "} \n", sep = "")
+        cat(paste("\\caption{", caption, "} \n", sep = ""))
     }
     
     
@@ -376,7 +376,7 @@ ltx2.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         cat("\\hline \n")
     }
     cat("\\hline \n")
-    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
+    cat("Events & ", x$n.events,"(",x$n,")", " & TTR & ", x$ttr, "\\\\ \n", sep = "")
     logtest <- -2 * (x$loglik[1] - x$loglik[2])
     df <- x$df
     if (is.null(df)){
@@ -393,7 +393,7 @@ ltx2.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
     cat("\\end{tabular}\n")
 
     if (!is.null(label)){
-        cat("\\label{", label, "} \n", sep = "")
+        cat(paste("\\label{", label, "} \n", sep = ""))
     }
 
     cat("\\end{center} \n")
@@ -440,7 +440,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
                 cat("\\bf Covariate & \\bf Mean & \\bf Life expn. & \\bf lowCI & \\bf highCI &   \\bf L-R p \\\\ \\hline\n")
             }
         }else{
-            cat("\\bf Covariate & \\bf Mean & \\bf Life expn. & \\bf lowCI &  \\bf highCI & \\bf L-R p \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf H.R. & \\bf lowCI &  \\bf highCI & \\bf L-R p \\\\ \\hline\n")
         }
     }else{
         if ("aftreg" %in% x$class){
@@ -450,7 +450,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
                 cat("\\bf Covariate & \\bf Mean & \\bf Coef & \\bf Life expn. & \\bf S.E. &  \\bf Wald p \\\\ \\hline\n")
             }
         }else{
-            cat("\\bf Covariate & \\bf Mean & \\bf H.R. & \\bf lowCI & \\bf highCI \\\\ \\hline\n")
+            cat("\\bf Covariate & \\bf Mean & \\bf H.R. & \\bf lowCI & \\bf highCI & \\bf Wald p  \\\\ \\hline\n")
         }
     }
     e.coef <- formatC(exp(coef), digits = digits, format = "f")
@@ -511,14 +511,12 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
                 x$levels[[covar.no]] <-
                     substring(x$levels[[covar.no]], 1, 16)
                 lb <- paste("\\em", x$levels[[covar.no]][1], sep = " ")
-                cat("\\multicolumn{1}{r}{", lb, "}",
-                ## cat(formatC(x$levels[[covar.no]][1], width = 16, flag = "+"),
+                cat(paste("\\multicolumn{1}{r}{", lb, "}",
                     " & ",
                     formatC(x$w.means[[covar.no]][1],
                             width = 8, digits = digits, format = "f"), " & ",
-                    
                     ett, " & ",
-                    "\\multicolumn{2}{c}{(reference)} \\\\ \n", sep = "")
+                    "\\multicolumn{2}{c}{(reference)} \\\\ \n", sep = ""))
                 for (lev in 2:no.lev){
             ##cat("lev = ", lev, "\n")
                     index <- index + 1
@@ -598,7 +596,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
         
     }
     cat("\\hline \n")
-    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n")
+    cat("Events & ", x$n.events,"(",x$n,")", " & TTR & ", x$ttr, "\\\\ \n", sep = "")
     cat("Max. logLik. & $ ", x$loglik[2], " $ & ", "Conf level & ",   conf,  "\\\\ \\hline \n")
     
     cat("\\hline \n")
