@@ -1,7 +1,7 @@
 /* from NETLIB c/brent.shar with max.iter, add'l info and convergence
    details hacked in by Peter Dalgaard */
 
-/* Copied shamelessly (and renamed)  by Göran Broström for glmmML 
+/* Copied shamelessly (and renamed)  by GÃ¶ran BrostrÃ¶m for glmmML 
    (5 August, 2005) */ 
 /*************************************************************************
  *			    C math library

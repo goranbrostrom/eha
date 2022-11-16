@@ -121,7 +121,7 @@ static void g2ph_fun(int n, double *beta, double *d2loglik, void *vex){
 		d2loglik[j + m * bdim] += fpp[j + m * (mb + 2)];
 	    }
 	}
-	/* Måste kollas !!! */
+	/* MÃ¥ste kollas !!! */
 	d2loglik[mb + 2*i + (mb + 2*i) * bdim] += fpp[mb + mb * (mb + 2)];
 	d2loglik[mb + 2*i + 1 + (mb + 2 * i + 1) * bdim] += 
 	    fpp[mb + 1 + (mb + 1) * (mb + 2)];

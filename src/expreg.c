@@ -1,4 +1,4 @@
-/* 'Exponential'regression. Göran Broström (1982-2003) */
+/* 'Exponential'regression. GÃ¶ran BrostrÃ¶m (1982-2003) */
 
 #include <R.h>
 /* #include <R_ext/Applic.h> */

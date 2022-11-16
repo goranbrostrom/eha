@@ -1,3 +1,17 @@
+# eha 2.10.1
+
+## New features
+
+*   *ltx2*: Add No. of observations to output.
+
+## Bug fixes
+
+*   *C files: Change encoding to utf-8 so my name in comments is read correctly.
+
+*   *ltx2*: Fix bugs in output.
+
+*   *GB_zeroin*: C files removed. 
+
 # eha 2.10.0
 
 ## New features

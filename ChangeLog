@@ -1,3 +1,7 @@
+2.10.1 (November 16, 2022)
+    * Removed GB_zeroin.c (not needed) and resaved files in utf-8.
+    * Submitted to CRAN
+    
 2.10.0.9300 (October 5, 2022)
     * ltx2: Add number of observations to output.
 
