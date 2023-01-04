@@ -1,3 +1,7 @@
+2.10.1.9000 (January 4, 2023)
+    * The drop1 method drop1.coxreg removed due to bug; 
+    stats::drop1.default should work for coxreg.
+    
 2.10.1 (November 16, 2022)
     * Removed GB_zeroin.c (not needed) and resaved files in utf-8.
     * Submitted to CRAN
