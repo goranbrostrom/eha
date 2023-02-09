@@ -1,6 +1,6 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.10.1.9010
+Version: 2.10.1.9020
 Date: 2023-02-09
 Title: Event History Analysis
 Description: Parametric proportional hazards fitting with left truncation and

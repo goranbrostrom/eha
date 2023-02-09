@@ -1,3 +1,6 @@
+2.10.1.9020 (February 9, 2023)
+    * More plot fixes (mostly cosmetic).
+    
 2.10.1.9010 (February 9, 2023)
     * Bugs in plot.phreg, plot.aftreg fixed (wrong No. of covariates).
 
