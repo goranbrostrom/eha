@@ -56,7 +56,8 @@ plot.aftreg <- function(x,
         oldpar <- par(mfrow = c(2, 1))
         on.exit(par(oldpar))
     }
-    ncov <- length(x$means)
+    ##ncov <- length(x$means) # Doesn't work with some factor covariates!!
+    ncov <- x$df
     ns <- x$n.strata
     param.scale <- if (x$param=="lifeAcc") -1 else 1
     if (x$pfixed){

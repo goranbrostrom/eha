@@ -71,7 +71,8 @@ plot.phreg <- function(x,
     ##    oldpar <- par(mfrow = c(2, 1))
     ##    on.exit(par(oldpar))
     ##}
-    ncov <- length(x$w.means)
+    ##ncov <- length(x$w.means) # Doesn't work with some factor covariates!!
+    ncov <- x$df # Better!
     ns <- x$n.strata
     if (!is.null(x$pfixed)){
         if (x$pfixed){
