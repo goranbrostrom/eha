@@ -1,3 +1,12 @@
+2.10.3.9000 (February 17, 2023)
+    * aftgomp.R added but not exported (still under development).
+
+2.10.3 (February 10, 2023)
+    * Change old-style format to new-style in CITATION file.
+    
+2.10.2 (February 9, 2023)
+    * Submitted to CRAN (and rejected, see 2.10.3).
+    
 2.10.1.9020 (February 9, 2023)
     * More plot fixes (mostly cosmetic).
     
@@ -10,7 +19,7 @@
     
 2.10.1 (November 16, 2022)
     * Removed GB_zeroin.c (not needed) and resaved files in utf-8.
-    * Submitted to CRAN
+    * Submitted to CRAN.
     
 2.10.0.9300 (October 5, 2022)
     * ltx2: Add number of observations to output.

@@ -1,3 +1,14 @@
+# eha 2.10.3
+
+*   *CITATION* file updated to new format.
+
+# eha 2.10.2
+
+## Bug fixes
+
+*   *plot.phreg, plot.aftreg*: Error when factor with more than two levels
+present as a covariate is fixed.
+
 # eha 2.10.1
 
 ## New features

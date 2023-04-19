@@ -1,29 +1,31 @@
 citHeader("To cite eha in publications use:")
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
 
-citEntry(entry = "Manual",
+bibentry(bibtype = "Manual",
    title = "eha: Event History Analysis",
-   author = personList(as.person("Göran Broström")),
-   year = "2020",
-   note = "R package version 2.8.3",
+   author = "Göran Broström",
+   year = year,
+   note = note,
    url = "https://cran.r-project.org/package=eha",
-   
+   key = "eha-package",
    textVersion = 
-   paste("Göran Broström (2020).",
+   paste("Göran Broström (2023).",
    "eha: Event History Analysis.",
-   "R package version 2.8.3.",
+   "R package version 2.10.3.",
    "URL https://cran.r-project.org/package=eha")
    )
    
-citEntry(entry = "Book",
-   title = "Event History Analysis with R",
-   author = personList(as.person("Göran Broström")),
-   year = "2012",
+bibentry(bibtype = "Book",
+   title = "Event History Analysis with R, Second Edition",
+   author = "Göran Broström",
+   year = "2022",
    publisher = "Chapman and Hall/CRC",
    address = "Boca Raton",
-   doi = "10.1201/9781315373942",
-   
+   doi = "10.1201/9780429503764",
+   key = "eha-book",
    textVersion = 
-   paste("Göran Broström (2012).",
-   "Event History Analysis with R.",
-   "Chapman and Hall, Boca Raton.")
+   paste("Göran Broström (2022).",
+   "Event History Analysis with R, Second Edition.",
+   "Chapman and Hall/CRC, Boca Raton.")
    )

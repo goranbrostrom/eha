@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.10.1.9020
-Date: 2023-02-09
+Version: 2.10.3.9000
+Date: 2023-02-17
 Title: Event History Analysis
 Description: Parametric proportional hazards fitting with left truncation and
         right censoring for common families of distributions, piecewise constant 
@@ -9,12 +9,12 @@ Description: Parametric proportional hazards fitting with left truncation and
         for left truncated and right censored data. Proportional hazards
         models for tabular and register data. Sampling of risk sets in Cox 
         regression, selections in the Lexis diagram, bootstrapping. 
-        Broström (2012) <doi:10.1201/9781315373942>.
+        Broström (2022) <doi:10.1201/9780429503764>.
 BugReports: https://github.com/goranbrostrom/eha/issues
 License: GPL (>= 2)
 LazyData: yes
 ByteCompile: yes
-URL: http://ehar.se/r/eha/
+URL: https://ehar.se/r/eha/
 Authors@R: c(person("Göran", "Broström", role = c("aut", "cre"),
                     email = "goran.brostrom@umu.se"),
 	     person("Jianming", "Jin", role = "ctb"))
