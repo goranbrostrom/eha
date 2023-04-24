@@ -1,6 +1,8 @@
 #' Summary for tpchreg objects
 #' 
 #' @param object A \code{tpchreg} object.
+#' @param ci Logical. If TRUE, confidence limits are given instead of se's.
+#' @param level Confidence level, used if ci.
 #' @param \dots Additional ...
 #' @author Göran Broström
 #' @seealso \code{\link{tpchreg}}
@@ -11,7 +13,7 @@
 #' ## function (object, ...) 
 #' 
 #' @export
-summary.tpchreg <- function(object, ...){
+summary.tpchreg <- function(object, ci = FALSE, level = 0.95, ...){
     haz <- object$hazards
     n <- length(object$cuts)
     
@@ -45,14 +47,23 @@ summary.tpchreg <- function(object, ...){
         }else{
             sd <- sqrt(diag(object$var))
         }
-        coefficients <- cbind(object$coefficients, 
-                              exp(object$coefficients),
-                              sd)
-        zval <- coefficients[, 1] / coefficients[, 3]
-        pval <- pchisq(zval^2, df = 1, lower.tail = FALSE )
-        coefficients <- cbind(coefficients, zval, pval)
-        colnames(coefficients) <- c("coef", "exp(coef)", "se(coef)", "z", "Wald p")
-        rownames(coefficients) <- names(object$coefficients)
+        object$ci <- ci
+        if (ci){
+            coef <- object$coefficients
+            clim <- qnorm(1 - (1 - level / 2))
+            low <- exp(coef - clim * sd)
+            high <- exp(coef + clim * sd)
+            coefficients <- cbind(exp(coef), low, high)
+        }else{
+            coefficients <- cbind(object$coefficients, 
+                                  exp(object$coefficients),
+                                  sd)
+            zval <- coefficients[, 1] / coefficients[, 3]
+            pval <- pchisq(zval^2, df = 1, lower.tail = FALSE )
+            coefficients <- cbind(coefficients, zval, pval)
+            colnames(coefficients) <- c("coef", "exp(coef)", "se(coef)", "z", "Wald p")
+            rownames(coefficients) <- names(object$coefficients)
+        }
         object$coefficients <- coefficients
     
         object$dr <- drop1(object, test = "Chisq")

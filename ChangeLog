@@ -1,3 +1,6 @@
+2.10.3.9100 (April 24, 2023)
+    * summary and print functions: begin update. Nothing visible yet.
+
 2.10.3.9000 (February 17, 2023)
     * aftgomp.R added but not exported (still under development).
 

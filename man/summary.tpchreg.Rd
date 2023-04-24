@@ -4,10 +4,14 @@
 \alias{summary.tpchreg}
 \title{Summary for tpchreg objects}
 \usage{
-\method{summary}{tpchreg}(object, ...)
+\method{summary}{tpchreg}(object, ci = FALSE, level = 0.95, ...)
 }
 \arguments{
 \item{object}{A \code{tpchreg} object.}
+
+\item{ci}{Logical. If TRUE, confidence limits are given instead of se's.}
+
+\item{level}{Confidence level, used if ci.}
 
 \item{\dots}{Additional ...}
 }
