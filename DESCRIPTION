@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: eha
-Version: 2.10.3.9100
-Date: 2023-04-24
+Version: 2.10.3.9200
+Date: 2023-05-21
 Title: Event History Analysis
 Description: Parametric proportional hazards fitting with left truncation and
         right censoring for common families of distributions, piecewise constant 
