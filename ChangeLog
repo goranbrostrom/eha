@@ -1,3 +1,15 @@
+2.11.0 (September 6, 2023)
+    * Missing '#include <R_ext/BLAS>' added where necessary (internal).
+    * Submitted to CRAN.
+
+2.10.3.9310 (June 24, 2024)
+    * ltxCoef3: No printing of number of cases (internal).
+
+2.10.3.9300 (June 22, 2023)
+	* HiscoHisclass: Bug in 'out[23 & (hisclass == 8)] <- 10':
+	Should be 'out[s23 & (hisclass == 8)] <- 10'. Fixed. (All
+	farmers were thrown out!!)
+
 2.10.3.9200 (May 21, 2023)
     * HiscoHisclass: New function, still under  development.
 
@@ -9,13 +21,13 @@
 
 2.10.3 (February 10, 2023)
     * Change old-style format to new-style in CITATION file.
-    
+
 2.10.2 (February 9, 2023)
     * Submitted to CRAN (and rejected, see 2.10.3).
-    
+
 2.10.1.9020 (February 9, 2023)
     * More plot fixes (mostly cosmetic).
-    
+
 2.10.1.9010 (February 9, 2023)
     * Bugs in plot.phreg, plot.aftreg fixed (wrong No. of covariates).
 

@@ -1,3 +1,18 @@
+# eha 2.11.0
+
+## Bug fix
+
+*  *ltxCoef3*: No printing of number of cases (internal).
+
+## New functions
+
+*   *aftgomp*: Under development, not exported.
+*   *HiscoHisclass*: Convert HISCO codes to HISCLASS (not stable yet).
+
+## Invisible fundamental changes
+
+*   Missing '#include <R_ext/BLAS>' added where necessary in C code.
+
 # eha 2.10.3
 
 *   *CITATION* file updated to new format.

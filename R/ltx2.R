@@ -262,7 +262,7 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         cat("\\hline \n")
     }
     cat("\\hline \n")
-    cat("Events & ", x$n.events,"(",x$n,")", " & TTR & ", x$ttr, "\\\\ \n", sep = "")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n", sep = "")
     logtest <- -2 * (x$loglik[1] - x$loglik[2])
     df <- x$df
     if (is.null(df)){
@@ -376,7 +376,7 @@ ltx2.aftreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         cat("\\hline \n")
     }
     cat("\\hline \n")
-    cat("Events & ", x$n.events,"(",x$n,")", " & TTR & ", x$ttr, "\\\\ \n", sep = "")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n", sep = "")
     logtest <- -2 * (x$loglik[1] - x$loglik[2])
     df <- x$df
     if (is.null(df)){
@@ -596,7 +596,7 @@ ltxCoef3 <- function(x, dr, conf, keep, digits, lp){
         
     }
     cat("\\hline \n")
-    cat("Events & ", x$n.events,"(",x$n,")", " & TTR & ", x$ttr, "\\\\ \n", sep = "")
+    cat("Events & ", x$n.events, " & TTR & ", x$ttr, "\\\\ \n", sep = "")
     cat("Max. logLik. & $ ", x$loglik[2], " $ & ", "Conf level & ",   conf,  "\\\\ \\hline \n")
     
     cat("\\hline \n")

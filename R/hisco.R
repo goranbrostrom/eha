@@ -15,13 +15,13 @@
 #' @export
 HiscoHisclass <- function(hisco, status = NULL, relation = NULL, urban = NULL,
                           debug = FALSE){
-    cat("length(relation) = ", length(relation), "\n")
 ### NOTE: urban is a logical variable!
     if (!is.null(urban) & !is.logical(urban)){
         warning("Converting urban to logical\n")
         urban <- as.logical(urban)
     }
     if (debug){
+        cat("length(relation) = ", length(relation), "\n")
         cat("n (hisco) = ", length(hisco), "\n")
     }
     ## Read hisco-to-hisclass table:
@@ -90,10 +90,10 @@ getStatus <- function(hisclass, status){
     ##
     s23 <- (status == 23)
     out[s23 & (hisclass == 1)] <- 3
-    out[s23 & (hisclass == 2)] <- 4
     out[s23 & (hisclass == 4)] <- 5
+    out[s23 & (hisclass == 2)] <- 4
     out[s23 & (hisclass == 7)] <- 9
-    out[23 & (hisclass == 8)] <- 10
+    out[s23 & (hisclass == 8)] <- 10
     ##
     out[(status == 24) & (hisclass == -99)] <- 7
     ##
