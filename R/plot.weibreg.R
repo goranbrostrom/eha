@@ -59,11 +59,14 @@ plot.weibreg <- function(x,
         uppe <- exp(-sum(new.data[1:ncov] * x$coefficients[1:ncov]) / p)
         lambda <- lambda * uppe
     }
-    if (is.null(xlim))
-        xlim <- c(min(x$y[, 1]), max(x$y[, 2]))
-
+    if (is.null(xlim)) {
+        xlim0 <- c(min(x$y[, 1]), max(x$y[, 2]))
+    }else{
+        xlim0 <- xlim
+    }
+    
     npts <- 999
-    xx <- seq(xlim[1], xlim[2], length = npts)
+    xx <- seq(xlim0[1], xlim0[2], length = npts)
     ##if (xx[1] <= 0) xx[1] <- 0.001
 
 
@@ -74,14 +77,27 @@ plot.weibreg <- function(x,
             haz[i, ] <- hweibull(xx, scale = lambda[i], shape = p[i])
         }
 
-        if (is.null(ylim)) ylim <- c(0, max(haz))
+        if (is.null(ylim)){
+            ylim0 <- c(0, max(haz))
+        }else{
+            ylim0 <- ylim
+        }
+        ## xlim0 is set globally above 
         if (min(p) < 1) ylim[2] <- min(ylim[2], max(haz[, -1]))
 
-        if (is.null(xlab)) xlab <- "Duration"
-        if (is.null(ylab)) ylab <- "Hazard"
-        if (is.null(main)) main <- "Weibull hazard function"
-        plot(xx, haz[1, ], type = "l", xlim = xlim, ylim = ylim,
-             xlab = xlab, ylab = ylab, main = main, ...)
+        if (is.null(xlab)){
+             xlab0 <- "Duration"
+        }else{
+            xlab0 <- xlab
+        }
+        if (is.null(ylab)) {
+            ylab0 <- "Hazard"
+        }else{
+            ylab0 <- ylab
+        }
+        main0 <- ifelse(is.null(main), "Weibull hazard function", main)
+        plot(xx, haz[1, ], type = "l", xlim = xlim0, ylim = ylim0,
+             xlab = xlab0, ylab = ylab0, main = main0, ...)
         if (ns > 1){
             for (i in 2:ns){
                 lines(xx, haz[i, ], type = "l", lty = i)
@@ -99,15 +115,19 @@ plot.weibreg <- function(x,
         for (i in 1:ns){
             Haz[i, ] <- Hweibull(xx, scale = lambda[i], shape = p[i])
         }
-        ylim <- c(0, max(Haz))
+        if(is.null(ylim)){
+            ylim0 <- c(0, max(Haz))
+        }else{
+            ylim0 <- ylim
+        }
         ##if (is.null(xlab))
-        xlab <- "Duration"
+        xlab0 <- ifelse(is.null(xlab), "Duration", xlab)
         ##if (is.null(ylab))
-        ylab <- "Cumulative Hazard"
+        ylab0 <- ifelse(is.null(ylab), "Cumulative Hazard", ylab)
         ##if (is.null(main))
-        main <- "Weibull cumulative hazard function"
-        plot(xx, Haz[1, ], type = "l", xlim = xlim, ylim = ylim,
-             xlab = xlab, ylab = ylab, main = main, ...)
+        main0 <- ifelse(is.null(main), "Weibull cumulative hazard function", main)
+        plot(xx, Haz[1, ], type = "l", xlim = xlim0, ylim = ylim0,
+             xlab = xlab0, ylab = ylab0, main = main0, ...)
         if (ns > 1){
             for (i in 2:ns){
                 lines(xx, Haz[i, ], type = "l", lty = i)
@@ -125,18 +145,22 @@ plot.weibreg <- function(x,
         }
 
         ##if (is.null(ylim))
-        ylim <- c(0, max(den))
+        if (is.null(ylim)){
+            ylim0 <- c(0, max(den))
+        }else{
+            ylim0 <- ylim
+        }
 
-        if (min(p) < 1) ylim[2] <- min(max(den[, -1]))
+        ##if (min(p) < 1) ylim0[2] <- min(max(den[, -1])) # What?
 
         ##if (is.null(xlab))
-        xlab <- "Duration"
+        xlab0 <- ifelse(is.null(xlab), "Duration", xlab)
         ##if (is.null(ylab))
-        ylab <- "Density"
+        ylab0 <- ifelse(is.null(ylab), "Density", ylab)
         ##if (is.null(main))
-        main <- "Weibull density function"
-        plot(xx, den[1, ], type = "l", xlim = xlim, ylim = ylim,
-             xlab = xlab, ylab = ylab, main = main, ...)
+        main0 <- ifelse(is.null(main), "Weibull density function", main)
+        plot(xx, den[1, ], type = "l", xlim = xlim0, ylim = ylim0,
+             xlab = xlab0, ylab = ylab0, main = main0, ...)
         if (ns > 1){
             for (i in 2:ns){
                 lines(xx, den[i, ], type = "l", lty = i)
@@ -147,8 +171,6 @@ plot.weibreg <- function(x,
     }
     ## Survivor function
     if ("sur" %in% fn){
-
-
         sur <- matrix(ncol = npts, nrow = ns)
         for (i in 1:ns){
             sur[i, ] <- pweibull(xx, scale = lambda[i], shape = p[i],
@@ -156,16 +178,16 @@ plot.weibreg <- function(x,
         }
 
         ##if (is.null(ylim))
-        ylim <- c(0, 1)
+        ylim0 <- if (is.null(ylim)) c(0, 1) else ylim
 
-        ##if (is.null(xlab))
-        xlab <- "Duration"
+        ## if (is.null(xlab))
+        xlab0 <- if (is.null(xlab)) "Duration" else xlab
         ##if (is.null(ylab))
-        ylab <- "Survival"
+        ylab0 <- if(is.null(ylab)) "Survival" else ylab
         ##if (is.null(main))
-        main <- "Weibull survivor function"
-        plot(xx, sur[1, ], type = "l", xlim = xlim, ylim = ylim,
-             xlab = xlab, ylab = ylab, main = main, ...)
+        main0 <- if(is.null(main)) "Weibull survivor function" else main
+        plot(xx, sur[1, ], type = "l", xlim = xlim0, ylim = ylim0,
+             xlab = xlab0, ylab = ylab0, main = main0, ...)
         if (ns > 1){
             for (i in 2:ns){
                 lines(xx, sur[i, ], type = "l", lty = i)

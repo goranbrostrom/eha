@@ -1,3 +1,7 @@
+2.11.1 (September 29, 2023)
+    * weibreg: Arguments xlim, ylim, xlab, ylab, main are now "working".
+    * Submitted to CRAN.
+    
 2.11.0 (September 6, 2023)
     * Missing '#include <R_ext/BLAS>' added where necessary (internal).
     * Submitted to CRAN.
