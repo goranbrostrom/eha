@@ -98,8 +98,8 @@ The parameterization is different from the one used by
 \code{\link[survival]{survreg}}, when \code{param = "lifeAcc"}. The result
 is then true acceleration of time. Then the model is 
 
-\deqn{S(t; a, b, \beta, z) = S_0((t / \exp(b - z\beta))^{\exp(a)})}
-{S(t; a, b, beta, z) =  S_0((t/exp(b - z beta))^exp(a))}
+\deqn{S(t; a, b, \beta, z) = S_0((t / \exp(b - z\beta))^{\exp(a)})}{%
+S(t; a, b, beta, z) =  S_0((t/exp(b - z beta))^exp(a))}
 
 where \eqn{S_0} is some standardized
 survivor function. The baseline parameters \eqn{a} and \eqn{b} are log shape

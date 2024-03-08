@@ -207,13 +207,10 @@ ltx2.phreg <- function(x, caption = NULL, label = NULL, dr = NULL,
         return()
     }
 
-    if (x$pfixed){
-
+    if ((!is.null(x$pfixed)) & x$pfixed){ # added !is.null in 2.11.3
         n.slsh <- 1
-
     }else{
         n.slsh <- 2 * x$n.strata
-
     }
 
     savedig <- options(digits = digits)

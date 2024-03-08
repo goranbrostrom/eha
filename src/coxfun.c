@@ -105,8 +105,8 @@ void get1_gam(RiskSet *risk){
 	    if (gam1_fun(ax, risk) * gam1_fun(bx, risk) > 0.0){
 		Rprintf("f(%f) = %f, f(%f) = %f\n", 
 			ax, gam1_fun(ax, risk), bx, gam1_fun(bx, risk));
-		Rprintf("antevents = %f\n", risk->antevents); 
-		Rprintf("size = %f\n", risk->size); 
+		Rprintf("antevents = %d\n", risk->antevents); 
+		Rprintf("size = %d\n", risk->size); 
 		error("\nWrong interval in [get0_gam]");
 	    }
 	    gam = eha_zeroin(ax, bx, &gam1_fun, risk, &eps, &itmax);

@@ -29,7 +29,7 @@ the number of deaths by sex and age. The original data set is in wide
 form and then converted to long format.
 }
 \source{
-Statistics Sweden, \url{https://scb.se}.
+Statistics Sweden, \url{https://www.scb.se}.
 }
 
 \seealso{\code{\link{swepop}}, \code{\link{tpchreg}}}

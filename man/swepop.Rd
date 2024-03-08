@@ -32,7 +32,7 @@ end of each year. The original data set is in wide format and converted to
 long format by \code{reshape}.
 }
 \source{
-Statistics Sweden, \url{https://scb.se}.
+Statistics Sweden, \url{https://www.scb.se}.
 }
 
 \seealso{\code{\link{swedeaths}}}

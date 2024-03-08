@@ -38,7 +38,7 @@ rural area.
 \source{
 The Scanian Economic Demographic Database, Lund University, Sweden.
 }
-\references{\url{https://www.ed.lu.se/databases}
+\references{\url{https://www.lusem.lu.se/organisation/research-centres/centre-economic-demography/centre-economic-demography-databases}
 }
 \examples{
 data(scania)

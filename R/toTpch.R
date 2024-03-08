@@ -51,7 +51,7 @@ toTpch <- function(formula, data, cuts, enter = "enter", exit = "exit",
     
     resp <- form_ch[2]
     sk <- survival::survSplit(formula, data = data, cut = cuts, 
-                              episode = episode, start = enter, end = exit)
+                              episode = episode, start = enter, end = exit, event = event)
     ## Trim: 
     weq <- sk[[episode]] %in% c(1, n + 1)
     sk <- sk[!weq, ]
@@ -59,7 +59,8 @@ toTpch <- function(formula, data, cuts, enter = "enter", exit = "exit",
     
     sk$exposure <- sk$exit - sk$enter
     
-    new_resp <- "cbind(event, exposure)"
+    ##new_resp <- "cbind(event, exposure)"
+    new_resp <- paste0("cbind(", event, ", exposure)") # Kolla!
     form_ch[2] <- new_resp
     form_ch[3] <- paste(form_ch[3], episode, sep = " + ")
 

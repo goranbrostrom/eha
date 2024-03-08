@@ -1,3 +1,15 @@
+2.11.4 (March 8, 2014)
+    * aftreg: Add logLik method.
+    * aftreg: Fix bug with plotting and fixed shape. 
+
+2.11.3 (February 19, 2024)
+	* toTpch: Bug with alternative names for Surv function arguments fixed.
+    * ltx2.pchreg: Add guard against fit$pfixed == NULL (for tcphreg, e.g.)
+    
+2.11.2 (November 28, 2023)
+	* coxfun.c: Rows 108 and 109: '%f' changed to '%d' (30 years old error,
+	now finally detected by CRAN and corrected!)
+
 2.11.1 (September 29, 2023)
     * weibreg: Arguments xlim, ylim, xlab, ylab, main are now "working".
     * Submitted to CRAN.

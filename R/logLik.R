@@ -24,3 +24,12 @@ logLik.phreg <- function(object, ...){
     class(out) <- "logLik"
     out
 }
+
+#' @export
+logLik.aftreg <- function(object, ...){
+    out <- object$loglik[2]
+    dd <- diag(object$var)
+    attr(out, "df") <- sum(!is.na(dd) & dd > 0) #Stolen from logLik.survreg
+    class(out) <- "logLik"
+    out
+}

@@ -8,8 +8,8 @@
 #' \code{\link[survival]{survreg}}, when \code{param = "lifeAcc"}. The result
 #' is then true acceleration of time. Then the model is 
 #' 
-#' \deqn{S(t; a, b, \beta, z) = S_0((t / \exp(b - z\beta))^{\exp(a)})}
-#' {S(t; a, b, beta, z) =  S_0((t/exp(b - z beta))^exp(a))}
+#' \deqn{S(t; a, b, \beta, z) = S_0((t / \exp(b - z\beta))^{\exp(a)})}{%
+#' S(t; a, b, beta, z) =  S_0((t/exp(b - z beta))^exp(a))}
 #' 
 #' where \eqn{S_0} is some standardized
 #' survivor function. The baseline parameters \eqn{a} and \eqn{b} are log shape
@@ -367,14 +367,14 @@ aftreg <- function (formula = formula(data),
     
     baselineMean <- numeric(fit$n.strata)
     for (j in 1:fit$n.strata){
-        scale <- exp(fit$coef[ncov + 2 * j - 1])
-        shape <- exp(fit$coef[ncov + 2 * j])
+        sc <- exp(fit$coef[ncov + 2 * j - 1])
+        sh <- exp(fit$coef[ncov + 2 * j])
         if (dist == "gompertz"){
             ## Simulation!
             baselineMean[j] <- mean(rgompertz(100000, param = "canonical",
-                                              scale = scale, shape = shape))
+                                              scale = sc, shape = sh))
         }else if (dist == "weibull"){
-            baselineMean[j] <- scale * gamma(1 + 1 / shape)
+            baselineMean[j] <- sc * gamma(1 + 1 / sh)
         }else{
             baselineMean[j] <- NA
         }
