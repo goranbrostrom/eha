@@ -48,9 +48,9 @@ cumulative hazard function, and random generation for the Gompertz-Makeham
 distribution with parameters \code{shape} and \code{scale}.
 }
 \details{
-The Gompertz-Makeham distribution with \code{scale} parameter \eqn{a} and \code{shape}
+The Gompertz-Makeham distribution with \code{shape} parameter \eqn{a} and \code{scale}
 parameter \eqn{\sigma}{b} has hazard function given by 
-\deqn{h(x) = a[1] + a[2] \exp(x/\sigma)}{h(x) = a[1] + a[2] exp(x/b)}
+\deqn{h(x) = a[2] + a[1] \exp(x/\sigma)}{h(x) = a[2] + a[1] exp(x/b)}
 for \eqn{x \ge 0}{x >= 0}.
 }
 \keyword{distribution}
